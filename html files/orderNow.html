@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check out</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <?php
+        include('Header.php');
+    ?>
+    <style>
+      .container{
+        background-color: rgba(165, 165, 165, 0.7);
+        border-radius: 50px;
+        padding: 50px;
+      }
+    </style>
+</head>
+
+
+<body style="background-image: url(img/bg1.png); 
+background-attachment:fixed;
+background-repeat: no-repeat; 
+background-size: cover;">
+<div class="container mt-5">
+    <div class="row">
+        <h2>Order Details</h2>
+        <h6>Enter your order details to buy the product.</h6>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <!-- Left column : Image -->
+            <div class="col-md-4">
+                <div class="product-image-circle">
+                    <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded">
+                </div>
+            </div>
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <div class="product-image-large">
+                    <!-- product Information -->
+                     <h4>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</h4>
+                    <p class="price" style="font-size: 16px;">Rs. 1,300</p>
+                    Quantity:2
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="container mt-5 mb-5">
+    <!-- Add a Review Section -->
+    <div class="row mb-3">
+        <h4 class="mb-3">Shipping Details</h4>
+        <div class="col">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">First Name :</label>
+                        <input type="text" class="form-control" id="fnm" placeholder="First Name">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Last Name :</label>
+                        <input type="text" class="form-control" id="lnm" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Shipping Address :</label>
+                        <textarea class="form-control" id="add" placeholder="Enter your shipping address"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Payment Address :</label>
+                        <textarea class="form-control" id="add" placeholder="Enter your payment address"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">City :</label>
+                        <input type="text" class="form-control" id="state" placeholder="Enter City(Shipment)">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">State :</label>
+                        <input type="text" class="form-control" id="city" placeholder="Enter State(Shipment)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Zip :</label>
+                        <input type="text" class="form-control" id="state" placeholder="Enter Zip code for shipping">
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>
+  </div>
+  <div class="container mt-5 mb-5">
+    <!-- Add a Review Section -->
+    <div class="row mb-3">
+        <h4 class="mb-3">Payment Details</h4>
+        <div class="col">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Payment Method :</label>
+                            <select id="quantity" class="form-select">
+                                <option value="1">Cash </option>
+                                <option value="1">Online</option>
+                                <option value="1" selected>Credit Card</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Card Number :</label>
+                        <input type="text" class="form-control" id="cno" placeholder="Enter Card Number">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Name on Card :</label>
+                        <input type="text" class="form-control" id="cnm" placeholder="Enter Name on the card">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Payment Method :</label>
+                            <select id="quantity" class="form-select">
+                                <option value="1">Cash </option>
+                                <option value="1" selected>Online</option>
+                                <option value="1">Credit Card</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="row  mt-5">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7">
+                        <button type="submit" class="cirbutton">
+                            <div class="icon-container">
+                                <i class="fa fa-shopping-bag" style="color:white;"></i>
+                            </div><span>Buy Now</span>
+                        </button>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <?php
+        include('Footer.php');
+    ?>
+</body>
+</html>

@@ -1,0 +1,357 @@
+body {
+  background-color: #f8f9fa;
+  font-family: Quicksand, sans-serif;
+  color: white;
+}
+.container {
+  background-color: rgba(165, 165, 165, 0.7);
+  padding: 50px;
+  border-radius: 50px;
+  width: auto;
+  margin-top: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+/* product block */
+.art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.art-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+/* single product details */
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.product-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.product-image-large {
+  position: relative;
+  max-width: 80%; /* Adjust the max-width to make the image smaller */
+  margin: 0 auto; /* Center the image within its container */
+}
+
+.product-image-large img {
+  width: 100%;
+  border-radius: 16px;
+  transition: opacity 0.3s ease;
+}
+
+.description-on-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  border-radius: 16px;
+  transition: opacity 0.3s ease;
+}
+
+.description-on-hover p {
+  margin: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.description-on-hover .stars {
+  display: flex;
+  gap: 5px;
+}
+
+.description-on-hover .stars .fa-star {
+  font-size: 24px;
+  color: #ffcc00;
+}
+
+/* Hover effect */
+.product-image-large:hover .description-on-hover {
+  opacity: 1;
+}
+
+.product-image-large:hover img {
+  opacity: 0.3;
+}
+
+.stars span {
+  font-size: 24px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.stars span:hover,
+.stars span:hover ~ span {
+  color: #ffcc00;
+}
+
+.similar-products {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-card {
+  display: flex;
+  align-items: center;
+  background-color: #ddd;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.product-thumbnail {
+  background-color: #4c4c4c;
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+}
+
+.product-info {
+  margin-left: 20px;
+}
+
+.product-info p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* category css */
+.cat-block {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.cat-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.cat-block:hover .cat-image {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.overlay .text {
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 10px;
+}
+
+.cat-block:hover .overlay {
+  opacity: 1;
+}
+
+/* cart , wish list , buy now button css */
+.cirbutton {
+  position: relative;
+  width: 200px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: #d3d3d3; /* Default button background color */
+  color: #000;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.icon-container {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background-color: #000; /* Circle background color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-container .icon {
+  width: 18px;
+  height: 18px;
+  color: white; /* Icon color */
+}
+
+.cirbutton span {
+  margin-left: 50px;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.cirbutton:hover {
+  background-color: #000; /* Change button background color on hover */
+  color: #fff;
+}
+
+.cirbutton:hover .icon-container .icon {
+  color: white; /* Keep icon color the same */
+}
+
+.cirbutton:hover span {
+  color: #fff; /* Change text color on hover */
+}
+
+/* cart, wishlist, order sidtory image circle */
+.product-image-circle {
+  width: 200px; /* Set the desired width */
+  height: 200px; /* Set the desired height */
+  border-radius: 50%; /* Make the image circular */
+  overflow: hidden; /* Hide the overflow to maintain the circular shape */
+  margin: 0 auto; /* Center the image horizontally */
+}
+
+.product-image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* index product css block */
+.index-product-block {
+  width: 200px; /* Adjust width as needed */
+  background-color: #d3d3d3; /* Light gray background for the info section */
+  margin: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.index-product-image {
+  width: 100%; /* Make the image take up the full width of the container */
+  height: auto; /*Maintain aspect ratio  */
+  display: block;
+}
+
+.index-product-info {
+  padding: 10px;
+  text-align: left;
+}
+
+.index-product-name {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.index-product-price {
+  font-size: 16px;
+  color: #666;
+  margin-top: 5px;
+}
+/* table css */
+
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20px;
+}
+
+/* table tbody {
+  display: table;
+  width: 100%;
+} */
+
+/* table button CSS */
+.button-28 {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1a1a1a;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3b3b3b;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.button-28:disabled {
+  pointer-events: none;
+}
+
+.button-28:hover {
+  color: #fff;
+  background-color: #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-28:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+/* search css */
