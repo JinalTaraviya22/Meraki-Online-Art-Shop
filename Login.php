@@ -38,19 +38,29 @@
             <div class="col-md-3"></div>
           </div>
         </form>
-        <div class="col-md-12">
-          <a href="register.php">Don't have an account?Register here!</a>
-        </div>
+
         <!-- forgot password -->
         <form id="forgot" style="align-contect:center;display:none !important">
           <label for="name" class="form-label">Email :</label>
           <input type="text" class="form-control" id="femail" placeholder="Enter Email">
           <span id="femail_er"></span><br>
-          <button type="submit" class="btn btn-dark">Send OTP</button>
-          <button type="button" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
+          <button type="submit" class="btn btn-dark" onclick="asd(2)">Send OTP</button>
+          <button type="button" class="btn btn-dark" onclick="asd(3)"><i class="fa fa-times"></i></button>
         </form>
+
+        <!-- otp form -->
+        <form id="otp" style="align-contect:center;display:none !important">
+          <label for="name" class="form-label">Enter OTP :</label>
+          <input type="text" class="form-control" id="femail" placeholder="Enter Email">
+          <span id="femail_er"></span><br>
+          <button type="submit" class="btn btn-dark">Submit</button>
+          <button type="button" class="btn btn-dark" onclick="asd(3)"><i class="fa fa-times"></i></button>
+        </form>
+
+        <div class="col-md-12">
+          <br><a href="register.php">Don't have an account?Register here!</a>
+        </div>
       </div>
-      <div class="col-md-4"></div>
     </div>
   </div>
 
@@ -61,10 +71,16 @@
       if (a == 1) {
         $('#Login').hide();
         $('#forgot').show();
+        $('#otp').hide();
+      } else if (a == 2) {
+        $('#Login').hide();
+        $('#forgot').hide();
+        $('#otp').show();
       }
       else {
         $('#Login').show();
         $('#forgot').hide();
+        $('#otp').hide();
       }
     }
   </script>
@@ -106,16 +122,16 @@
         if ($r['U_Pwd'] == $pwd) {
           if ($r['U_Status'] == 'Active') {
             if ($r['U_Role'] == 'Admin') {
-              setcookie('success', 'Login Successful', time() + 5, "/");
-              $_SESSION['U_Admin']=$email;
+              setcookie('success', "Login Successful", time() + 5, "/");
+              $_SESSION['U_Admin'] = $email;
               ?>
               <script>
                 window.location.href = "admin.php";
               </script>
               <?php
             } else {
-              setcookie('success', 'Login Successful', time() + 5, "/");
-              $_SESSION['U_User']=$email;
+              setcookie('success', "Login Successful", time() + 5, "/");
+              $_SESSION['U_User'] = $email;
               ?>
               <script>
                 window.location.href = "Index.php";

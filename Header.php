@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 include 'conn.php';
 ?>
 <!DOCTYPE html>

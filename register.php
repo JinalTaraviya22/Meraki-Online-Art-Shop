@@ -27,7 +27,8 @@
             <h2 style="text-align:center">Register</h2>
             <div class="col-md-3"></div>
             <div class="col-md-6 mt-3">
-                <form id="update" method="post"enctype="multipart/form-data">
+                <form id="update" name="update" action="register.php" method="post" enctype="multipart/form-data"
+                    onsubmit="return reg()">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">First Name :</label>
@@ -93,8 +94,9 @@
                         <div class="col-md-10 mb-3">
                         </div>
                         <div class="col-md-2 mb-3" style="align-content: end;">
-                            <button type="submit" name="register" class="btn btn-dark"><i
-                                    class="fa fa-arrow-right"></i></button>
+                            <input type="submit" name="register" class="btn btn-dark" value="Register">
+                            <!-- <i -->
+                            <!-- class="fa fa-arrow-right"></i></i> -->
                         </div>
                     </div>
                 </form>
@@ -107,7 +109,6 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script>
         function reg() {
-            event.preventDefault();
             let validate = true;
             var fn = document.getElementById('fnm');
             var fn_er = document.getElementById('fnm_er');
@@ -144,51 +145,55 @@
             CommanValidate(pwd, pwd_er);
             ImgValidate(img, img_er);
 
-            return validate;
-
+            if (validate) {
+                // Remove the event.preventDefault() call
+                document.getElementById('update').submit();
+            }else{
+                event.preventDefault();
+            }
         }
     </script>
 
-<?php
-include 'Footer.php';
+    <?php
+    include 'Footer.php';
 
-if (isset($_POST['register'])) {
-    $fnm = $_POST['Fnm'];
-    $lnm = $_POST['Lnm'];
-    $email = $_POST['Email'];
-    $phn = $_POST['Phn'];
-    $add = $_POST['Add'];
-    $city = $_POST['City'];
-    $state = $_POST['State'];
-    $zip = $_POST['Zip'];
-    $pwd = $_POST['Pwd'];
-    $img = uniqid() . $_FILES['Img']['name'];
+    if (isset($_POST['register'])) {
+        $fnm = $_POST['Fnm'];
+        $lnm = $_POST['Lnm'];
+        $email = $_POST['Email'];
+        $phn = $_POST['Phn'];
+        $add = $_POST['Add'];
+        $city = $_POST['City'];
+        $state = $_POST['State'];
+        $zip = $_POST['Zip'];
+        $pwd = $_POST['Pwd'];
+        $img = uniqid() . $_FILES['Img']['name'];
 
-    $query = "INSERT INTO `user_tbl`(`U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`) VALUES ('$fnm','$lnm','$email','$phn','$add','$city','$state','$zip','$pwd','$img')";
+        $query = "INSERT INTO `user_tbl`(`U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`) VALUES ('$fnm','$lnm','$email','$phn','$add','$city','$state','$zip','$pwd','$img')";
+        echo $query;
+        if (mysqli_query($con, $query)) {
+            if (!is_dir("db_img/user_img")) {
+                mkdir("db_img/user_img");
+            }
+            move_uploaded_file($_FILES['Img']['tmp_name'], "db_img/user_img/" . $img);
 
-    if (mysqli_query($con, $query)) {
-        if (!is_dir("db_img/user_img")) {
-            mkdir("db_img/user_img");
-        }
-        move_uploaded_file($_FILES['Img']['tmp_name'], "db_img/user_img/" . $img);
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'veloraa1920@gmail.com';
+                $mail->Password = 'leae sksb iwta wsvx';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
 
-        $mail = new PHPMailer(true);
-        try {
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'veloraa1920@gmail.com';
-            $mail->Password = 'leae sksb iwta wsvx';
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+                $mail->setFrom('veloraa1920@gmail.com', 'Veloraa');
+                $mail->addAddress($email, $fnm);
 
-            $mail->setFrom('veloraa1920@gmail.com', 'Veloraa');
-            $mail->addAddress($email, $fnm);
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Email Verification';
-            $activation_link = "http://localhost/demo/verify_email.php?em=" . $email;
-            $mail->Body = "<html>
+                $mail->isHTML(true);
+                $mail->Subject = 'Email Verification';
+                $activation_link = "http://localhost/demo/verify_email.php?em=" . $email;
+                $mail->Body = "<html>
             <head>
                 <style>
                     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
@@ -212,32 +217,32 @@ if (isset($_POST['register'])) {
             </body>
             </html>";
 
-            $mail->send();
-        } catch (Exception $e) {
-            // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
-            setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
+                $mail->send();
+            } catch (Exception $e) {
+                // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
+                setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
+            }
+
+            // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
+            setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
+            ?>
+
+            <script>
+                window.location.href = "login.php";
+            </script>
+            <?php
+        } else {
+            // $_SESSION['error'] = "Error in Registration. Try again."
+            setcookie('error', 'Error in Registration. Try again.', time() + 5, "/");
+            ?>
+
+            <script>
+                window.location.href = "register.php";
+            </script>
+            <?php
         }
-
-        // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
-        setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
-        ?>
-
-        <script>
-            window.location.href = "login.php";
-        </script>
-        <?php
-    } else {
-        // $_SESSION['error'] = "Error in Registration. Try again."
-        setcookie('error', 'Error in Registration. Try again.', time() + 5, "/");
-        ?>
-
-        <script>
-            window.location.href = "register.php";
-        </script>
-        <?php
     }
-}
-?>
+    ?>
 </body>
 
 </html>

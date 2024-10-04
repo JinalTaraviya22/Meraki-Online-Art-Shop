@@ -71,8 +71,11 @@
                             <td><?php echo $r['U_City'] . ", " . $r['U_State']; ?></td>
                             <td><?php echo $r['U_Status']; ?></td>
                             <td><?php echo $r['U_Role']; ?></td>
-                            <td><a href="#user_profile"><button class="btn btn-dark" onclick="showUser(1)"><i
-                                            class="fa fa-eye"></i></button></a></td>
+                            <td>
+                                <form method="post"><a href="#user_profile"><button type="submit" class="btn btn-dark"
+                                            value="<?php echo $r['U_Id'] ?>" name="showUsr" onclick="showUser(1)"><i
+                                                class="fa fa-eye"></i></button></a></form>
+                            </td>
                             <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434"><i
                                         class="fa fa-times"></i></button></td>
                         </tr>
@@ -85,191 +88,196 @@
     </div>
 
     <!-- single user profile -->
+    <?php
+    if (isset($_POST['showUsr'])) {
+        echo $_POST['showUsr'];
+    }
+    ?>
     <div class="container mt-5" id="user_profile" style="display:none !important;">
         <div class="row">
             <!-- Left Column -->
             <div class="col-md-4">
-                        <div class="product-image">
-                            <img src="ab_img/user_img/<?php echo $r['U_Profile']; ?>" alt="User Image"
-                                class="img-fluid rounded">
-                        </div>
-                        <div class="buttons mt-3">
-                            <a href="wishlist.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
-                                    Wishlist</button></a>
-                            <a href="cart.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
-                                    Cart</button></a>
-                            <a href="orderhistory.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100">Order
-                                    History</button></a>
-                        </div>
-                    </div>
-
-                    <!-- Right Column -->
-                    <div class="col-md-8">
-                        <div class="product-image-large">
-                            <!-- user Information -->
-                            <div id="info">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">First Name :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Fnm']; ?></p>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Last Name :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Lnm']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Email :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Email']; ?></p>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Phone No. :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Phn']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Address :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Add']; ?></p>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">City :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_City']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">State :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_State']; ?></p>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Zip Code :</label>
-                                        <p style="font-weight: bold;"><?php echo $r['U_Zip']; ?></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <button type="submit" onclick="asd(1)" class="cirbutton"
-                                            style="font-weight: bold;">Update Info</button>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <button type="submit" onclick="asd(2)" class="cirbutton"
-                                            style="font-weight: bold;">Change Password</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- update information -->
-                            <form id="update" onsubmit="return updateForm()" style="display:none !important;">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">First Name :</label>
-                                        <input type="text" class="form-control" id="fnm" placeholder="Enter First Name">
-                                        <span id="FnmError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Last Name :</label>
-                                        <input type="text" class="form-control" id="lnm" placeholder="Enter Last Name">
-                                        <span id="LnmError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Email :</label>
-                                        <input type="text" class="form-control" id="email" placeholder="Enter Email">
-                                        <span id="EmailError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Phone No. :</label>
-                                        <input type="text" class="form-control" id="phn" placeholder="Enter Mobile No.">
-                                        <span id="PhnError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Address :</label>
-                                        <textarea class="form-control" id="add"
-                                            placeholder="Enter your full address"></textarea>
-                                        <span id="AddError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">City :</label>
-                                        <input type="text" class="form-control" id="city" placeholder="Enter City">
-                                        <span id="CityError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">State :</label>
-                                        <input type="text" class="form-control" id="state" placeholder="Enter State">
-                                        <span id="StateError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Zip Code :</label>
-                                        <input type="text" class="form-control" id="zip" placeholder="Enter Zip code">
-                                        <span id="ZipError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Role :</label>
-                                        <select class="form-control">
-                                            <option>Normal</option>
-                                            <option>Admin</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Profile Image :</label>
-                                        <input type="file" class="form-control" id="img">
-                                        <span id="ImgError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-9 mb-3">
-                                    </div>
-                                    <div class="col-md-3 mb-3" style="align-content: end;">
-                                        <a href="Account.php"><button type="submit" class="btn btn-dark"><i
-                                                    class="fa fa-times"></i></button></a>
-                                        <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- change password -->
-                            <form id="changePwd" onsubmit="return cPwd()" style="display:none !important;">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Old Password :</label>
-                                        <input type="text" class="form-control" id="oldPwd" placeholder="Enter Old password">
-                                        <span id="OPwdError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">New Password :</label>
-                                        <input type="text" class="form-control" id="newPwd" placeholder="Enter New password">
-                                        <span id="NPwdError"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="name" class="form-label">Confirm Password :</label>
-                                        <input type="text" class="form-control" id="coPwd" placeholder="Re-enter new password">
-                                        <span id="CPwdError"></span>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-9 mb-3"></div>
-                                    <div class="col-md-3 mb-3" style="align-content: end;">
-                                        <button type="button" class="btn btn-dark"><i class="fa fa-times"></i></button>
-                                        <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="product-image">
+                    <img src="ab_img/user_img/<?php echo $r['U_Profile']; ?>" alt="User Image"
+                        class="img-fluid rounded">
+                </div>
+                <div class="buttons mt-3">
+                    <a href="wishlist.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
+                            Wishlist</button></a>
+                    <a href="cart.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
+                            Cart</button></a>
+                    <a href="orderhistory.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100">Order
+                            History</button></a>
                 </div>
             </div>
+
+            <!-- Right Column -->
+            <div class="col-md-8">
+                <div class="product-image-large">
+                    <!-- user Information -->
+                    <div id="info">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">First Name :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Fnm']; ?></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Last Name :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Lnm']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Email :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Email']; ?></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Phone No. :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Phn']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Address :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Add']; ?></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">City :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_City']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">State :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_State']; ?></p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Zip Code :</label>
+                                <p style="font-weight: bold;"><?php echo $r['U_Zip']; ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button type="submit" onclick="asd(1)" class="cirbutton"
+                                    style="font-weight: bold;">Update Info</button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <button type="submit" onclick="asd(2)" class="cirbutton"
+                                    style="font-weight: bold;">Change Password</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- update information -->
+                    <form id="update" onsubmit="return updateForm()" style="display:none !important;">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">First Name :</label>
+                                <input type="text" class="form-control" id="fnm" placeholder="Enter First Name">
+                                <span id="FnmError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Last Name :</label>
+                                <input type="text" class="form-control" id="lnm" placeholder="Enter Last Name">
+                                <span id="LnmError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Email :</label>
+                                <input type="text" class="form-control" id="email" placeholder="Enter Email">
+                                <span id="EmailError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Phone No. :</label>
+                                <input type="text" class="form-control" id="phn" placeholder="Enter Mobile No.">
+                                <span id="PhnError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Address :</label>
+                                <textarea class="form-control" id="add"
+                                    placeholder="Enter your full address"></textarea>
+                                <span id="AddError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">City :</label>
+                                <input type="text" class="form-control" id="city" placeholder="Enter City">
+                                <span id="CityError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">State :</label>
+                                <input type="text" class="form-control" id="state" placeholder="Enter State">
+                                <span id="StateError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Zip Code :</label>
+                                <input type="text" class="form-control" id="zip" placeholder="Enter Zip code">
+                                <span id="ZipError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Role :</label>
+                                <select class="form-control">
+                                    <option>Normal</option>
+                                    <option>Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Profile Image :</label>
+                                <input type="file" class="form-control" id="img">
+                                <span id="ImgError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mb-3">
+                            </div>
+                            <div class="col-md-3 mb-3" style="align-content: end;">
+                                <a href="Account.php"><button type="submit" class="btn btn-dark"><i
+                                            class="fa fa-times"></i></button></a>
+                                <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- change password -->
+                    <form id="changePwd" onsubmit="return cPwd()" style="display:none !important;">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Old Password :</label>
+                                <input type="text" class="form-control" id="oldPwd" placeholder="Enter Old password">
+                                <span id="OPwdError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">New Password :</label>
+                                <input type="text" class="form-control" id="newPwd" placeholder="Enter New password">
+                                <span id="NPwdError"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Confirm Password :</label>
+                                <input type="text" class="form-control" id="coPwd" placeholder="Re-enter new password">
+                                <span id="CPwdError"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mb-3"></div>
+                            <div class="col-md-3 mb-3" style="align-content: end;">
+                                <button type="button" class="btn btn-dark"><i class="fa fa-times"></i></button>
+                                <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- single user profile -->
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
