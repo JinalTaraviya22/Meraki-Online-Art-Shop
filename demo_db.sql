@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2024 at 05:39 PM
+-- Generation Time: Oct 09, 2024 at 05:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -40,6 +40,20 @@ CREATE TABLE `category_tbl` (
 INSERT INTO `category_tbl` (`C_Id`, `C_Name`, `C_Img`) VALUES
 (1, 'Drawing Materials', '66f6e4d99a621DrawingMaterials.png'),
 (2, 'Sculpting and Modeling', '66f77c93e0b08Sculpting and Modeling.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_token_tbl`
+--
+
+CREATE TABLE `password_token_tbl` (
+  `Id` int(11) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Otp` int(11) NOT NULL,
+  `Created_at` datetime NOT NULL,
+  `Expires_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -106,7 +120,9 @@ CREATE TABLE `user_tbl` (
 
 INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`, `U_Role`, `U_Status`) VALUES
 (1, 'Jinal', 'Taraviya', 'jtaraviya932@rku.ac.in', 1234567890, 'rku', 'Rajkot', 'Gujarat', 360005, 'jinal', '66f16f09ab7672.jpg', 'Admin', 'Active'),
-(4, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 1234567890, 'Rail Nagar', 'Rajkot', 'Gujarat', 360005, 'kalindi', '66fd47ff833627.jpg', 'Normal', 'Active');
+(53, 'ayushi', 'mehta', 'amehta123@gmail.com', 1234567890, 'qwer', 'rajkot', 'Gujarat', 360005, 'ayushi', '66ff808362ceb✨Headcanons✨.jpg', 'Normal', 'Inactive'),
+(54, 'Angel', 'Raiyani', 'angelraiyanii@gmail.com', 1234567890, 'qwerftg', 'Rajkot', 'Gujarat', 360005, 'angel', '66ff80f8a234dUntitled design (1).png', 'Normal', 'Inactive'),
+(59, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 2147483647, 'rku', 'Rajkot', 'Gujarat', 360005, 'kallu', '670533c6a40a3jp pop.png', 'Normal', 'Active');
 
 --
 -- Indexes for dumped tables
@@ -117,6 +133,12 @@ INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `
 --
 ALTER TABLE `category_tbl`
   ADD PRIMARY KEY (`C_Id`);
+
+--
+-- Indexes for table `password_token_tbl`
+--
+ALTER TABLE `password_token_tbl`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `product_tbl`
@@ -148,6 +170,12 @@ ALTER TABLE `category_tbl`
   MODIFY `C_Id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `password_token_tbl`
+--
+ALTER TABLE `password_token_tbl`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product_tbl`
 --
 ALTER TABLE `product_tbl`
@@ -163,7 +191,7 @@ ALTER TABLE `subcategory_tbl`
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
