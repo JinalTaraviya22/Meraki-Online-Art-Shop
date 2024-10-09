@@ -15,6 +15,13 @@
 
   <?php
   include 'Header.php';
+
+  require 'PHPMailer/Exception.php';
+  require 'PHPMailer/PHPMailer.php';
+  require 'PHPMailer/SMTP.php';
+
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
   ?>
 </head>
 
@@ -24,6 +31,7 @@
       <h2 style="text-align:center">Log In</h2>
       <div class="col-md-4"></div>
       <div class="col-md-4 mt-3">
+        <!-- login form -->
         <form method="post" id="Login">
           <label for="name" class="form-label">Email :</label>
           <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
@@ -38,24 +46,67 @@
             <div class="col-md-3"></div>
           </div>
         </form>
+        <!-- login form -->
 
         <!-- forgot password -->
-        <form id="forgot" style="align-contect:center;display:none !important">
+        <form id="forgot" method="post" style="align-contect:center;display:none !important">
           <label for="name" class="form-label">Email :</label>
-          <input type="text" class="form-control" id="femail" placeholder="Enter Email">
+          <input type="text" class="form-control" id="femail" name="femail" placeholder="Enter Email">
           <span id="femail_er"></span><br>
-          <button type="submit" class="btn btn-dark" onclick="asd(2)">Send OTP</button>
+          <button type="submit" name="frgt_pwd_btn" class="btn btn-dark" onclick="asd(2)">Send OTP</button>
           <button type="button" class="btn btn-dark" onclick="asd(3)"><i class="fa fa-times"></i></button>
         </form>
+        <!-- forgot password -->
 
         <!-- otp form -->
-        <form id="otp" style="align-contect:center;display:none !important">
+        <form id="otp" method="post" style="align-contect:center;display:none !important">
           <label for="name" class="form-label">Enter OTP :</label>
-          <input type="text" class="form-control" id="femail" placeholder="Enter Email">
-          <span id="femail_er"></span><br>
-          <button type="submit" class="btn btn-dark">Submit</button>
-          <button type="button" class="btn btn-dark" onclick="asd(3)"><i class="fa fa-times"></i></button>
+          <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP sent to your email">
+          <span id="otp_er"></span><br>
+          <div id="timer" class="text-danger"></div><br>
+          <button type="button" id="resend_otp" name="resend_otp" class="btn btn-dark" style="display:none;">Resent
+            OTP</button>
+          <script>
+            let timeLeft = 60; // 1 minute timer
+            const timerDisplay = document.getElementById('timer');
+            const resendButton = document.getElementById('resend_otp');
+
+            // Function to start the countdown
+            function startCountdown() {
+              const countdown = setInterval(() => {
+                if (timeLeft <= 0) {
+                  clearInterval(countdown);
+                  timerDisplay.innerHTML = "You can now resend the OTP.";
+                  resendButton.style.display = "inline";
+                  timeLeft = 60;
+                } else {
+                  timerDisplay.innerHTML = `Resend OTP in ${timeLeft} seconds`;
+                }
+                timeLeft -= 1;
+              }, 1000);
+            }
+
+            // Check if there's a remaining time in sessionStorage
+            if (sessionStorage.getItem('otpTimer')) {
+              timeLeft = parseInt(sessionStorage.getItem('otpTimer'));
+              startCountdown();
+            } else {
+              startCountdown();
+            }
+
+            // Update sessionStorage every second
+            setInterval(() => {
+              sessionStorage.setItem('otpTimer', timeLeft);
+            }, 1000);
+
+            resendButton.onclick = function (event) {
+              event.preventDefault(); // Prevent the default form submission
+              window.location.href = 'resend_otp_forgot_password.php';
+            };
+          </script>
+          <button type="submit" name="otp_btn" id="otp_btn" class="btn btn-dark">Submit</button>
         </form>
+        <!-- otp form -->
 
         <div class="col-md-12">
           <br><a href="register.php">Don't have an account?Register here!</a>
@@ -68,14 +119,15 @@
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script type="text/javascript">
     function asd(a) {
+      event.preventDefault();
       if (a == 1) {
-        $('#Login').hide();
         $('#forgot').show();
+        $('#Login').hide();
         $('#otp').hide();
       } else if (a == 2) {
+        $('#otp').show();
         $('#Login').hide();
         $('#forgot').hide();
-        $('#otp').show();
       }
       else {
         $('#Login').show();
@@ -165,6 +217,129 @@
       <?php
     }
     $row = mysqli_fetch_array($result);
+  }
+
+  if (isset($_POST['frgt_pwd_btn'])) {
+    $email = $_POST['femail'];
+    $check_query = "SELECT * FROM user_tbl WHERE U_Email = '$email'";
+    $check_result = mysqli_query($con, $check_query);
+    if (mysqli_num_rows($check_result) > 0) {
+      $query = "SELECT * FROM password_token_tbl WHERE Email = '$email'";
+      $result = mysqli_query($con, $query);
+      if (mysqli_num_rows($result) > 0) {
+        setcookie('error', "OTP is already sent to email address. new otp will be generated after old OTP expires.", time() + 5, "/");
+        ?>
+        <script>
+          asd(2);
+          // window.location.href = "otp_form.php";
+        </script>
+        <?php
+        exit;
+      } else {
+        $otp = rand(100000, 999999);
+
+        // Use PHPMailer to send the OTP
+        $mail = new PHPMailer(true);
+        try {
+          //Server settings
+          $mail->isSMTP();
+          $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
+          $mail->SMTPAuth = true;
+          $mail->Username = 'veloraa1920@gmail.com'; // SMTP username
+          $mail->Password = 'rtep efdy gepi yrqj'; // SMTP password
+          $mail->SMTPSecure = 'tls';
+          $mail->Port = 587;
+
+          //Recipients
+          $mail->setFrom('veloraa1920@gmail.com', 'Veloraa');
+          $mail->addAddress($email,'Password reset');
+
+          // Content
+          $mail->isHTML(true);
+          $mail->Subject = 'OTP for Password Reset';
+          $mail->Body = "<p>Your OTP for password reset is: $otp</p>";
+
+          $mail->send();
+
+          // Store the email, OTP, and timestamps in the database
+          $email_time = date("Y-m-d H:i:s");
+          $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); // OTP valid for 10 minutes
+          $query = "INSERT INTO  password_token_tbl  (Email, Otp, Created_at, Expires_at) VALUES ('$email', '$otp', '$email_time', '$expiry_time')";
+          mysqli_query($con, $query);
+
+          $_SESSION['forgot_email'] = $email;
+          setcookie('success', "OTP for resetting your password is sent to the registered mail address", time() + 2, "/")
+            ?>
+          <script>
+            asd(2);
+            // window.location.href = "otp_form.php";
+          </script>
+          <?php
+          exit;
+        } catch (Exception $e) {
+          echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+          setcookie('error', $mail->ErrorInfo, time() + 2, "/");
+          ?>
+          <script>
+            asd(1);
+            // window.location.href = "Forgot_password.php ";
+          </script>
+          <?php
+        }
+      }
+    } else {
+      setcookie('error', "Email is not registered", time() + 5, "/");
+      ?>
+      <script>
+        asd(1);
+        // window.location.href = "Forgot_password.php";
+      </script>
+      <?php
+    }
+  }
+
+  if (isset($_POST['otp_btn'])) {
+    if (isset($_SESSION['forgot_email'])) {
+      $email = $_SESSION['forgot_email'];
+      $otp = $_POST['otp'];
+
+      // Fetch the OTP from the database for the given email
+      $query = "SELECT Otp FROM password_token_tbl WHERE Email = '$email' ";
+      $result = mysqli_query($con, $query);
+
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $db_otp = $row['otp'];
+
+        // Compare the OTPs
+        if ($otp == $db_otp) {
+          // Redirect to new password page
+          ?>
+          <script>
+            window.location.href = 'new_password_form.php';
+          </script>
+          <?php
+
+        } else {
+          setcookie('error', 'Incorrect OTP', time() + 5, '/');
+          ?>
+
+          <script>
+            asd(2);
+            // window.location.href = 'otp_form.php';
+          </script>
+          <?php
+        }
+      } else {
+        setcookie('error', 'OTP has expired. Regenerate New OTP', time() + 2, '/');
+        ?>
+        <script>
+          asd(1);
+          // window.location.href = 'Forgot_password.php';
+        </script>
+        <?php
+      }
+    }
   }
   ?>
 </body>

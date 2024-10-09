@@ -28,7 +28,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-6 mt-3">
                 <form id="update" name="update" action="register.php" method="post" enctype="multipart/form-data"
-                    onsubmit="return reg()">
+                    >
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">First Name :</label>
@@ -183,7 +183,7 @@
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'veloraa1920@gmail.com';
-                $mail->Password = 'leae sksb iwta wsvx';
+                $mail->Password = 'rtep efdy gepi yrqj ';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
