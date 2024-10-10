@@ -72,7 +72,7 @@
                             <td><?php echo $r['U_Status']; ?></td>
                             <td><?php echo $r['U_Role']; ?></td>
                             <td>
-                                <form method="post" action="#user_profile"><a href="#user_profile"><button type="submit" class="btn btn-dark"
+                                <form method="post" action="AdUsers.php#user_profile"><a href="#user_profile"><button type="submit" class="btn btn-dark"
                                             value="<?php echo $r['U_Id'] ?>" name="showUsr" onclick="showUser(1)"><i
                                                 class="fa fa-eye"></i></button></a></form>
                             </td>
@@ -91,19 +91,18 @@
     <?php
     if (isset($_POST['showUsr'])) {
         echo $_POST['showUsr'];
-        $id = $_POST['showUsr'];
+        // $id = $_POST['showUsr'];
 
         $query = "select * from user_tbl where U_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
-        // select query to fetch data using $_POST['showUsr'] from user_tbl
         ?>
-        <div class="container mt-5" id="user_profile" style="display:none !important;">
+        <div class="container mt-5" id="user_profile">
             <div class="row">
                 <!-- Left Column -->
                 <div class="col-md-4">
                     <div class="product-image">
-                        <img src="ab_img/user_img/<?php echo $r['U_Profile']; ?>" alt="User Image"
+                        <img src="db_img/user_img/<?php echo $r['U_Profile']; ?>" alt="User Image"
                             class="img-fluid rounded">
                     </div>
                     <div class="buttons mt-3">
@@ -294,8 +293,6 @@
         function showUser(a) {
             if (a == 1) {
                 $('#user_profile').show();
-            } else {
-                $('#user_profile').hide();
             }
         }
         function asd(a) {
