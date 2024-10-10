@@ -141,15 +141,6 @@ include 'conn.php';
                                     <li><a class="dropdown-item" href="">Site Settings</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">User Side</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="Index.php">Home</a></li>
-                                    <li><a class="dropdown-item" href="categories.php">Categoris</a></li>
-                                    <li><a class="dropdown-item" href="About.php">About Us</a></li>
-                                </ul>
-                            </li>
 
                         <?php } elseif (isset($_SESSION['U_User'])) { ?>
                             <!-- User Menu -->
@@ -178,6 +169,7 @@ include 'conn.php';
                                     <?php if (isset($_SESSION['U_Admin'])) { ?>
                                         <li><a class="dropdown-item" href="admin.php">Admin</a></li>
                                         <li><a class="dropdown-item" href="Index.php">User</a></li>
+                                        <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
                                     <?php } else { ?>
                                         <!-- for normal user -->
                                         <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
