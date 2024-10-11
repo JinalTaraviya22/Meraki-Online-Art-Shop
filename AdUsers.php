@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
+    // if (!isset($_SESSION['U_Admin'])) {
+    //     header("Location: Index.php");
+    //     exit();
+    // }
     include 'Header.php';
     ?>
     <style>
@@ -90,8 +94,8 @@
     <!-- single user profile -->
     <?php
     if (isset($_POST['showUsr'])) {
-        echo $_POST['showUsr'];
-        // $id = $_POST['showUsr'];
+        //echo $_POST['showUsr'];
+        $id = $_POST['showUsr'];
 
         $query = "select * from user_tbl where U_Id=$id";
         $result = mysqli_query($con, $query);

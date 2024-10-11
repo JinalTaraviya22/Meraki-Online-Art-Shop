@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
+    if (!isset($_SESSION['U_Admin'])) {
+        header("Location: Index.php");
+        exit();
+    }
     include 'Header.php';
     ?>
     <style>
