@@ -23,6 +23,39 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     ?>
+    <script>
+    $(document).ready(function() {
+        $("#form1").validate({
+            rules: {
+                otp: {
+                    required: true,
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6
+                }
+            },
+            messages: {
+                otp: {
+                    required: "Please enter the OTP",
+                    digits: "Please enter a valid OTP",
+                    minlength: "OTP must be 6 digits",
+                    maxlength: "OTP must be 6 digits"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("invalid-feedback");
+                error.insertAfter(element);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-valid').removeClass('is-invalid');
+            }
+        });
+    });
+</script>
 </head>
 
 <body class="bg-dark">
@@ -32,7 +65,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4 mt-3">
                 <!-- otp form -->
-                <form id="otp" method="post" style="align-contect:center">
+                <form id="otp" method="post" id="form1" style="align-contect:center">
                     <label for="name" class="form-label">Enter OTP :</label>
                     <input type="text" class="form-control" id="otptxt" name="otptxt"
                         placeholder="Enter OTP sent to your email">

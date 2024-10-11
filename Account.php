@@ -197,23 +197,21 @@
                                     placeholder="Re-enter new password">
                                 <span id="CPwdError"></span>
                             </div>
+
                             <div class="col-md-6 mb-3">
-                                <span></span>
+                                <br>
+                                <button class="col-md-12 btn btn-dark" type="submit" name="changepwdbtn"
+                                    class="btn btn-dark" onclick="asd(3)">Change</button>
+
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9 mb-3"></div>
-                            <div class="col-md-3 mb-3" style="align-content: end;">
-                                <button type="button" class="btn btn-dark" onclick="asd(3)"><i
-                                        class="fa fa-times"></i></button>
-                                <button type="submit" name="changepwdbtn" class="btn btn-dark"><i
-                                        class="fa fa-arrow-right"></i></button>
+                            <div class="col-md-12">
+                                <br><a href="Forgot_password.php">Forgot Password..?</a>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -311,7 +309,7 @@
     </script>
     <?php
     include 'Footer.php';
-    
+
     if (isset($_POST['updatebtn'])) {
         $fnm = $_POST['fnm'];
         $lnm = $_POST['lnm'];
