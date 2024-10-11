@@ -33,31 +33,19 @@
             <div class="col-md-4 mt-3">
                 <!-- new pwd form -->
                 <form id="changePwd" method="post" enctype="multipart/form-data">
+
+                    <label for="name" class="form-label">New Password :</label>
+                    <input type="text" class="form-control" id="newPwd" name="newPwd" placeholder="Enter New password">
+                    <span id="NPwdError"></span>
+                    <br>
+                    <label for="name" class="form-label">Confirm Password :</label>
+                    <input type="text" class="form-control" id="coPwd" name="coPwd" placeholder="Re-enter new password">
+                    <span id="CPwdError"></span><br>
+
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name" class="form-label">New Password :</label>
-                            <input type="text" class="form-control" id="newPwd" name="newPwd"
-                                placeholder="Enter New password">
-                            <span id="NPwdError"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name" class="form-label">Confirm Password :</label>
-                            <input type="text" class="form-control" id="coPwd" name="coPwd"
-                                placeholder="Re-enter new password">
-                            <span id="CPwdError"></span>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9 mb-3"></div>
-                        <div class="col-md-3 mb-3" style="align-content: end;">
-                            <button type="submit" name="changepwdbtn" class="btn btn-dark"><i
-                                    class="fa fa-arrow-right"></i></button>
-                        </div>
+                        <div class="col-md-3"></div>
+                        <button class="col-md-6 btn btn-dark" type="submit" name="changepwdbtn" class="btn btn-dark">Change</button>
+                        <div class="col-md-3"></div>
                     </div>
                 </form>
                 <!-- new pwd form -->
@@ -70,37 +58,40 @@
     <?php
     include 'Footer.php';
 
-    if (isset($_POST['changepwdbtn'])) {
-        $oldPwd = $_POST['oldPwd'];
-        $newPwd = $_POST['newPwd'];
-
-        $query = "select * from user_tbl where `U_Email`='$email'";
-        $result = mysqli_query($con, $query);
-        while ($r = mysqli_fetch_assoc($result)) {
-            if ($r['U_Pwd'] == $oldPwd) {
-                $q = "UPDATE user_tbl SET U_Pwd='$newPwd' WHERE U_Email='$email'";
-                if (mysqli_query($con, $q)) {
-                    setcookie('success', "Password changed successfully", time() + 5, "/");
-                    ?>
-                    <script>
-                        window.location.href = "Account.php";
-                    </script>
-                    <?php
-                } else {
-                    setcookie('error', "Failed to change password", time() + 5, "/");
-                    ?>
-                    <script>
-                        window.location.href = "Account.php";
-                    </script>
-                    <?php
-                }
-            } else {
-                setcookie('error', "Incorrect Old Password", time() + 5, "/");
-                ?>
+    if (isset($_POST['changepwdbtn'])) 
+    {
+        if (isset($_SESSION['forgot_email']))
+         {
+            $email = $_SESSION['forgot_email'];
+            $newPwd = $_POST['newPwd'];
+    
+    
+            // Update the user's password in the users table (assuming the table is named 'users')
+            $update_query = "UPDATE user_tbl SET U_Pwd = '$newPwd' WHERE U_Email = '$email'";
+            if (mysqli_query($con, $update_query)) {
+                // Delete the token from the password_token table
+                $delete_query = "DELETE FROM password_token_tbl WHERE email = '$email'";
+                mysqli_query($con, $delete_query);
+                unset($_SESSION['forgot_email']);
+    
+                setcookie('success', 'Password has been reset successfully.', time() + 5, '/');
+    ?>
+    
                 <script>
-                    window.location.href = "Account.php";
+                    window.location.href = 'Login.php';
                 </script>
-                <?php
+            <?php
+    
+            } else {
+                setcookie('error', 'Error in resetting Password.', time() + 5, '/');
+            ?>
+    
+                <script>
+                    window.location.href = 'Forgot_password.php';
+                </script>
+    <?php
+    
+    
             }
         }
     }

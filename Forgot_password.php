@@ -48,7 +48,7 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
- 
+
   <?php
   include 'Footer.php';
   // when user enters email in forgot password form
@@ -68,7 +68,9 @@
         </script>
         <?php
         exit;
-      } else {
+      }
+       else 
+       {
         $otp = rand(100000, 999999);
 
         // Use PHPMailer to send the OTP
