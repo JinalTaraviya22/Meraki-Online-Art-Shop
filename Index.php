@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="styles.css">
   <script src="validation.js"></script>
   <?php
-  include('Header.php');
-  
+  include 'Header.php';
+
   ?>
   <style>
     .container {
@@ -63,22 +63,27 @@
   <div class="container mt-5">
     <div class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
+        <?php
+        $query = "select * from slider_tbl where Id=1";
+        $result = mysqli_query($con, $query);
+        $r = mysqli_fetch_assoc($result);
+        ?>
         <div class="carousel-item active">
-          <img src="img/slide3.png" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_1']?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
-            <h5>MERAKI</h5>
+            <!-- <h5>MERAKI</h5> -->
           </div>
         </div>
         <div class="carousel-item">
-          <img src="img/slide1.png" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_2']?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
-            <h5>MERAKI</h5>
+            <!-- <h5>MERAKI</h5> -->
           </div>
         </div>
         <div class="carousel-item">
-          <img src="img/slide2.png" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_3']?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
-            <h5>MERAKI</h5>
+            <!-- <h5>MERAKI</h5> -->
           </div>
         </div>
       </div>

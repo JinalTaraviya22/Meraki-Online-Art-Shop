@@ -15,12 +15,6 @@
     include 'Header.php';
     ?>
     <style>
-        /* .container {
-            background-color: rgba(165, 165, 165, 0.7);
-            border-radius: 50px;
-            padding: 25px;
-        } */
-
         tr {
             border: 1px black solid;
             text-align: center;
@@ -38,12 +32,6 @@
     </style>
 </head>
 
-
-<!-- <body style="background-image: url(img/bg9.png); 
-background-attachment:fixed;
-background-repeat: no-repeat; 
-background-size: cover;
-color:white;"> -->
 <body class="bg-dark">
     <div class="container mt-5">
         <div class="row mt-3 mb-3">

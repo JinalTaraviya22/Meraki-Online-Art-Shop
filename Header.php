@@ -136,9 +136,20 @@ include 'conn.php';
                                     data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="AdOrders.php">Orders</a></li>
+                                    <li><a class="dropdown-item" href="AdCategory.php">Category</a></li>
                                     <li><a class="dropdown-item" href="AdProducts.php">Products</a></li>
                                     <li><a class="dropdown-item" href="AdUsers.php">Users</a></li>
                                     <li><a class="dropdown-item" href="">Site Settings</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">User</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="Index.php">Home</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="Index.php#latest">Latest</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="categories.php">Categories</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="About.php">About Us</a></li>
                                 </ul>
                             </li>
 
@@ -165,15 +176,7 @@ include 'conn.php';
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                                 <ul class="dropdown-menu">
-                                    <!-- if admin then -->
-                                    <?php if (isset($_SESSION['U_Admin'])) { ?>
-                                        <li><a class="dropdown-item" href="admin.php">Admin</a></li>
-                                        <li><a class="dropdown-item" href="Index.php">User</a></li>
-                                        <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
-                                    <?php } else { ?>
-                                        <!-- for normal user -->
-                                        <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
-                                    <?php } ?>
+                                    <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
                                     <li><a class="dropdown-item" href="cart.php">Cart</a></li>
                                     <li><a class="dropdown-item" href="wishlist.php">Wish List</a></li>
                                     <li><a class="dropdown-item" href="order.php">Order Now</a></li>

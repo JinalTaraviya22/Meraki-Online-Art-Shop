@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
-    if (!isset($_SESSION['U_Admin'])) {
-        header("Location: Index.php");
-        exit();
-    }
+    // if (!isset($_SESSION['U_Admin'])) {
+    //     header("Location: Index.php");
+    //     exit();
+    // }
     include 'Header.php';
     ?>
     <style>
@@ -63,27 +63,41 @@
                                 <span id="anm_er" class="text-danger"></span>
                             </div>
                             <div class="col-md-6 mb-3">
+                                <label for="aprice" class="form-label">Company Name:</label>
+                                <input type="text" class="form-control" name="cnm" id="acname"
+                                    placeholder="Enter Company Name">
+                                <span id="acname_er" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
                                 <label for="aprice" class="form-label">Price:</label>
                                 <input type="text" class="form-control" name="price" id="aprice"
                                     placeholder="Enter Price">
                                 <span id="aprice_er" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="category" class="form-label">Category:</label>
-                                <select class="form-control" id="category" name="cat">
-                                    <option>Watercolor</option>
-                                    <option>Oil</option>
-                                    <option>Acrylic</option>
-                                </select>
+                            <div class="col-md-4 mb-3">
+                                <label for="category" class="form-label">Stock:</label>
+                                <input type="text" class="form-control" name="stock" id="astock"
+                                    placeholder="Enter Stock">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="subcategory" class="form-label">Sub Category:</label>
+                            <div class="col-md-4 mb-3">
+                                <label for="subcategory" class="form-label">Category:</label>
                                 <select class="form-control" id="subcategory" name="sub-cat">
-                                    <option>Brushes</option>
+                                    <!-- <option>Brushes</option>
                                     <option>Paints</option>
-                                    <option>Paper</option>
+                                    <option>Paper</option> -->
+                                    <?php
+                                    $q = "Select * from subcategory_tbl s join category_tbl c on s.C_Id=c.C_Id";
+                                    $result = mysqli_query($con, $q);
+                                    while ($r = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                        <option value="<?php echo $r['SC_Id']; ?>">
+                                            <?php echo $r['C_Name'] . " > " . $r['SC_Name']; ?>
+                                        </option>
+                                        <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -132,133 +146,170 @@
                     <th>Category</th>
                     <th>Image 1</th>
                     <th>Image 2</th>
-                    <td>View</td>
-                    <th>Update</th>
+                    <th>View</th>
                     <th>Disable</th>
                 </tr>
-                <tr>
-                    <td>E1</td>
-                    <td>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</td>
-                    <td>1,300</td>
-                    <td>1200</td>
-                    <td>Easeal & Furniture</td>
-                    <td><img src="img/easeal1.png" height="100px" width="100px"></td>
-                    <td><img src="img/easeal2.png" height="100px" width="100px"></td>
-                    <td><a href="#update_form"><button onclick="update(1)" class="btn btn-dark"><i
-                                    class="fa fa-eye"></i></button></a></td>
-                    <td><a href="#update_form"><button class="btn btn-dark" onclick="update(1)"><i
-                                    class="fa fa-arrow-right"></i></button></a></td>
-                    <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
-                                class="fa fa-times"></i></button></td>
-                </tr>
+                <?php
+                $q = "Select * from product_tbl";
+                $result = mysqli_query($con, $q);
+
+                while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $r['P_Id'] ?></td>
+                        <td><?php echo $r['P_Name'] ?></td>
+                        <td><?php echo $r['P_Price'] ?></td>
+                        <td><?php echo $r['P_Stock'] ?></td>
+                        <td>Easeal & Furniture</td>
+                        <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
+                        <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
+                        <td>
+                            <form method="post" action="AdProducts.php#update_form"><a href="#update_form"><button
+                                        type="submit" class="btn btn-dark" value="<?php echo $r['P_Id'] ?>"
+                                        name="showProduct" onclick="update(1)"><i class="fa fa-eye"></i></button></a>
+                            </form>
+                            <!-- <a href="#update_form"><button onclick="update(1)" class="btn btn-dark"><i
+                                        class="fa fa-eye"></i></button></a> -->
+                        </td>
+
+                        <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
+                                    class="fa fa-times"></i></button></td>
+                    </tr>
+                    <?php
+                }
+                ?>
             </table>
         </div>
     </div>
 
     <!-- update product form -->
-    <div class="container mt-5" id="update_form" style="display:none !important;">
-        <div class="row">
-            <!-- Images Column -->
-            <div class="col-md-4">
-                <div class="product-image">
-                    <img src="img/easeal1.png" height="100px" width="100px" alt="Product Image"
-                        class="img-fluid rounded">
+    <?php
+    if (isset($_POST['showProduct'])) {
+        //echo $_POST['showUsr'];
+        $id = $_POST['showProduct'];
+
+        $query = "select * from product_tbl where P_Id=$id";
+        $result = mysqli_query($con, $query);
+        $r = mysqli_fetch_assoc($result);
+        $p_status = $r['P_Status'];
+        ?>
+        <div class="container mt-5" id="update_form">
+            <div class="row">
+                <!-- Images Column -->
+                <div class="col-md-4">
+                    <div class="product-image">
+                        <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"
+                            alt="Product Image" class="img-fluid rounded">
+                    </div>
+                    <div class="product-image mt-2">
+                        <img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"
+                            alt="Product Image" class="img-fluid rounded">
+                    </div>
                 </div>
-                <div class="product-image mt-2">
-                    <img src="img/easeal1.png" height="100px" width="100px" alt="Product Image"
-                        class="img-fluid rounded">
-                </div>
-            </div>
-            <!-- Right Column -->
-            <div class="col-md-8">
-                <div class="product-image-large">
-                    <!-- update information -->
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="anm" class="form-label">Product Name:</label>
-                                <input type="text" class="form-control" name="pnm" id="anm"
-                                    placeholder="Enter Product Name">
-                                <span id="unm_er" class="text-danger"></span>
+                <!-- Right Column -->
+                <div class="col-md-8">
+                    <div class="product-image-large">
+                        <!-- update information -->
+                        <form method="post" id="upProduct" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="hidden" name="uid" value="<?php echo $r['P_Id'] ?>" />
+                                    <input type="hidden" name="Oldimg1" value="<?php echo $r['P_Img1'] ?>" />
+                                    <input type="hidden" name="Oldimg2" value="<?php echo $r['P_Img2'] ?>" />
+                                    <label for="anm" class="form-label">Product Name:</label>
+                                    <input type="text" class="form-control" name="upnm" id="anm"
+                                        value="<?php echo $r['P_Name'] ?>">
+                                    <span id="unm_er" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="aprice" class="form-label">Company Name:</label>
+                                    <input type="text" class="form-control" name="ucnm" id="aprice"
+                                        value="<?php echo $r['P_Company_Name'] ?>">
+                                    <span id="uprice_er" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="aprice" class="form-label">Company Name:</label>
-                                <input type="text" class="form-control" name="price" id="aprice"
-                                    placeholder="Enter Price">
-                                <span id="uprice_er" class="text-danger"></span>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="udesc" class="form-label">Description:</label>
+                                    <textarea class="form-control" name="udesc" id="adesc"
+                                        placeholder="Enter Description"><?php echo $r['P_Desc'] ?></textarea>
+                                    <span id="udesc_er" class="text-danger"></span>
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="udesc" class="form-label">Description:</label>
-                                <textarea class="form-control" name="desc" id="adesc"
-                                    placeholder="Enter description of product"></textarea>
-                                <span id="udesc_er" class="text-danger"></span>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="aprice" class="form-label">Price:</label>
+                                    <input type="text" class="form-control" name="uprice" id="aprice"
+                                        value="<?php echo $r['P_Price'] ?>">
+                                    <span id="uprice_er" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Stock :</label>
+                                    <input type="text" class="form-control" id="ustock" name="ustock"
+                                        value="<?php echo $r['P_Stock'] ?>">
+                                    <span id="StockError"></span>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="aprice" class="form-label">Price:</label>
-                                <input type="text" class="form-control" name="price" id="aprice"
-                                    placeholder="Enter Price">
-                                <span id="uprice_er" class="text-danger"></span>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Status :</label>
+                                    <select class="form-control" name="ustatus">
+                                        <option <?php if ($p_status == 'Active')
+                                            echo 'selected'; ?> value="Active">Active
+                                        </option>
+                                        <option <?php if ($p_status == 'Deactivate')
+                                            echo 'selected'; ?> value="Deactivate">
+                                            Deactivate</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="subcategory" class="form-label">Category:</label>
+                                    <select class="form-control" id="subcategory" name="usub-cat">
+                                        <?php
+                                        $q = "Select * from subcategory_tbl s join category_tbl c on s.C_Id=c.C_Id";
+                                        $result = mysqli_query($con, $q);
+                                        while ($r = mysqli_fetch_assoc($result)) {
+                                            $selected = ($r['SC_Id'] == $default_subcat_id) ? 'selected' : '';
+                                            ?>
+                                            <option value="<?php echo $r['SC_Id']; ?>" <?php echo $selected; ?>>
+                                                <?php echo $r['C_Name'] . " > " . $r['SC_Name']; ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="category" class="form-label">Category:</label>
-                                <select class="form-control" id="category" name="cat">
-                                    <option>Watercolor</option>
-                                    <option>Oil</option>
-                                    <option>Acrylic</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="aimg1" class="form-label">Image 1:</label>
+                                    <input type="file" class="form-control" name="uimg1" id="aimg1">
+                                    <span id="uimg1_er" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="uimg2" class="form-label">Image 2:</label>
+                                    <input type="file" class="form-control" name="uimg2" id="aimg2">
+                                    <span id="uimg2_er" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="subcategory" class="form-label">Sub Category:</label>
-                                <select class="form-control" id="subcategory" name="sub-cat">
-                                    <option>Brushes</option>
-                                    <option>Paints</option>
-                                    <option>Paper</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-md-9 mb-3">
+                                </div>
+                                <div class="col-md-3 mb-3" style="align-content: end;">
+                                    <button class="btn btn-dark" onclick="update(2)"><i class="fa fa-times"></i></button>
+                                    <button type="submit" name="updateProduct" id="updateProduct" class="btn btn-dark"><i
+                                            class="fa fa-arrow-right"></i></button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Status :</label>
-                                <select class="form-control">
-                                    <option>Active</option>
-                                    <option>Deactivate</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Stock :</label>
-                                <!-- <input type="file" class="form-control" id="img">
-                                <span id="ImgError"></span> -->
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="aimg1" class="form-label">Image 1:</label>
-                                <input type="file" class="form-control" name="img1" id="aimg1">
-                                <span id="uimg1_er" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="uimg2" class="form-label">Image 2:</label>
-                                <input type="file" class="form-control" name="img2" id="aimg2">
-                                <span id="uimg2_er" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9 mb-3">
-                            </div>
-                            <div class="col-md-3 mb-3" style="align-content: end;">
-                                <button class="btn btn-dark" onclick="update(2)"><i class="fa fa-times"></i></button>
-                                <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <?php
+    }
+    ?>
     <!-- update product form -->
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -267,8 +318,6 @@
         function update(a) {
             if (a == 1) {
                 $('#update_form').show();
-            } else {
-                $('#update_form').hide();
             }
         }
         function addForm(a) {
@@ -356,36 +405,101 @@
 
     </script>
     <?php
-    include('Footer.php');
+    include 'Footer.php';
 
     if (isset($_POST['addProduct'])) {
-        $pnm = $_POST['Fnm'];
-        $price = $_POST['Lnm'];
-        $cat = $_POST['Email'];
-        $subcat = $_POST['Phn'];
-        $desc = $_POST['Add'];
+        $pnm = $_POST['pnm'];
+        $cnm = $_POST['cnm'];
+        $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        $cat = $_POST['sub-cat'];
+        $desc = $_POST['desc'];
         $img1 = uniqid() . $_FILES['img1']['name'];
-        $img = uniqid() . $_FILES['img2']['name'];
+        $img2 = uniqid() . $_FILES['img2']['name'];
 
-        $query = "INSERT INTO `product_tbl`(`U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`) VALUES ('$fnm','$lnm','$email','$phn','$add','$city','$state','$zip','$pwd','$img')";
+        $query = "INSERT INTO `product_tbl`(`P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`,`P_Status`) VALUES 
+        ('$pnm','$price','$stock','$cnm','$cat','$desc','$img1','$img2','Active')";
 
 
         if (mysqli_query($con, $query)) {
             if (!is_dir("db_img/product_img")) {
                 mkdir("db_img/product_img");
             }
-            move_uploaded_file($_FILES['img']['tmp_name'], "db_img/product_img/" . $img);
-            setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 2);
+            move_uploaded_file($_FILES['img1']['tmp_name'], "db_img/product_img/" . $img1);
+            move_uploaded_file($_FILES['img2']['tmp_name'], "db_img/product_img/" . $img2);
+            setcookie('success', 'Product Addes', time() + 2);
             ?>
             <script>
-                window.location.href = 'login.php';
+                window.location.href = 'AdProducts.php';
             </script>
             <?php
         } else {
-            setcookie('error', 'Error in Registration. Try again.', time() + 2);
+            setcookie('error', 'Error Please try again.', time() + 2);
             ?>
             <script>
-                window.location.href = 'register.php';
+                window.location.href = 'AdProducts.php';
+            </script>
+            <?php
+        }
+    }
+    if (isset($_POST['updateProduct'])) {
+        $id = $_POST['uid'];
+        $pnm = $_POST['upnm'];
+        $cnm = $_POST['ucnm'];
+        $price = $_POST['uprice'];
+        $stock = $_POST['ustock'];
+        $cat = $_POST['usub-cat'];
+        $desc = $_POST['udesc'];
+        $status = $_POST['ustatus'];
+        // For old images
+        $oimg1 = $_POST['Oldimg1'];
+        $oimg2 = $_POST['Oldimg2'];
+        // $img1 = uniqid() . $_FILES['uimg1']['name'];
+        // $img2 = uniqid() . $_FILES['uimg2']['name'];
+    
+        // Handle image uploads
+        if ($_FILES['uimg1']['name'] != "") {
+            $img1 = uniqid() . $_FILES['uimg1']['name'];
+            move_uploaded_file($_FILES['uimg1']['tmp_name'], "db_img/product_img/" . $img1);
+        } else {
+            $img1 = $oimg1;
+        }
+
+        if ($_FILES['uimg2']['name'] != "") {
+            $img2 = uniqid() . $_FILES['uimg2']['name'];
+            move_uploaded_file($_FILES['uimg2']['tmp_name'], "db_img/product_img/" . $img2);
+        } else {
+            $img2 = $oimg2;
+        }
+
+        // Update query
+        $query = "UPDATE `product_tbl` SET `P_Name`='$pnm',`P_Price`='$price',`P_Stock`='$stock',`P_Company_Name`='$cnm',`P_SC_Id`='$cat',`P_Desc`='$desc',`P_Img1`='$img1',`P_Img2`='$img2',`P_Status`='$status' WHERE `P_Id`=$id ";
+        echo $query;
+
+        if (mysqli_query($con, $query)) {
+            if ($_FILES['uimg1']['name'] != "") {
+                $old_image1 = $oimg1;
+                if (file_exists("db_img/product_img/" . $old_image1)) {
+                    unlink("db_img/product_img/" . $old_image1);
+                }
+            }
+            if ($_FILES['uimg2']['name'] != "") {
+                $old_image2 = $oimg2;
+                if (file_exists("db_img/product_img/" . $old_image2)) {
+                    unlink("db_img/product_img/" . $old_image2);
+                }
+            }
+            setcookie('success', "Product updated successfully", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'AdProducts.php';
+            </script>
+            <?php
+        } else {
+            setcookie('error', "Error in updating product", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'AdProducts.php';
             </script>
             <?php
         }

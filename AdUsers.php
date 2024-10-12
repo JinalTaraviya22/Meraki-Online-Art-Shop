@@ -39,12 +39,103 @@
 <body class="bg-dark">
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
-            <h2 class="col-md-3" style="color:white">Users</h2>
-            <div class="col-md-5"></div>
-            <div class="col-md-3" style="text-align:right;padding-right:25px;"><input type="text"
-                    placeholder="Search here..." class="form-control">&nbsp;</div>
-            <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search"></i></button></div>
+            <h2 class="col-md-4" style="color:white">Users</h2>
+            <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
+                    placeholder="Search here...">&nbsp;</div>
+            <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
+                        class="fa fa-plus"></i></button></div>
         </div>
+
+        <!-- add users -->
+        <div class="container mt-5 mb-5" id="register" style="display:none">
+            <div class="row">
+                <h2 style="text-align:center">Register</h2>
+                <div class="col-md-3"></div>
+                <div class="col-md-6 mt-3">
+                    <form id="register" name="register" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">First Name :</label>
+                                <input type="text" class="form-control" id="fnm" name="Fnm"
+                                    placeholder="Enter First Name">
+                                <span id="fnm_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Last Name :</label>
+                                <input type="text" class="form-control" id="lnm" name="Lnm"
+                                    placeholder="Enter Last Name">
+                                <span id="lnm_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Email :</label>
+                                <input type="text" class="form-control" id="email" name="Email"
+                                    placeholder="Enter Email">
+                                <span id="email_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Phone No. :</label>
+                                <input type="text" class="form-control" id="phn" name="Phn"
+                                    placeholder="Enter Mobile No.">
+                                <span id="phn_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Address :</label>
+                                <textarea class="form-control" id="add" name="Add"
+                                    placeholder="Enter your full address"></textarea>
+                                <span id="add_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">City :</label>
+                                <input type="text" class="form-control" id="city" name="City" placeholder="Enter City">
+                                <span id="city_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">State :</label>
+                                <input type="text" class="form-control" id="state" name="State"
+                                    placeholder="Enter State">
+                                <span id="state_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Zip Code :</label>
+                                <input type="text" class="form-control" id="zip" name="Zip"
+                                    placeholder="Enter Zip code">
+                                <span id="zip_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Password :</label>
+                                <input type="text" class="form-control" id="pwd" name="Pwd"
+                                    placeholder="Enter Password">
+                                <span id="pwd_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Profile Image :</label>
+                                <input type="file" class="form-control" id="img" name="Img">
+                                <span id="img_er"></span>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-md-10 mb-3">
+                            </div>
+                            <div class="col-md-2 mb-3" style="align-content: end;">
+                                <input type="submit" name="register" class="btn btn-dark" value="Register">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+
         <div class="row w-100">
             <div class="col-12">
                 <table>
@@ -76,9 +167,10 @@
                             <td><?php echo $r['U_Status']; ?></td>
                             <td><?php echo $r['U_Role']; ?></td>
                             <td>
-                                <form method="post" action="AdUsers.php#user_profile"><a href="#user_profile"><button type="submit" class="btn btn-dark"
-                                            value="<?php echo $r['U_Id'] ?>" name="showUsr" onclick="showUser(1)"><i
-                                                class="fa fa-eye"></i></button></a></form>
+                                <form method="post" action="AdUsers.php#user_profile"><a href="#user_profile"><button
+                                            type="submit" class="btn btn-dark" value="<?php echo $r['U_Id'] ?>"
+                                            name="showUsr" onclick="showUser(1)"><i class="fa fa-eye"></i></button></a>
+                                </form>
                             </td>
                             <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434"><i
                                         class="fa fa-times"></i></button></td>
@@ -103,24 +195,24 @@
         ?>
         <div class="container mt-5" id="user_profile">
             <div class="row">
+                <h2>Hello, <?php echo $r['U_Fnm']; ?></h2>
                 <!-- Left Column -->
                 <div class="col-md-4">
+                    <p class="price"></p>
                     <div class="product-image">
                         <img src="db_img/user_img/<?php echo $r['U_Profile']; ?>" alt="User Image"
                             class="img-fluid rounded">
                     </div>
                     <div class="buttons mt-3">
-                        <a href="wishlist.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
-                                Wishlist</button></a>
-                        <a href="cart.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
-                                Cart</button></a>
-                        <a href="orderhistory.php?Id=<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100">Order
-                                History</button></a>
+                        <a href="wishlist.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100 mb-2">See Wishlist</button></a>
+                        <a href="cart.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100 mb-2">See Cart</button></a>
+                        <a href="orderhistory.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100">Order History</button></a>
                     </div>
                 </div>
 
                 <!-- Right Column -->
                 <div class="col-md-8">
+                    <!-- <h3 class="mb-5">Account Information</h3> -->
                     <div class="product-image-large">
                         <!-- user Information -->
                         <div id="info">
@@ -176,67 +268,67 @@
                             </div>
                         </div>
                         <!-- update information -->
-                        <form id="update" onsubmit="return updateForm()" style="display:none !important;">
+                        <form id="update" method="post" enctype="multipart/form-data" style="display:none !important;">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">First Name :</label>
-                                    <input type="text" class="form-control" id="fnm" placeholder="Enter First Name">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_Fnm'] ?>" id="fnm"
+                                        name="fnm" placeholder="Enter First Name">
                                     <span id="FnmError"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Last Name :</label>
-                                    <input type="text" class="form-control" id="lnm" placeholder="Enter Last Name">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_Lnm'] ?>" id="lnm"
+                                        name="lnm" placeholder="Enter Last Name">
                                     <span id="LnmError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Email :</label>
-                                    <input type="text" class="form-control" id="email" placeholder="Enter Email">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_Email'] ?>" id="email"
+                                        name="email" placeholder="Enter Email">
                                     <span id="EmailError"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Phone No. :</label>
-                                    <input type="text" class="form-control" id="phn" placeholder="Enter Mobile No.">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_Phn'] ?>" id="phn"
+                                        name="phn" placeholder="Enter Mobile No.">
                                     <span id="PhnError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Address :</label>
-                                    <textarea class="form-control" id="add"
-                                        placeholder="Enter your full address"></textarea>
+                                    <textarea class="form-control" id="add" name="add"
+                                        placeholder="Enter your full address"><?php echo $r['U_Add'] ?></textarea>
                                     <span id="AddError"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">City :</label>
-                                    <input type="text" class="form-control" id="city" placeholder="Enter City">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_City'] ?>" id="city"
+                                        name="city" placeholder="Enter City">
                                     <span id="CityError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">State :</label>
-                                    <input type="text" class="form-control" id="state" placeholder="Enter State">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_State'] ?>" id="state"
+                                        name="state" placeholder="Enter State">
                                     <span id="StateError"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Zip Code :</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="Enter Zip code">
+                                    <input type="text" class="form-control" value="<?php echo $r['U_Zip'] ?>" id="zip"
+                                        name="zip" placeholder="Enter Zip code">
                                     <span id="ZipError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="name" class="form-label">Role :</label>
-                                    <select class="form-control">
-                                        <option>Normal</option>
-                                        <option>Admin</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Profile Image :</label>
-                                    <input type="file" class="form-control" id="img">
+                                    <input type="file" class="form-control" id="img" name="img">
                                     <span id="ImgError"></span>
                                 </div>
                             </div>
@@ -244,47 +336,51 @@
                                 <div class="col-md-9 mb-3">
                                 </div>
                                 <div class="col-md-3 mb-3" style="align-content: end;">
-                                    <a href="Account.php"><button type="submit" class="btn btn-dark"><i
+                                    <a href="Account.php"><button type="submit" onclick="asd(3)" class="btn btn-dark"><i
                                                 class="fa fa-times"></i></button></a>
-                                    <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
+                                    <button type="submit" id="updatebtn" name="updatebtn" class="btn btn-dark"><i
+                                            class="fa fa-arrow-right"></i></button>
                                 </div>
                             </div>
                         </form>
                         <!-- change password -->
-                        <form id="changePwd" onsubmit="return cPwd()" style="display:none !important;">
+                        <form id="changePwd" method="post" enctype="multipart/form-data" style="display:none !important;">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Old Password :</label>
-                                    <input type="text" class="form-control" id="oldPwd" placeholder="Enter Old password">
+                                    <input type="text" class="form-control" id="oldPwd" name="oldPwd"
+                                        placeholder="Enter Old password">
                                     <span id="OPwdError"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">New Password :</label>
-                                    <input type="text" class="form-control" id="newPwd" placeholder="Enter New password">
+                                    <input type="text" class="form-control" id="newPwd" name="newPwd"
+                                        placeholder="Enter New password">
                                     <span id="NPwdError"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Confirm Password :</label>
-                                    <input type="text" class="form-control" id="coPwd" placeholder="Re-enter new password">
+                                    <input type="text" class="form-control" id="coPwd" name="coPwd"
+                                        placeholder="Re-enter new password">
                                     <span id="CPwdError"></span>
                                 </div>
+
                                 <div class="col-md-6 mb-3">
-                                    <span></span>
+                                    <br>
+                                    <button class="col-md-12 btn btn-dark" type="submit" name="changepwdbtn"
+                                        class="btn btn-dark" onclick="asd(3)">Change</button>
+
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9 mb-3"></div>
-                                <div class="col-md-3 mb-3" style="align-content: end;">
-                                    <button type="button" class="btn btn-dark"><i class="fa fa-times"></i></button>
-                                    <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button>
+                                <div class="col-md-12">
+                                    <br><a href="Forgot_password.php">Forgot Password..?</a>
                                 </div>
-                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <?php
     }
@@ -298,6 +394,12 @@
             if (a == 1) {
                 $('#user_profile').show();
             }
+        }
+        function addForm(a) {
+            if (a == 1)
+                $('#register').show();
+            else
+                $('#register').hide();
         }
         function asd(a) {
             if (a == 1) {
@@ -315,6 +417,8 @@
 
     <?php
     include 'Footer.php';
+
+    // register
     ?>
     <!-- <script>
         function updateForm() {

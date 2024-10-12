@@ -35,9 +35,9 @@
                         class="img-fluid rounded">
                 </div>
                 <div class="buttons mt-3">
-                    <a href="wishlist.php"><button class="btn btn-dark w-100 mb-2">See Wishlist</button></a>
-                    <a href="cart.php"><button class="btn btn-dark w-100 mb-2">See Cart</button></a>
-                    <a href="orderhistory.php"><button class="btn btn-dark w-100">Order History</button></a>
+                    <a href="wishlist.php?<?php echo $r['U_Id'] ?>"><button class="btn btn-dark w-100 mb-2">See Wishlist</button></a>
+                    <a href="cart.php?<?php echo $r['U_Id'] ?>"><button class="btn btn-dark w-100 mb-2">See Cart</button></a>
+                    <a href="orderhistory.php?<?php echo $r['U_Id'] ?>"><button class="btn btn-dark w-100">Order History</button></a>
                 </div>
             </div>
 
