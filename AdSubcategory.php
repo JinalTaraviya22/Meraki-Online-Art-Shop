@@ -60,37 +60,10 @@
                         class="fa fa-plus"></i></button></div>
         </div>
 
-        <!-- add products -->
+        <!-- add category -->
         <div class="container mt-5 mb-5" id="add_form" style="display:none !important">
             <div class="row">
-                <div class="col col-md-6">
-                    <h2>Add New Category</h2>
-                    <!-- <form onsubmit="return addCat()" > -->
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Name :</label>
-                                <input type="text" class="form-control" name="cnm" id="catNm"
-                                    placeholder="Enter Category Name">
-                                <span id="catNm_er"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Image :</label>
-                                <input type="file" class="form-control" name="cimg" id="catImg">
-                                <span id="catImg_er"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10 mb-3"></div>
-                            <div class="col-md-2 mb-3" style="align-content: end;">
-                                <button type="submit" name="csubmit" class="btn btn-dark"><i
-                                        class="fa fa-arrow-right"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- sub category -->
-                <div class="col col-md-6">
+                <div class="col col-md-12">
                     <h2>Add New Sub Category</h2>
                     <!-- <form onsubmit="return addSubCat()"> -->
                     <form method="post" enctype="multipart/form-data">
@@ -176,7 +149,7 @@
         </div>
     </div>
 
-    <!-- update product form -->
+    <!-- update sub category form -->
     <?php
     if (isset($_POST['showCat'])) {
         //echo $_POST['showUsr'];
@@ -348,52 +321,24 @@
     <?php
     include 'Footer.php';
 
-    // Add Category
-    if (isset($_POST['csubmit'])) {
-        $cnm = $_POST['cnm'];
-        $cimg = uniqid() . $_FILES['cimg']['name'];
-
-        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `SC_Img`) VALUES ('$cnm','$cimg')";
+    // Add sub-cat
+    if (isset($_POST['subCategory'])) {
+        $snm = $_POST['snm'];
+        $simg = uniqid() . $_FILES['simg']['name'];
+        $scid = $_POST['scat'];
+    
+        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`) VALUES ('$snm','$scid','$simg')";
         if (mysqli_query($con, $query)) {
-            if (!is_dir('db_img/cat_img')) {
-                mkdir('db_img/cat_img');
+            if (!is_dir('db_img/subCat_img')) {
+                mkdir('db_img/subCat_img');
             }
-            if (move_uploaded_file($_FILES['cimg']['tmp_name'], 'db_img/cat_img/' . $cimg)) {
-                setcookie('success', 'Category Added', time() + 5, "/");
-                ?>
-                <script>
-                    window.location.href = "AdCategory.php";
-                </script>
-                <?php
-            } else {
-                echo "File upload error: " . $_FILES['cimg']['error'];
-            }
+            move_uploaded_file($_FILES['simg']['tmp_name'], 'db_img/subCat_img/' . $simg);
+            setcookie('success', 'Sub Category Added', time() + 5, "/");
         } else {
-            setcookie('error', 'Error in adding Category', time() + 5, "/");
-            ?>
-            <script>
-                window.location.href = "AdCategory.php";
-            </script>
-            <?php
+            setcookie('error', 'Error in adding Sub Category', time() + 5, "/");
         }
     }
-    // if (isset($_POST['subCategory'])) {
-    //     $snm = $_POST['snm'];
-    //     $simg = uniqid() . $_FILES['simg']['name'];
-    //     $scid = $_POST['scat'];
-    
-    //     $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`) VALUES ('$snm','$scid','$simg')";
-    //     if (mysqli_query($con, $query)) {
-    //         if (!is_dir('db_img/subCat_img')) {
-    //             mkdir('db_img/subCat_img');
-    //         }
-    //         move_uploaded_file($_FILES['simg']['tmp_name'], 'db_img/subCat_img/' . $simg);
-    //         setcookie('success', 'Sub Category Added', time() + 5, "/");
-    //     } else {
-    //         setcookie('error', 'Error in adding Sub Category', time() + 5, "/");
-    //     }
-    // }
-    
+    // Update sub-cat
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
