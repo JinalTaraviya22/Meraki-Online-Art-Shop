@@ -21,10 +21,16 @@
         }
     </style>
     <?php
-    include('Header.php');
+    include 'Header.php';
     ?>
 </head>
 
+<?php 
+    
+     $query = "select * from product_tbl where P_Id=''";
+     $result = mysqli_query($con, $query);
+     $r = mysqli_fetch_assoc($result);
+?>
 <body class="bg-dark">
     <div class="container mt-5">
         <div class="row">
@@ -114,6 +120,7 @@
         </div>
     </div> -->
 
+    <!-- similar products area -->
     <div class="container mt-5 mb-5">
         <section class="featured" id="latest">
             <h2>Similar Products</h2>
@@ -147,7 +154,7 @@
 
     </div>
     <?php
-    include("Footer.php");
+    include "Footer.php";
     ?>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>

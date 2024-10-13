@@ -27,14 +27,10 @@
     }
   </style>
   <?php
-  include('Header.php');
+  include 'Header.php';
   ?>
 </head>
 
-<!-- <body style="background-image: url(img/bg3.png); 
-background-attachment:fixed;
-background-repeat: no-repeat; 
-background-size: cover;"> -->
 <body class="bg-dark">
   <div class="container mt-5 mb-5" style="padding:20px;">
     <!-- Similar Products Section -->
@@ -72,7 +68,7 @@ background-size: cover;"> -->
     </div>
   </div>
   <?php
-  include("Footer.php");
+  include "Footer.php";
   ?>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>

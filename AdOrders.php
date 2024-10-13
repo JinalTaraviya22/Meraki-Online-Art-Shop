@@ -13,6 +13,10 @@
     //     exit();
     // }
     include 'Header.php';
+    if (!isset($_SESSION['U_Admin'])) {
+        header("Location: Index.php");
+        exit();
+    }
     ?>
     <style>
         tr {
@@ -82,7 +86,7 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
     <?php
-    include('Footer.php');
+    include 'Footer.php';
     ?>
 </body>
 

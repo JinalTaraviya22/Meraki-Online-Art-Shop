@@ -13,6 +13,10 @@
     //     exit();
     // }
     include 'Header.php';
+    if (!isset($_SESSION['U_Admin'])) {
+        header("Location: Index.php");
+        exit();
+    }
     ?>
     <style>
         tr {
@@ -52,8 +56,8 @@
         <div class="container mt-5 mb-5" id="register" style="display:none">
             <div class="row">
                 <h2 style="text-align:center">Register</h2>
-                <div class="col-md-3"></div>
-                <div class="col-md-6 mt-3">
+                <!-- <div class="col-md-3"></div> -->
+                <div class="col-md-12 mt-3">
                     <form id="register" name="register" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -132,7 +136,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3"></div>
+                <!-- <div class="col-md-3"></div> -->
             </div>
         </div>
 
@@ -192,6 +196,7 @@
         $query = "select * from user_tbl where U_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
+        $p_status = $r['U_Status'];
         ?>
         <div class="container mt-5" id="user_profile">
             <div class="row">
@@ -204,9 +209,12 @@
                             class="img-fluid rounded">
                     </div>
                     <div class="buttons mt-3">
-                        <a href="wishlist.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100 mb-2">See Wishlist</button></a>
-                        <a href="cart.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100 mb-2">See Cart</button></a>
-                        <a href="orderhistory.php?<?php echo $r['U_Id'];?>"><button class="btn btn-dark w-100">Order History</button></a>
+                        <a href="wishlist.php?<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
+                                Wishlist</button></a>
+                        <a href="cart.php?<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100 mb-2">See
+                                Cart</button></a>
+                        <a href="orderhistory.php?<?php echo $r['U_Id']; ?>"><button class="btn btn-dark w-100">Order
+                                History</button></a>
                     </div>
                 </div>
 
@@ -327,6 +335,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Status :</label>
+                                    <select class="form-control" name="status">
+                                        <option <?php if ($p_status == 'Active')
+                                            echo 'selected'; ?> value="Active">Active
+                                        </option>
+                                        <option <?php if ($p_status == 'Inactive')
+                                            echo 'selected'; ?> value="Inactive">
+                                            Inactive</option>
+                                    </select>
+                                    <span id="StatusError"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Profile Image :</label>
                                     <input type="file" class="form-control" id="img" name="img">
                                     <span id="ImgError"></span>
@@ -346,6 +366,7 @@
                         <!-- change password -->
                         <form id="changePwd" method="post" enctype="multipart/form-data" style="display:none !important;">
                             <div class="row">
+                                <input type="hidden" name="cpemail" value="<?php echo $r['U_Email'] ?>">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Old Password :</label>
                                     <input type="text" class="form-control" id="oldPwd" name="oldPwd"
@@ -418,7 +439,175 @@
     <?php
     include 'Footer.php';
 
-    // register
+    // Add user
+    if (isset($_POST['register'])) {
+        $fnm = $_POST['Fnm'];
+        $lnm = $_POST['Lnm'];
+        $email = $_POST['Email'];
+        $phn = $_POST['Phn'];
+        $add = $_POST['Add'];
+        $city = $_POST['City'];
+        $state = $_POST['State'];
+        $zip = $_POST['Zip'];
+        $pwd = $_POST['Pwd'];
+        $img = uniqid() . $_FILES['Img']['name'];
+
+        $query = "INSERT INTO `user_tbl`(`U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`) VALUES ('$fnm','$lnm','$email','$phn','$add','$city','$state','$zip','$pwd','$img')";
+        echo $query;
+        if (mysqli_query($con, $query)) {
+            if (!is_dir("db_img/user_img")) {
+                mkdir("db_img/user_img");
+            }
+            move_uploaded_file($_FILES['Img']['tmp_name'], "db_img/user_img/" . $img);
+
+            // $mail = new PHPMailer(true);
+            // try {
+            //     $mail->isSMTP();
+            //     $mail->Host = 'smtp.gmail.com';
+            //     $mail->SMTPAuth = true;
+            //     $mail->Username = 'veloraa1920@gmail.com';
+            //     $mail->Password = 'rtep efdy gepi yrqj ';
+            //     $mail->SMTPSecure = 'tls';
+            //     $mail->Port = 587;
+
+            //     $mail->setFrom('veloraa1920@gmail.com', 'Veloraa');
+            //     $mail->addAddress($email, $fnm);
+
+            //     $mail->isHTML(true);
+            //     $mail->Subject = 'Email Verification';
+            //     $activation_link = "http://localhost/demo/verify_email.php?em=" . $email;
+            //     $mail->Body = "<html>
+            //     <head>
+            //         <style>
+            //             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            //             .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+            //             h1 { color: black; }
+            //             .button { display: inline-block; padding: 10px 20px; background-color: black; color: white; text-decoration: none; border-radius: 5px; }
+            //             .footer { margin-top: 20px; font-size: 0.8em; color: #777; }
+            //             a { text-decoration: none; color: white; }
+            //         </style>
+            //     </head>
+            //     <body>
+            //         <div class='container'>
+            //             <h1>Welcome, $fn!</h1>
+            //             <p>Thank you for registering. Please click the button below to activate your account:</p>
+            //             <p><a href='$activation_link' class='button'>Activate Your Account</a></p>
+            //             <p>If you didn't register on our website, please ignore this email.</p>
+            //             <div class='footer'>
+            //                 <p>This is an automated message, please do not reply to this email.</p>
+            //             </div>
+            //         </div>
+            //     </body>
+            //     </html>";
+
+            //     $mail->send();
+            // } catch (Exception $e) {
+            //     // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
+            //     setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
+            // }
+
+            // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
+            setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
+            ?>
+
+            <script>
+                window.location.href = "AdUsers.php";
+            </script>
+            <?php
+        } else {
+            // $_SESSION['error'] = "Error in Registration. Try again."
+            setcookie('error', 'Error in Registration. Try again.', time() + 5, "/");
+            ?>
+
+            <script>
+                window.location.href = "AdUsers.php";
+            </script>
+            <?php
+        }
+    }
+
+    // Update user info
+    if (isset($_POST['updatebtn'])) {
+        $fnm = $_POST['fnm'];
+        $lnm = $_POST['lnm'];
+        $uemail = $_POST['email'];
+        $phn = $_POST['phn'];
+        $add = $_POST['add'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
+        $zip = $_POST['zip'];
+        $status=$_POST['status'];
+
+        if ($_FILES['img']['name'] != "") {
+            $img = $_FILES['img']['name'];
+
+            $temp = $_FILES['img']['tmp_name'];
+            $img = uniqid() . $img;
+            move_uploaded_file($temp, "db_img/user_img/" . $img);
+        } else {
+            $img = $r['U_Profile'];
+        }
+
+        $update_query = "UPDATE `user_tbl` SET `U_Fnm`='$fnm',`U_Lnm`='$lnm',`U_Email`='$uemail',`U_Phn`='$phn',`U_Add`='$add',`U_City`='$city',`U_State`='$state',`U_Zip`='$zip',`U_Profile`='$img',`U_Status`='$status' WHERE U_Email='$uemail' ";
+        if (mysqli_query($con, $update_query)) {
+            if ($img != $r['U_Profile']) {
+                $old_profile_picture = $r['U_Profile'];
+                if (file_exists("db_img/user_img/" . $old_profile_picture)) {
+                    unlink("db_img/user_img/" . $old_profile_picture);
+                }
+            }
+            setcookie('success', "Profile updated successfully", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'AdUsers.php';
+            </script>";
+            <?php
+        } else {
+            setcookie('error', "Error in updating profie", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'AdUsers.php';
+            </script>
+            <?php
+        }
+    }
+    // Change password
+    if (isset($_POST['changepwdbtn'])) {
+        $oldPwd = $_POST['oldPwd'];
+        $newPwd = $_POST['newPwd'];
+        $email = $_POST['cpemail'];
+
+        $query = "select * from user_tbl where `U_Email`='$email'";
+        $result = mysqli_query($con, $query);
+        while ($r = mysqli_fetch_assoc($result)) {
+            if ($r['U_Pwd'] == $oldPwd) {
+                $q = "UPDATE user_tbl SET U_Pwd='$newPwd' WHERE U_Email='$email'";
+                if (mysqli_query($con, $q)) {
+                    setcookie('success', "Password changed successfully", time() + 5, "/");
+                    ?>
+                    <script>
+                        window.location.href = "AdUsers.php";
+                    </script>
+                    <?php
+                } else {
+                    setcookie('error', "Failed to change password", time() + 5, "/");
+                    ?>
+                    <script>
+                        window.location.href = "AdUsers.php";
+                    </script>
+                    <?php
+                }
+            } else {
+                setcookie('error', "Incorrect Old Password", time() + 5, "/");
+                ?>
+                <script>
+                    window.location.href = "Account.php";
+                </script>
+                <?php
+            }
+        }
+    }
+
     ?>
     <!-- <script>
         function updateForm() {

@@ -146,10 +146,10 @@ include 'conn.php';
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">User</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="Index.php">Home</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="Index.php#latest">Latest</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="categories.php">Categories</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="About.php">About Us</a></li>
+                                <li><a class="dropdown-item" href="Index.php">Home</a></li>
+                                    <li><a class="dropdown-item" href="Index.php#latest">Latest</a></li>
+                                    <li><a class="dropdown-item" href="Categories.php">Categories</a></li>
+                                    <li><a class="dropdown-item" href="About.php">About Us</a></li>
                                 </ul>
                             </li>
 
