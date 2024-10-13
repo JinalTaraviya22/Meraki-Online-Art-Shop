@@ -460,8 +460,7 @@
         $oimg2 = $_POST['Oldimg2'];
         // $img1 = uniqid() . $_FILES['uimg1']['name'];
         // $img2 = uniqid() . $_FILES['uimg2']['name'];
-    
-        // Handle image uploads
+
         if ($_FILES['uimg1']['name'] != "") {
             $img1 = uniqid() . $_FILES['uimg1']['name'];
             move_uploaded_file($_FILES['uimg1']['tmp_name'], "db_img/product_img/" . $img1);
@@ -478,8 +477,7 @@
 
         // Update query
         $query = "UPDATE `product_tbl` SET `P_Name`='$pnm',`P_Price`='$price',`P_Stock`='$stock',`P_Company_Name`='$cnm',`P_SC_Id`='$cat',`P_Desc`='$desc',`P_Img1`='$img1',`P_Img2`='$img2',`P_Status`='$status' WHERE `P_Id`=$id ";
-        echo $query;
-
+        
         if (mysqli_query($con, $query)) {
             if ($_FILES['uimg1']['name'] != "") {
                 $old_image1 = $oimg1;

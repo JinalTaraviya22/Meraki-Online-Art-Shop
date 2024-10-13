@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Category</title>
+    <title>Sub Category</title>
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
@@ -51,7 +51,7 @@
 <body class="bg-dark">
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
-            <h2 class="col-md-4" style="color:white">Main Category</h2>
+            <h2 class="col-md-4" style="color:white">Sub Category</h2>
             <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
                     placeholder="Search here...">&nbsp;</div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
@@ -142,23 +142,25 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Image</th>
+                    <th>Main Category Name</th>
                     <th>View</th>
                     <th>Disable</th>
                 </tr>
                 <?php
-                $q = "Select * from category_tbl";
+                $q = "Select * from subcategory_tbl s join category_tbl c on s.C_Id=c.C_Id";
                 $result = mysqli_query($con, $q);
 
                 while ($r = mysqli_fetch_assoc($result)) {
                     ?>
                     <tr>
-                        <td><?php echo $r['C_Id'] ?></td>
+                        <td><?php echo $r['SC_Id'] ?></td>
+                        <td><?php echo $r['SC_Name'] ?></td>
+                        <td><img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"></td>
                         <td><?php echo $r['C_Name'] ?></td>
-                        <td><img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" height="100px" width="100px"></td>
                         <td>
-                            <form method="post" action="AdCategory.php#update_form"><a href="#update_form"><button
-                                        type="submit" class="btn btn-dark" value="<?php echo $r['C_Id'] ?>"
-                                        name="showCat" onclick="update(1)"><i class="fa fa-eye"></i></button></a>
+                            <form method="post" action="AdSubcategory.php#update_form"><a href="#update_form"><button
+                                        type="submit" class="btn btn-dark" value="<?php echo $r['SC_Id'] ?>" name="showCat"
+                                        onclick="update(1)"><i class="fa fa-eye"></i></button></a>
                             </form>
                             <!-- <a href="#update_form"><button onclick="update(1)" class="btn btn-dark"><i
                                         class="fa fa-eye"></i></button></a> -->
@@ -180,7 +182,7 @@
         //echo $_POST['showUsr'];
         $id = $_POST['showCat'];
 
-        $query = "select * from category_tbl where C_Id=$id";
+        $query = "select * from subcategory_tbl where SC_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
         ?>
@@ -189,8 +191,8 @@
                 <!-- Images Column -->
                 <div class="col-md-4">
                     <div class="product-image">
-                        <img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" height="100px" width="100px" alt="Product Image"
-                            class="img-fluid rounded">
+                        <img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"
+                            alt="Product Image" class="img-fluid rounded">
                     </div>
                 </div>
                 <!-- Right Column -->
@@ -199,18 +201,37 @@
                         <!-- update information -->
                         <form method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <input type="hidden" name="cid" value="<?php echo $r['C_Id'] ?>">
-                                <input type="hidden" name="oldimg" value="<?php echo $r['C_Img']?>">
+                                <input type="hidden" name="cid" value="<?php echo $r['SC_Id'] ?>">
+                                <input type="hidden" name="oldimg" value="<?php echo $r['SC_Img'] ?>">
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Category Name:</label>
                                     <input type="text" class="form-control" name="cnm" id="anm"
-                                        value="<?php echo $r['C_Name'] ?>">
+                                        value="<?php echo $r['SC_Name'] ?>">
                                     <span id="unm_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Category Image:</label>
                                     <input type="file" class="form-control" name="cimg" id="anm">
                                     <span id="unm_er" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Category:</label>
+                                    <select class="form-control" id="category" name="cat">
+                                        <?php
+                                        $q = "Select * from category_tbl";
+                                        $result = mysqli_query($con, $q);
+                                        while ($res = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <option value="<?php echo $res['C_Id']; ?>" <?php if ($r['C_Id'] == $res['C_Id'])
+                                                   echo 'selected'; ?>>
+                                                <?php echo $res['C_Name']; ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -332,7 +353,7 @@
         $cnm = $_POST['cnm'];
         $cimg = uniqid() . $_FILES['cimg']['name'];
 
-        $query = "INSERT INTO `category_tbl`(`C_Name`, `C_Img`) VALUES ('$cnm','$cimg')";
+        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `SC_Img`) VALUES ('$cnm','$cimg')";
         if (mysqli_query($con, $query)) {
             if (!is_dir('db_img/cat_img')) {
                 mkdir('db_img/cat_img');
@@ -376,36 +397,37 @@
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
+        $mcat=$_POST['cat'];
         $oimg = $_POST['oldimg'];
 
         if ($_FILES['cimg']['name'] != "") {
             $img = uniqid() . $_FILES['cimg']['name'];
-            move_uploaded_file($_FILES['cimg']['tmp_name'], "db_img/cat_img/" . $img);
+            move_uploaded_file($_FILES['cimg']['tmp_name'], "db_img/subcat_img/" . $img);
         } else {
             $img = $oimg;
         }
 
-        $query = "UPDATE `category_tbl` SET `C_Name`='$cnm',`C_Img`='$img' WHERE `C_Id`=$id";
+        $query = "UPDATE `subcategory_tbl` SET `SC_Name`='$cnm',`SC_Img`='$img',`C_Id`=$mcat WHERE `SC_Id`=$id";
         echo $query;
 
         if (mysqli_query($con, $query)) {
             if ($_FILES['cimg']['name'] != "") {
                 $old_image = $oimg;
-                if (file_exists("db_img/cat_img/" . $old_image)) {
-                    unlink("db_img/cat_img/" . $old_image);
+                if (file_exists("db_img/subcat_img/" . $old_image)) {
+                    unlink("db_img/subcat_img/" . $old_image);
                 }
             }
             setcookie('success', "Category updated successfully", time() + 5, "/");
             ?>
             <script>
-                window.location.href = 'AdCategory.php';
+                window.location.href = 'AdSubcategory.php';
             </script>
             <?php
         } else {
             setcookie('error', "Error in updating category", time() + 5, "/");
             ?>
             <script>
-                window.location.href = 'AdCategory.php';
+                window.location.href = 'AdSubcategory.php';
             </script>
             <?php
         }
