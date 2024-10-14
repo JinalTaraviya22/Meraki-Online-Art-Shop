@@ -52,9 +52,13 @@
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Main Category</h2>
-            <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
-                    placeholder="Search here...">&nbsp;</div>
+            <div class="col-md-3" style="text-align:right">
+                <!-- form for search -->
+                <form method="get"><input type="text" name="search" class="form-control"
+                    placeholder="Search here...">&nbsp;
+            </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
+            </form>
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -103,7 +107,15 @@
                     <th>Disable</th>
                 </tr>
                 <?php
-                $q = "Select * from category_tbl";
+                $search = isset($_GET['search']) ? $_GET['search'] : '';
+                // SQL query to include the search condition
+                $search_query = '';
+                if (!empty($search)) {
+                    $search_query = "WHERE C_Name LIKE '%$search%'";
+                }
+
+                // Adding search_query into SQL query
+                $q = "Select * from category_tbl $search_query";
                 $result = mysqli_query($con, $q);
 
                 while ($r = mysqli_fetch_assoc($result)) {
@@ -114,11 +126,9 @@
                         <td><img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" height="100px" width="100px"></td>
                         <td>
                             <form method="post" action="AdCategory.php#update_form"><a href="#update_form"><button
-                                        type="submit" class="btn btn-dark" value="<?php echo $r['C_Id'] ?>"
-                                        name="showCat" onclick="update(1)"><i class="fa fa-eye"></i></button></a>
+                                        type="submit" class="btn btn-dark" value="<?php echo $r['C_Id'] ?>" name="showCat"
+                                        onclick="update(1)"><i class="fa fa-eye"></i></button></a>
                             </form>
-                            <!-- <a href="#update_form"><button onclick="update(1)" class="btn btn-dark"><i
-                                        class="fa fa-eye"></i></button></a> -->
                         </td>
 
                         <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
@@ -157,7 +167,7 @@
                         <form method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="cid" value="<?php echo $r['C_Id'] ?>">
-                                <input type="hidden" name="oldimg" value="<?php echo $r['C_Img']?>">
+                                <input type="hidden" name="oldimg" value="<?php echo $r['C_Img'] ?>">
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Category Name:</label>
                                     <input type="text" class="form-control" name="cnm" id="anm"
@@ -312,7 +322,7 @@
             </script>
             <?php
         }
-    } 
+    }
     // Update cat
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
