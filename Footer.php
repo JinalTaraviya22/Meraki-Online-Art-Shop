@@ -110,24 +110,6 @@
 <footer class="row footer mb-5">
     <div class="row">
         <div class="footer-sections">
-            <!-- <div class="footer-section col-md-6">
-                <h4>Section</h4>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Categories</a></li>
-                    <li><a href="#">Login</a></li>
-                </ul>
-            </div> -->
-            <!-- <div class="footer-section newsletter col-md-6">
-                <h4>Subscribe to our newsletter</h4>
-                <p>Monthly digest of what's new and exciting from us.</p>
-                    <form>
-                        <input type="email" placeholder="Email address" required>
-                        <button type="submit">Subscribe</button>
-                    </form>
-            </div> -->
         </div>
     </div>
     <div class="footer-bottom">

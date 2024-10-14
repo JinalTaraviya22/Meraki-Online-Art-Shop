@@ -82,10 +82,10 @@ if (!isset($_SESSION['U_Admin'])) {
             </div>
             <form id="mainbanners" method="post" enctype="multipart/form-data" style="display: none !important;">
                 <div class="row">
-                    <div class="col-md-3">Banner 1:<input type="file" id="b1" name="b1" class="form-control"><span
-                            id="b1_er"></span></div>
-                    <div class="col-md-3">Banner 2:<input type="file" id="b2" name="b2" class="form-control"><span
-                            id="b2_er"></span></div>
+                    <div class="col-md-3">Banner 1:<input type="file" id="b1" name="b1" class="form-control">
+                    <span id="b1_er"></span></div>
+                    <div class="col-md-3">Banner 2:<input type="file" id="b2" name="b2" class="form-control">
+                    <span id="b2_er"></span></div>
                     <div class="col-md-3">Banner 3:<input type="file" id="b3" name="b3" class="form-control"><span
                             id="b3_er"></span></div></br>
                     <div class="col-md-3"><button type="submit" name="mainBannerImg" class="button-28">Change</button>
@@ -275,11 +275,21 @@ if (!isset($_SESSION['U_Admin'])) {
             }
             if (move_uploaded_file($_FILES['cimg']['tmp_name'], 'db_img/cat_img/' . $cimg)) {
                 setcookie('success', 'Category Added', time() + 5, "/");
+                ?>
+                <script>
+                    window.location.href = "admin.php";
+                </script>
+                <?php
             } else {
-                echo "File upload error: " . $_FILES['cimg']['error']; // Display error
+                echo "File upload error: " . $_FILES['cimg']['error'];
             }
         } else {
             setcookie('error', 'Error in adding Category', time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = "admin.php";
+            </script>
+            <?php
         }
     }
     if (isset($_POST['subCategory'])) {
@@ -302,7 +312,7 @@ if (!isset($_SESSION['U_Admin'])) {
         $img1 = isset($_FILES['b1']['name']) ? $_FILES['b1']['name'] : '';
         $img2 = isset($_FILES['b2']['name']) ? $_FILES['b2']['name'] : '';
         $img3 = isset($_FILES['b3']['name']) ? $_FILES['b3']['name'] : '';
-    
+
         // Get the current images from the database
         $query = "SELECT `Img_1`, `Img_2`, `Img_3` FROM `slider_tbl` WHERE Id=1";
         $result = mysqli_query($con, $query);
@@ -310,12 +320,12 @@ if (!isset($_SESSION['U_Admin'])) {
         $old_img1 = $row['Img_1'];
         $old_img2 = $row['Img_2'];
         $old_img3 = $row['Img_3'];
-    
+
         // Set the new image names
         $new_img1 = $img1 ? $img1 : $old_img1;
         $new_img2 = $img2 ? $img2 : $old_img2;
         $new_img3 = $img3 ? $img3 : $old_img3;
-    
+
         // Delete old images if new images are uploaded
         $dir = 'db_img/slider_img/';
         if ($img1 && file_exists($dir . $old_img1)) {
@@ -327,7 +337,7 @@ if (!isset($_SESSION['U_Admin'])) {
         if ($img3 && file_exists($dir . $old_img3)) {
             unlink($dir . $old_img3);
         }
-    
+
         // Update the database with new images
         $query = "UPDATE `slider_tbl` SET `Img_1`='$new_img1', `Img_2`='$new_img2', `Img_3`='$new_img3' WHERE Id=1";
         if (mysqli_query($con, $query)) {
@@ -344,8 +354,18 @@ if (!isset($_SESSION['U_Admin'])) {
                 move_uploaded_file($_FILES['b3']['tmp_name'], 'db_img/slider_img/' . $img3);
             }
             setcookie('success', 'Image Uploaded', time() + 5, "/");
+            ?>
+                <script>
+                    window.location.href = "admin.php";
+                </script>
+                <?php
         } else {
             setcookie('error', 'Error in uploading image', time() + 5, "/");
+            ?>
+                <script>
+                    window.location.href = "admin.php";
+                </script>
+                <?php
         }
     }
     ?>

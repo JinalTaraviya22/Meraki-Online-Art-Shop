@@ -30,7 +30,7 @@
       while ($r = mysqli_fetch_assoc($result)) {
         ?>
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 cat-block">
-          <a href="Products.php?Id=<?php $r['SC_Id']?>"><img src="db_img/subCat_img/<?php echo $r['SC_Img']; ?>" alt="Product Image" class="cat-image">
+          <a href="Products.php?Id=<?php echo $r['SC_Id']?>"><img src="db_img/subCat_img/<?php echo $r['SC_Img']; ?>" alt="Product Image" class="cat-image">
             <div class="overlay">
               <div class="text"><?php echo $r['SC_Name']?></div>
             </div>

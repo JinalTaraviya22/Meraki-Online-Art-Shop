@@ -132,7 +132,7 @@
         if (isset($_SESSION['forgot_email'])) {
             $email = $_SESSION['forgot_email'];
             $otp = $_POST['otptxt'];
-            echo $otp;
+            // echo $otp;
             // Fetch the OTP from the database for the given email
             $query = "SELECT Otp FROM password_token_tbl WHERE Email = '$email' ";
             $result = mysqli_query($con, $query);

@@ -25,21 +25,24 @@
     ?>
 </head>
 
-<?php 
-    
-     $query = "select * from product_tbl where P_Id=''";
-     $result = mysqli_query($con, $query);
-     $r = mysqli_fetch_assoc($result);
+<?php
+$id = $_GET['Id'];
+$query = "select * from product_tbl where P_Id=$id";
+$result = mysqli_query($con, $query);
+$r = mysqli_fetch_assoc($result);
+$sc_id = $r['P_SC_Id'];
 ?>
+
 <body class="bg-dark">
     <div class="container mt-5">
         <div class="row">
             <!-- Left Column -->
             <div class="col-md-4">
-                <h3 class="mb-5" style="color:white;">Himalaya Fine Arts</h3>
-                <p class="price" style="color:white;">Rs. 1,300</p>
+                <h3 class="mb-5" style="color:white;"><?php echo $r['P_Company_Name'] ?></h3>
+                <p class="price" style="color:white;">Rs. <?php echo $r['P_Price'] ?></p>
                 <div class="product-image">
-                    <img src="img/easeal1.png" alt="Product Image" class="img-fluid rounded">
+                    <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Product Image"
+                        class="img-fluid rounded">
                 </div>
                 <div class="quantity mt-3">
                     <label for="quantity">Quantity:</label>
@@ -51,7 +54,7 @@
                     </select>
                 </div>
                 <div class="col-md-8 mt-3">
-                    <a href="order.php"><button class="cirbutton">
+                    <a href="order.php?<?php echo $r['P_Id'] ?>"><button class="cirbutton">
                             <div class="icon-container">
                                 <i class="fa fa-shopping-bag" style="color:white;"></i>
                             </div><span>Buy Now</span>
@@ -70,13 +73,12 @@
             </div>
             <!-- Right Column -->
             <div class="col-md-8">
-                <h2 class="mb-5" style="color:white;">BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</h2>
+                <h2 class="mb-5" style="color:white;"><?php echo $r['P_Name'] ?></h2>
                 <div class="product-image-large">
-                    <img src="img/easeal2.png" alt="Large Product Image" class="img-fluid rounded">
+                    <img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" alt="Large Product Image"
+                        class="img-fluid rounded">
                     <div class="description-on-hover">
-                        <p>Himalaya Basic Easel is an economically priced studio easel provides excellent value for
-                            money for students and professionals. The sturdy tri-mast A-frame design is lightweight,
-                            portable, and durable. Collapses to flat & narrow for storage convenience.</p>
+                        <p><?php echo $r['P_Desc'] ?></p>
                         <div class="stars">
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
@@ -126,27 +128,35 @@
             <h2>Similar Products</h2>
             <div class="row mt-1">
                 <div class="art-grid">
+                    <?php
+                    $q = "Select * from product_tbl where P_SC_Id=$sc_id and P_Id!=$id";
+                    $result = mysqli_query($con, $q);
+                    while ($r = mysqli_fetch_assoc($result)) {
+                        ?>
                         <div class="art-item">
-                            <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                            <h3 class="mt-2">Product Name</h3>
-                            <p>Company Name</p>
-                            <p>Rs. 13,000</p>
-                            <a href="single_product.php"><button class="cirbutton">View</button></a>
+                            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Artwork 1" style="width:100%;">
+                            <h4 class="mt-2"><?php echo $r['P_Name'] ?></h4>
+                            <p><?php echo $r['P_Company_Name'] ?></p>
+                            <p>₹<?php echo $r['P_Price'] ?></p>
+                            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>"><button
+                                    class="cirbutton">View</button></a>
                         </div>
-                        <div class="art-item">
-                            <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                            <h3 class="mt-2">Product Name</h3>
-                            <p>Comapny Name</p>
-                            <p>$200</p>
-                            <a href="single_product.php"><button class="cirbutton">View</button></a>
-                        </div>
-                        <div class="art-item">
-                            <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                            <h3 class="mt-2">Product Name</h3>
-                            <p>Comapny Name</p>
-                            <p>$200</p>
-                            <a href="single_product.php"><button class="cirbutton">View</button></a>
-                        </div>
+                        <?php
+                    } ?>
+                    <!-- <div class="art-item">
+                        <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
+                        <h3 class="mt-2">Product Name</h3>
+                        <p>Comapny Name</p>
+                        <p>$200</p>
+                        <a href="single_product.php"><button class="cirbutton">View</button></a>
+                    </div>
+                    <div class="art-item">
+                        <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
+                        <h3 class="mt-2">Product Name</h3>
+                        <p>Comapny Name</p>
+                        <p>$200</p>
+                        <a href="single_product.php"><button class="cirbutton">View</button></a>
+                    </div> -->
                     <!-- Add more artworks as needed -->
                 </div>
             </div>
