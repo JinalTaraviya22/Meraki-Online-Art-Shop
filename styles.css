@@ -354,4 +354,33 @@ table {
   transform: translateY(0);
 }
 
-/* search css */
+/* pagination css */
+.pagination {
+  justify-content: center;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li a {
+  color: #fff;
+  background-color: #333;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination li a:hover {
+  background-color: #444;
+}
+
+.pagination li.active a {
+  background-color: #555;
+}
+
+.pagination li a i {
+  font-size: 18px;
+}

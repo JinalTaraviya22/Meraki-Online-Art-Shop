@@ -55,7 +55,7 @@
             <div class="col-md-3" style="text-align:right">
                 <!-- form for search -->
                 <form method="get"><input type="text" name="search" class="form-control"
-                    placeholder="Search here...">&nbsp;
+                        placeholder="Search here...">&nbsp;
             </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
             </form>
@@ -114,9 +114,28 @@
                     $search_query = "WHERE C_Name LIKE '%$search%'";
                 }
 
-                // Adding search_query into SQL query
-                $q = "Select * from category_tbl $search_query";
+
+                // Determine the total number of records
+                $q = "SELECT * FROM category_tbl $search_query";
                 $result = mysqli_query($con, $q);
+                $total_records = mysqli_num_rows($result);
+
+                // Set the number of records per page
+                $records_per_page = 2;
+
+                // Calculate the total number of pages
+                $total_pages = ceil($total_records / $records_per_page);
+
+                // Get the current page number
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                // Calculate the start record for the current page
+                $start_from = ($page - 1) * $records_per_page;
+
+                // Fetch the records for the current page
+                $q = "SELECT * FROM category_tbl $search_query LIMIT $start_from, $records_per_page";
+                $result = mysqli_query($con, $q);
+
 
                 while ($r = mysqli_fetch_assoc($result)) {
                     ?>
@@ -139,6 +158,21 @@
                 ?>
             </table>
         </div>
+        <nav>
+            <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link btn-dark' href='?page=" . ($page - 1) . "&search=" . $search . "'><i class='fa fa-chevron-left'></i></a></li>";
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
+                }
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'><i class='fa fa-chevron-right'></i></a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- update product form -->
