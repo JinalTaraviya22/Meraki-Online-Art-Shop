@@ -53,12 +53,13 @@
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Main Category</h2>
             <div class="col-md-3" style="text-align:right">
-                <!-- form for search -->
+                <!-- form for search Start -->
                 <form method="get"><input type="text" name="search" class="form-control"
                         placeholder="Search here...">&nbsp;
             </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
             </form>
+              <!-- form for search End -->
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -111,7 +112,7 @@
                 // SQL query to include the search condition
                 $search_query = '';
                 if (!empty($search)) {
-                    $search_query = "WHERE C_Name LIKE '%$search%'";
+                    $search_query = "WHERE C_Id LIKE '%$search%' OR C_Name LIKE '%$search%'";
                 }
 
 
@@ -158,6 +159,7 @@
                 ?>
             </table>
         </div>
+         <!--pagination Start  -->
         <nav>
             <ul class="pagination">
                 <?php
@@ -173,6 +175,7 @@
                 ?>
             </ul>
         </nav>
+         <!--pagination End  -->
     </div>
 
     <!-- update product form -->

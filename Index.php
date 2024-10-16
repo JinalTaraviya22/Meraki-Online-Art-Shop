@@ -69,19 +69,19 @@
         $r = mysqli_fetch_assoc($result);
         ?>
         <div class="carousel-item active">
-          <img src="db_img/slider_img/<?php echo $r['Img_1']?>" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_1'] ?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
             <!-- <h5>MERAKI</h5> -->
           </div>
         </div>
         <div class="carousel-item">
-          <img src="db_img/slider_img/<?php echo $r['Img_2']?>" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_2'] ?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
             <!-- <h5>MERAKI</h5> -->
           </div>
         </div>
         <div class="carousel-item">
-          <img src="db_img/slider_img/<?php echo $r['Img_3']?>" class="d-block w-100">
+          <img src="db_img/slider_img/<?php echo $r['Img_3'] ?>" class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
             <!-- <h5>MERAKI</h5> -->
           </div>
@@ -131,7 +131,7 @@
     <div class="row mt-1">
       <div class="col">
         <section class="featured" id="latest">
-          <h2>Featured Products</h2>
+          <h2>Bestsellers</h2>
           <div class="art-grid">
             <a href="single_product.php">
               <div class="art-item">
@@ -157,15 +157,16 @@
                 <p>$200</p>
               </div>
             </a>
-            <!-- Add more artworks as needed -->
+          <!-- Add more artworks as needed -->
           </div>
         </section>
       </div>
     </div>
-  </div>
+  </div> 
 
+  
   <!-- offers -->
-  <div class="container mt-5">
+  <div class="container mt-5 mb-5">
     <h5>Offers</h5>
     <div class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
