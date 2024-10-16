@@ -175,7 +175,7 @@
         </nav>
     </div>
 
-    <!-- update product form -->
+    <!-- update cat form -->
     <?php
     if (isset($_POST['showCat'])) {
         //echo $_POST['showUsr'];
@@ -184,6 +184,7 @@
         $query = "select * from category_tbl where C_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
+        $p_status=$r['C_Status'];
         ?>
         <div class="container mt-5" id="update_form">
             <div class="row">
@@ -211,6 +212,20 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Category Image:</label>
                                     <input type="file" class="form-control" name="cimg" id="anm">
+                                    <span id="unm_er" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="anm" class="form-label">Category Status:</label>
+                                    <select class="form-control" name="status">
+                                        <option <?php if ($p_status == 'Active')
+                                            echo 'selected'; ?> value="Active">Active
+                                        </option>
+                                        <option <?php if ($p_status == 'Inactive')
+                                            echo 'selected'; ?> value="Inactive">
+                                            Inactive</option>
+                                    </select>
                                     <span id="unm_er" class="text-danger"></span>
                                 </div>
                             </div>
@@ -361,6 +376,7 @@
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
+        $stat=$_POST['status'];
         $oimg = $_POST['oldimg'];
 
         if ($_FILES['cimg']['name'] != "") {
@@ -370,7 +386,7 @@
             $img = $oimg;
         }
 
-        $query = "UPDATE `category_tbl` SET `C_Name`='$cnm',`C_Img`='$img' WHERE `C_Id`=$id";
+        $query = "UPDATE `category_tbl` SET `C_Name`='$cnm',`C_Img`='$img',`C_Status`=$stat WHERE `C_Id`=$id";
         echo $query;
 
         if (mysqli_query($con, $query)) {
