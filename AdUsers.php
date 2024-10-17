@@ -208,6 +208,21 @@
                     ?>
                 </table>
             </div>
+            <nav>
+            <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link btn-dark' href='?page=" . ($page - 1) . "&search=" . $search . "'><i class='fa fa-chevron-left'></i></a></li>";
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
+                }
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'><i class='fa fa-chevron-right'></i></a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
         </div>
         <nav>
             <ul class="pagination">

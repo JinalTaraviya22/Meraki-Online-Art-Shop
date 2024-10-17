@@ -45,9 +45,14 @@
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Products</h2>
-            <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
-                    placeholder="Search here...">&nbsp;</div>
+            <div class="col-md-3" style="text-align:right">
+                <!-- form for search Start -->
+                <form method="get"><input type="text" name="search" class="form-control"
+                        placeholder="Search here...">&nbsp;
+            </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
+            </form>
+            <!-- form for search End -->
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -154,9 +159,37 @@
                     <th>Disable</th>
                 </tr>
                 <?php
-                $q = "Select * from product_tbl";
+                $search = isset($_GET['search']) ? $_GET['search'] : '';
+                // SQL query to include the search condition
+                $search_query = '';
+                if (!empty($search)) {
+                    $search_query = "WHERE P_Id LIKE '%$search%' OR P_Name LIKE '%$search%'OR P_Price LIKE '%$search%'OR P_Stock LIKE '%$search%'";
+                }
+
+
+                // Determine the total number of records
+                $q = "SELECT * FROM product_tbl $search_query";
+                $result = mysqli_query($con, $q);
+                $total_records = mysqli_num_rows($result);
+
+                // Set the number of records per page
+                $records_per_page = 2;
+
+                // Calculate the total number of pages
+                $total_pages = ceil($total_records / $records_per_page);
+
+                // Get the current page number
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                // Calculate the start record for the current page
+                $start_from = ($page - 1) * $records_per_page;
+
+                // Fetch the records for the current page
+                $q = "SELECT * FROM product_tbl $search_query LIMIT $start_from, $records_per_page";
                 $result = mysqli_query($con, $q);
 
+
+               
                 while ($r = mysqli_fetch_assoc($result)) {
                     ?>
                     <tr>
@@ -184,6 +217,21 @@
                 ?>
             </table>
         </div>
+        <nav>
+            <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link btn-dark' href='?page=" . ($page - 1) . "&search=" . $search . "'><i class='fa fa-chevron-left'></i></a></li>";
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
+                }
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'><i class='fa fa-chevron-right'></i></a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- update product form -->
@@ -460,7 +508,7 @@
         $oimg2 = $_POST['Oldimg2'];
         // $img1 = uniqid() . $_FILES['uimg1']['name'];
         // $img2 = uniqid() . $_FILES['uimg2']['name'];
-
+    
         if ($_FILES['uimg1']['name'] != "") {
             $img1 = uniqid() . $_FILES['uimg1']['name'];
             move_uploaded_file($_FILES['uimg1']['tmp_name'], "db_img/product_img/" . $img1);
@@ -477,7 +525,7 @@
 
         // Update query
         $query = "UPDATE `product_tbl` SET `P_Name`='$pnm',`P_Price`='$price',`P_Stock`='$stock',`P_Company_Name`='$cnm',`P_SC_Id`='$cat',`P_Desc`='$desc',`P_Img1`='$img1',`P_Img2`='$img2',`P_Status`='$status' WHERE `P_Id`=$id ";
-        
+
         if (mysqli_query($con, $query)) {
             if ($_FILES['uimg1']['name'] != "") {
                 $old_image1 = $oimg1;

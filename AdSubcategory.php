@@ -52,9 +52,13 @@
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Sub Category</h2>
-            <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
-                    placeholder="Search here...">&nbsp;</div>
+            <div class="col-md-3" style="text-align:right"><!-- form for search Start -->
+                <form method="get"><input type="text" name="search" class="form-control"
+                        placeholder="Search here...">&nbsp;
+            </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
+            </form>
+              <!-- form for search End -->
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -120,33 +124,76 @@
                     <th>Disable</th>
                 </tr>
                 <?php
-                $q = "Select * from subcategory_tbl s join category_tbl c on s.C_Id=c.C_Id";
-                $result = mysqli_query($con, $q);
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    // SQL query to include the search condition
+    $search_query = '';
+    if (!empty($search)) {
+        $search_query = "WHERE SC_Id LIKE '%$search%' OR SC_Name LIKE '%$search%'";
+    }
 
-                while ($r = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <tr>
-                        <td><?php echo $r['SC_Id'] ?></td>
-                        <td><?php echo $r['SC_Name'] ?></td>
-                        <td><img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"></td>
-                        <td><?php echo $r['C_Name'] ?></td>
-                        <td>
-                            <form method="post" action="AdSubcategory.php#update_form"><a href="#update_form"><button
-                                        type="submit" class="btn btn-dark" value="<?php echo $r['SC_Id'] ?>" name="showCat"
-                                        onclick="update(1)"><i class="fa fa-eye"></i></button></a>
-                            </form>
-                            <!-- <a href="#update_form"><button onclick="update(1)" class="btn btn-dark"><i
-                                        class="fa fa-eye"></i></button></a> -->
-                        </td>
+    // Determine the total number of records
+    $q = "SELECT * FROM subcategory_tbl $search_query";
+    $result = mysqli_query($con, $q);
+    $total_records = mysqli_num_rows($result);
 
-                        <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
-                                    class="fa fa-times"></i></button></td>
-                    </tr>
-                    <?php
-                }
-                ?>
+    // Set the number of records per page
+    $records_per_page = 2;
+
+    // Calculate the total number of pages
+    $total_pages = ceil($total_records / $records_per_page);
+
+    // Get the current page number
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    // Calculate the start record for the current page
+    $start_from = ($page - 1) * $records_per_page;
+
+    // Modified query with JOIN to include C_Name from category_tbl
+    $q = "SELECT s.*, c.C_Name FROM subcategory_tbl s JOIN category_tbl c ON s.C_Id = c.C_Id  
+          $search_query LIMIT $start_from, $records_per_page";
+    $result = mysqli_query($con, $q);
+
+    while ($r = mysqli_fetch_assoc($result)) {
+?>
+        <tr>
+            <td><?php echo $r['SC_Id'] ?></td>
+            <td><?php echo $r['SC_Name'] ?></td>
+            <td><img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"></td>
+            <td><?php echo $r['C_Name'] ?></td>
+            <td>
+                <form method="post" action="AdSubcategory.php#update_form">
+                    <a href="#update_form">
+                        <button type="submit" class="btn btn-dark" value="<?php echo $r['SC_Id'] ?>" name="showCat" onclick="update(1)">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </a>
+                </form>
+            </td>
+            <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
+            class="fa fa-times"></i></button></td>
+        </tr>
+<?php
+    }
+?>
+
+            
             </table>
         </div>
+        <nav>
+            <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link btn-dark' href='?page=" . ($page - 1) . "&search=" . $search . "'><i class='fa fa-chevron-left'></i></a></li>";
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
+                }
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'><i class='fa fa-chevron-right'></i></a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- update sub category form -->
