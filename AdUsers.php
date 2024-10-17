@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
-    // if (!isset($_SESSION['U_Admin'])) {
-    //     header("Location: Index.php");
-    //     exit();
-    // }
     include 'Header.php';
     if (!isset($_SESSION['U_Admin'])) {
         header("Location: Index.php");
@@ -20,22 +16,23 @@
     ?>
     <style>
         tr {
-            border: 1px solid black;
+            border: 1px black solid;
             text-align: center;
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding-left: 10px;
-            padding-right: 10px;
         }
 
         table {
             width: 100%;
-            /* Make the table take full width */
-            border-collapse: collapse;
-            /* Optional: Remove the gaps between borders */
+        }
+
+        th,
+        td {
+            width: 100%;
+            border: 1px black solid;
+            padding: 10px;
+        }
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 10%;
         }
     </style>
 </head>
@@ -44,9 +41,13 @@
     <div class="container mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Users</h2>
-            <div class="col-md-3" style="text-align:right"><input type="text" class="form-control"
-                    placeholder="Search here...">&nbsp;</div>
+            <div class="col-md-3" style="text-align:right">
+                <!-- form for search -->
+                <form method="get"><input type="text" name="search" class="form-control"
+                        placeholder="Search here...">&nbsp;
+            </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
+            </form>
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -147,7 +148,6 @@
                         <th style="width:50px">Id</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Phone</th>
                         <th>Password</th>
                         <th>City State</th>
                         <th>Status</th>
@@ -156,7 +156,32 @@
                         <th>Remove</th>
                     </tr>
                     <?php
-                    $q = "Select * from user_tbl";
+                    $search = isset($_GET['search']) ? $_GET['search'] : '';
+                    // SQL query to include the search condition
+                    $search_query = '';
+                    if (!empty($search)) {
+                        $search_query = "WHERE U_Fnm LIKE '%$search%'";
+                    }
+
+
+                    // Determine the total number of records
+                    $q = "SELECT * FROM user_tbl $search_query";
+                    $result = mysqli_query($con, $q);
+                    $total_records = mysqli_num_rows($result);
+
+                    // Set the number of records per page
+                    $records_per_page = 2;
+
+                    // Calculate the total number of pages
+                    $total_pages = ceil($total_records / $records_per_page);
+
+                    // Get the current page number
+                    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                    // Calculate the start record for the current page
+                    $start_from = ($page - 1) * $records_per_page;
+
+                    $q = "Select * from user_tbl $search_query LIMIT $start_from, $records_per_page";
                     $result = mysqli_query($con, $q);
 
                     while ($r = mysqli_fetch_assoc($result)) {
@@ -165,7 +190,6 @@
                             <td><?php echo $r['U_Id']; ?></td>
                             <td><?php echo $r['U_Fnm'] . " " . $r['U_Lnm']; ?></td>
                             <td><?php echo $r['U_Email']; ?></td>
-                            <td><?php echo $r['U_Phn']; ?></td>
                             <td><?php echo $r['U_Pwd']; ?></td>
                             <td><?php echo $r['U_City'] . ", " . $r['U_State']; ?></td>
                             <td><?php echo $r['U_Status']; ?></td>
@@ -185,6 +209,21 @@
                 </table>
             </div>
         </div>
+        <nav>
+            <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                    echo "<li class='page-item'><a class='page-link btn-dark' href='?page=" . ($page - 1) . "&search=" . $search . "'><i class='fa fa-chevron-left'></i></a></li>";
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='page-item " . ($i == $page ? 'active' : '') . "'><a class='page-link' href='?page=" . $i . "&search=" . $search . "'>" . $i . "</a></li>";
+                }
+                if ($page < $total_pages) {
+                    echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&search=" . $search . "'><i class='fa fa-chevron-right'></i></a></li>";
+                }
+                ?>
+            </ul>
+        </nav>
     </div>
 
     <!-- single user profile -->
@@ -469,10 +508,10 @@
             //     $mail->Password = 'rtep efdy gepi yrqj ';
             //     $mail->SMTPSecure = 'tls';
             //     $mail->Port = 587;
-
+    
             //     $mail->setFrom('veloraa1920@gmail.com', 'Veloraa');
             //     $mail->addAddress($email, $fnm);
-
+    
             //     $mail->isHTML(true);
             //     $mail->Subject = 'Email Verification';
             //     $activation_link = "http://localhost/demo/verify_email.php?em=" . $email;
@@ -499,13 +538,13 @@
             //         </div>
             //     </body>
             //     </html>";
-
+    
             //     $mail->send();
             // } catch (Exception $e) {
             //     // $_SESSION['error'] = "Error in sending email: ". $mail->ErrorInfo;
             //     setcookie('error', "Error in sending email: " . $mail->ErrorInfo, time() + 5);
             // }
-
+    
             // $_SESSION['success'] = "Registration Successfull. VErify your Email using verification link sent to registered Email Address";
             setcookie('success', 'Registration Successfull. Verify your Email using verification link sent to registered Email Address', time() + 5, "/");
             ?>
@@ -536,7 +575,7 @@
         $city = $_POST['city'];
         $state = $_POST['state'];
         $zip = $_POST['zip'];
-        $status=$_POST['status'];
+        $status = $_POST['status'];
 
         if ($_FILES['img']['name'] != "") {
             $img = $_FILES['img']['name'];

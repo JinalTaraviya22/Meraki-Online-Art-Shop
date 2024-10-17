@@ -114,7 +114,7 @@
                     $search_query = "WHERE C_Name LIKE '%$search%'";
                 }
 
-
+            
                 // Determine the total number of records
                 $q = "SELECT * FROM category_tbl $search_query";
                 $result = mysqli_query($con, $q);

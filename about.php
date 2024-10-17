@@ -10,15 +10,8 @@
   <link rel="stylesheet" href="styles.css">
   <script src="validation.js"></script>
   <?php
-  include('Header.php');
+  include 'Header.php';
   ?>
-  <style>
-    /* .container {
-      background-color: rgba(165, 165, 165, 0.7);
-      border-radius: 50px;
-      padding: 50px;
-    } */
-  </style>
 </head>
 
 
@@ -62,61 +55,36 @@
       </div>
     </div>
   </div>
-  </div>
-  </div>
-
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
+  
   <div class="container mt-5 mb-5">
     <!-- Add a Review Section -->
     <div class="row mt-5">
       <h2>Contact Us</h2><br /><br />
       <div class="col">
-        <form onsubmit="return(conForm())">
+        <form method="post" id="contactForm">
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">First Name :</label>
-              <input type="text" class="form-control" id="fname" placeholder="Enter First Name">
+              <label for="name" class="form-label">Name :</label>
+              <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
               <span id="FnmError"></span>
             </div>
             <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">Last Name :</label>
-              <input type="text" class="form-control" id="lname" placeholder="Enter Last Name">
-              <span id="LnmError"></span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
               <label for="name" class="form-label">Email :</label>
-              <input type="text" class="form-control" id="email" placeholder="Enter Email">
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
               <span id="EmailError"></span>
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">Phone No. :</label>
-              <input type="text" class="form-control" id="phn" placeholder="Enter Mobile No.">
-              <span id="PhnError"></span>
-            </div>
           </div>
           <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">Address :</label>
-              <textarea class="form-control" id="add" placeholder="Enter your full address"></textarea>
-              <span id="AddError"></span>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="name" class="form-label">City :</label>
-              <input type="text" class="form-control" id="city" placeholder="Enter City">
-              <span id="CityError"></span>
+            <div class="col-md-12 mb-3">
+              <label for="name" class="form-label">Message :</label>
+              <textarea name="msg" id="msg" class="form-control" placeholder="Enter your queries here..."></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-md-11 mb-3">
             </div>
             <div class="col-md-1 mb-3" style="align-content: end;">
-              <button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></input>
+              <button type="submit" name="contactSub" class="btn btn-dark"><i class="fa fa-arrow-right"></i></input>
             </div>
           </div>
         </form>
@@ -157,7 +125,21 @@
   </script>
  
   <?php
-  include('Footer.php');
+  include 'Footer.php';
+
+  if(isset($_POST['contactSub'])){
+    $name=$_POST['fname'];
+    $email=$_POST['email'];
+    $msg=$_POST['msg'];
+
+    $query="insert into contact_tbl (Co_Name,Co_Email,Co_Msg,Co_Reply) values ('$name','$email','$msg','')";
+    if(mysqli_query($con,$query)){
+      setcookie('success','Query sent successfully.',time() + 5,"/");
+    }else{
+      setcookie( 'error','Error in sending query.',time() + 5,"/");
+    }
+
+  }
   ?>
 </body>
 
