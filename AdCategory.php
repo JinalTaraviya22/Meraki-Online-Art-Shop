@@ -59,7 +59,7 @@
             </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
             </form>
-              <!-- form for search End -->
+            <!-- form for search End -->
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -105,35 +105,26 @@
                     <th>Name</th>
                     <th>Image</th>
                     <th>View</th>
-                    <th>Disable</th>
+                    <th>Status</th>
                 </tr>
                 <?php
                 $search = isset($_GET['search']) ? $_GET['search'] : '';
-                // SQL query to include the search condition
                 $search_query = '';
                 if (!empty($search)) {
-                    $search_query = "WHERE C_Id LIKE '%$search%' OR C_Name LIKE '%$search%'";
+                    $search_query = "WHERE C_Id LIKE '%$search%' OR C_Name LIKE '%$search%' OR C_Status LIKE '$search'";
                 }
-
-            
-                // Determine the total number of records
                 $q = "SELECT * FROM category_tbl $search_query";
                 $result = mysqli_query($con, $q);
                 $total_records = mysqli_num_rows($result);
 
-                // Set the number of records per page
                 $records_per_page = 2;
 
-                // Calculate the total number of pages
                 $total_pages = ceil($total_records / $records_per_page);
 
-                // Get the current page number
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-                // Calculate the start record for the current page
                 $start_from = ($page - 1) * $records_per_page;
 
-                // Fetch the records for the current page
                 $q = "SELECT * FROM category_tbl $search_query LIMIT $start_from, $records_per_page";
                 $result = mysqli_query($con, $q);
 
@@ -151,15 +142,16 @@
                             </form>
                         </td>
 
-                        <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
-                                    class="fa fa-times"></i></button></td>
+                        <td><button type="submit" name="changeStatus"
+                                class="btn btn-dark"><?php echo $r['C_Status'] == 'Active' ? 'Activated' : 'Deactivated'; ?></button>
+                        </td>
                     </tr>
                     <?php
                 }
                 ?>
             </table>
         </div>
-         <!--pagination Start  -->
+        <!--pagination Start  -->
         <nav>
             <ul class="pagination">
                 <?php
@@ -175,7 +167,7 @@
                 ?>
             </ul>
         </nav>
-         <!--pagination End  -->
+        <!--pagination End  -->
     </div>
 
     <!-- update cat form -->
@@ -187,7 +179,7 @@
         $query = "select * from category_tbl where C_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
-        $p_status=$r['C_Status'];
+        $p_status = $r['C_Status'];
         ?>
         <div class="container mt-5" id="update_form">
             <div class="row">
@@ -225,11 +217,10 @@
                                         <option <?php if ($p_status == 'Active')
                                             echo 'selected'; ?> value="Active">Active
                                         </option>
-                                        <option <?php if ($p_status == 'Inactive')
-                                            echo 'selected'; ?> value="Inactive">
-                                            Inactive</option>
+                                        <option <?php if ($p_status == 'Deactivate')
+                                            echo 'selected'; ?> value="Deactivate">
+                                            Deactivate</option>
                                     </select>
-                                    <span id="unm_er" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -351,7 +342,7 @@
         $cnm = $_POST['cnm'];
         $cimg = uniqid() . $_FILES['cimg']['name'];
 
-        $query = "INSERT INTO `category_tbl`(`C_Name`, `C_Img`) VALUES ('$cnm','$cimg')";
+        $query = "INSERT INTO `category_tbl`(`C_Name`, `C_Img`,`C_Status`) VALUES ('$cnm','$cimg','Active')";
         if (mysqli_query($con, $query)) {
             if (!is_dir('db_img/cat_img')) {
                 mkdir('db_img/cat_img');
@@ -379,7 +370,7 @@
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
-        $stat=$_POST['status'];
+        $stat = $_POST['status'];
         $oimg = $_POST['oldimg'];
 
         if ($_FILES['cimg']['name'] != "") {
@@ -389,7 +380,7 @@
             $img = $oimg;
         }
 
-        $query = "UPDATE `category_tbl` SET `C_Name`='$cnm',`C_Img`='$img',`C_Status`=$stat WHERE `C_Id`=$id";
+        $query = "UPDATE `category_tbl` SET `C_Name`='$cnm',`C_Img`='$img',`C_Status`='$stat' WHERE `C_Id`=$id";
         echo $query;
 
         if (mysqli_query($con, $query)) {

@@ -1,12 +1,3 @@
-<?php
-//error_reporting(0);
-//session_start();
-include 'Header.php';
-if (!isset($_SESSION['U_Admin'])) {
-    header("Location: Index.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +7,13 @@ if (!isset($_SESSION['U_Admin'])) {
     <title>Admin</title>
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
+    <?php
+    include 'Header.php';
+    if (!isset($_SESSION['U_Admin'])) {
+        header("Location: Index.php");
+        exit();
+    }
+    ?>
     <style>
         /* large divice */
         @media (min-width: 992px) {
@@ -83,9 +81,11 @@ if (!isset($_SESSION['U_Admin'])) {
             <form id="mainbanners" method="post" enctype="multipart/form-data" style="display: none !important;">
                 <div class="row">
                     <div class="col-md-3">Banner 1:<input type="file" id="b1" name="b1" class="form-control">
-                    <span id="b1_er"></span></div>
+                        <span id="b1_er"></span>
+                    </div>
                     <div class="col-md-3">Banner 2:<input type="file" id="b2" name="b2" class="form-control">
-                    <span id="b2_er"></span></div>
+                        <span id="b2_er"></span>
+                    </div>
                     <div class="col-md-3">Banner 3:<input type="file" id="b3" name="b3" class="form-control"><span
                             id="b3_er"></span></div></br>
                     <div class="col-md-3"><button type="submit" name="mainBannerImg" class="button-28">Change</button>
@@ -268,7 +268,7 @@ if (!isset($_SESSION['U_Admin'])) {
         $cnm = $_POST['cnm'];
         $cimg = uniqid() . $_FILES['cimg']['name'];
 
-        $query = "INSERT INTO `category_tbl`(`C_Name`, `C_Img`) VALUES ('$cnm','$cimg')";
+        $query = "INSERT INTO `category_tbl`(`C_Name`, `C_Img`,`C_Status`) VALUES ('$cnm','$cimg','Active')";
         if (mysqli_query($con, $query)) {
             if (!is_dir('db_img/cat_img')) {
                 mkdir('db_img/cat_img');
@@ -297,7 +297,7 @@ if (!isset($_SESSION['U_Admin'])) {
         $simg = uniqid() . $_FILES['simg']['name'];
         $scid = $_POST['scat'];
 
-        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`) VALUES ('$snm','$scid','$simg')";
+        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`,`SC_Status`) VALUES ('$snm','$scid','$simg','Active')";
         if (mysqli_query($con, $query)) {
             if (!is_dir('db_img/subCat_img')) {
                 mkdir('db_img/subCat_img');
@@ -355,17 +355,17 @@ if (!isset($_SESSION['U_Admin'])) {
             }
             setcookie('success', 'Image Uploaded', time() + 5, "/");
             ?>
-                <script>
-                    window.location.href = "admin.php";
-                </script>
-                <?php
+            <script>
+                window.location.href = "admin.php";
+            </script>
+            <?php
         } else {
             setcookie('error', 'Error in uploading image', time() + 5, "/");
             ?>
-                <script>
-                    window.location.href = "admin.php";
-                </script>
-                <?php
+            <script>
+                window.location.href = "admin.php";
+            </script>
+            <?php
         }
     }
     ?>

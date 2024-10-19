@@ -58,7 +58,7 @@
             </div>
             <div class="col-md-1"><button class="btn btn-dark"><i class="fa fa-search "></i></button></div>
             </form>
-              <!-- form for search End -->
+            <!-- form for search End -->
             <div class="col-md-3"></div>
             <div class="col-md-1" style="text-align:right"><button class="btn btn-dark" onclick="addForm(1)"><i
                         class="fa fa-plus"></i></button></div>
@@ -119,64 +119,66 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Image</th>
-                    <th>Main Category Name</th>
+                    <th>Main Category</th>
                     <th>View</th>
                     <th>Disable</th>
                 </tr>
                 <?php
-    $search = isset($_GET['search']) ? $_GET['search'] : '';
-    // SQL query to include the search condition
-    $search_query = '';
-    if (!empty($search)) {
-        $search_query = "WHERE SC_Id LIKE '%$search%' OR SC_Name LIKE '%$search%'";
-    }
+                $search = isset($_GET['search']) ? $_GET['search'] : '';
+                // SQL query to include the search condition
+                $search_query = '';
+                if (!empty($search)) {
+                    $search_query = "WHERE SC_Id LIKE '%$search%' OR SC_Name LIKE '%$search%' OR SC_Status LIKE '%$search%'";
+                }
 
-    // Determine the total number of records
-    $q = "SELECT * FROM subcategory_tbl $search_query";
-    $result = mysqli_query($con, $q);
-    $total_records = mysqli_num_rows($result);
+                // Determine the total number of records
+                $q = "SELECT * FROM subcategory_tbl $search_query";
+                $result = mysqli_query($con, $q);
+                $total_records = mysqli_num_rows($result);
 
-    // Set the number of records per page
-    $records_per_page = 2;
+                // Set the number of records per page
+                $records_per_page = 2;
 
-    // Calculate the total number of pages
-    $total_pages = ceil($total_records / $records_per_page);
+                // Calculate the total number of pages
+                $total_pages = ceil($total_records / $records_per_page);
 
-    // Get the current page number
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                // Get the current page number
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-    // Calculate the start record for the current page
-    $start_from = ($page - 1) * $records_per_page;
+                // Calculate the start record for the current page
+                $start_from = ($page - 1) * $records_per_page;
 
-    // Modified query with JOIN to include C_Name from category_tbl
-    $q = "SELECT s.*, c.C_Name FROM subcategory_tbl s JOIN category_tbl c ON s.C_Id = c.C_Id  
+                // Modified query with JOIN to include C_Name from category_tbl
+                $q = "SELECT s.*, c.C_Name FROM subcategory_tbl s JOIN category_tbl c ON s.C_Id = c.C_Id  
           $search_query LIMIT $start_from, $records_per_page";
-    $result = mysqli_query($con, $q);
+                $result = mysqli_query($con, $q);
 
-    while ($r = mysqli_fetch_assoc($result)) {
-?>
-        <tr>
-            <td><?php echo $r['SC_Id'] ?></td>
-            <td><?php echo $r['SC_Name'] ?></td>
-            <td><img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"></td>
-            <td><?php echo $r['C_Name'] ?></td>
-            <td>
-                <form method="post" action="AdSubcategory.php#update_form">
-                    <a href="#update_form">
-                        <button type="submit" class="btn btn-dark" value="<?php echo $r['SC_Id'] ?>" name="showCat" onclick="update(1)">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </a>
-                </form>
-            </td>
-            <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
-            class="fa fa-times"></i></button></td>
-        </tr>
-<?php
-    }
-?>
+                while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $r['SC_Id'] ?></td>
+                        <td><?php echo $r['SC_Name'] ?></td>
+                        <td><img src="db_img/subcat_img/<?php echo $r['SC_Img'] ?>" height="100px" width="100px"></td>
+                        <td><a href="AdCategory.php"><?php echo $r['C_Name'] ?></a></td>
+                        <td>
+                            <form method="post" action="AdSubcategory.php#update_form">
+                                <a href="#update_form">
+                                    <button type="submit" class="btn btn-dark" value="<?php echo $r['SC_Id'] ?>"
+                                        name="showCat" onclick="update(1)">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </a>
+                            </form>
+                        </td>
+                        <td><button type="submit"
+                                class="btn btn-dark"><?php echo $r['SC_Status'] == 'Active' ? 'Activated' : 'Deactivated'; ?></button>
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
 
-            
+
             </table>
         </div>
         <nav>
@@ -205,6 +207,7 @@
         $query = "select * from subcategory_tbl where SC_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
+        $status=$r['SC_Status'];
         ?>
         <div class="container mt-5" id="update_form">
             <div class="row">
@@ -236,6 +239,17 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Status:</label>
+                                    <select class="form-control" name="status">
+                                        <option <?php if ($status == 'Active')
+                                            echo 'selected'; ?> value="Active">Active
+                                        </option>
+                                        <option <?php if ($status == 'Deactivate')
+                                            echo 'selected'; ?> value="Deactivate">
+                                            Deactivate</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="category" class="form-label">Category:</label>
                                     <select class="form-control" id="category" name="cat">
@@ -373,8 +387,8 @@
         $snm = $_POST['snm'];
         $simg = uniqid() . $_FILES['simg']['name'];
         $scid = $_POST['scat'];
-    
-        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`) VALUES ('$snm','$scid','$simg')";
+
+        $query = "INSERT INTO `subcategory_tbl`(`SC_Name`, `C_Id`, `SC_Img`,`SC_Status`) VALUES ('$snm','$scid','$simg','Active')";
         if (mysqli_query($con, $query)) {
             if (!is_dir('db_img/subCat_img')) {
                 mkdir('db_img/subCat_img');
@@ -389,7 +403,8 @@
     if (isset($_POST['updateCat'])) {
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
-        $mcat=$_POST['cat'];
+        $mcat = $_POST['cat'];
+        $status=$_POST['status'];
         $oimg = $_POST['oldimg'];
 
         if ($_FILES['cimg']['name'] != "") {
@@ -399,7 +414,7 @@
             $img = $oimg;
         }
 
-        $query = "UPDATE `subcategory_tbl` SET `SC_Name`='$cnm',`SC_Img`='$img',`C_Id`=$mcat WHERE `SC_Id`=$id";
+        $query = "UPDATE `subcategory_tbl` SET `SC_Name`='$cnm',`C_Id`='$mcat',`SC_Img`='$img',`SC_Status`='$status' WHERE `SC_Id`=$id";
         echo $query;
 
         if (mysqli_query($con, $query)) {

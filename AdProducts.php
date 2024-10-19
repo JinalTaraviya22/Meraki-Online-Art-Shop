@@ -165,10 +165,8 @@
                 if (!empty($search)) {
                     $search_query = "WHERE P_Id LIKE '%$search%' OR P_Name LIKE '%$search%'OR P_Price LIKE '%$search%'OR P_Stock LIKE '%$search%'";
                 }
-
-
                 // Determine the total number of records
-                $q = "SELECT * FROM product_tbl $search_query";
+                $q = "SELECT p.*,s.SC_Name,c.C_Name FROM product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id $search_query";
                 $result = mysqli_query($con, $q);
                 $total_records = mysqli_num_rows($result);
 
@@ -185,7 +183,7 @@
                 $start_from = ($page - 1) * $records_per_page;
 
                 // Fetch the records for the current page
-                $q = "SELECT * FROM product_tbl $search_query LIMIT $start_from, $records_per_page";
+                $q = $q." LIMIT $start_from, $records_per_page";
                 $result = mysqli_query($con, $q);
 
 
@@ -197,7 +195,7 @@
                         <td><?php echo $r['P_Name'] ?></td>
                         <td><?php echo $r['P_Price'] ?></td>
                         <td><?php echo $r['P_Stock'] ?></td>
-                        <td>Easeal & Furniture</td>
+                        <td><a href="AdSubcategory.php"><?php echo $r['SC_Name']?></a></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
                         <td>
@@ -244,6 +242,7 @@
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
         $p_status = $r['P_Status'];
+        $default_subcat_id = $r['P_SC_Id'];
         ?>
         <div class="container mt-5" id="update_form">
             <div class="row">
