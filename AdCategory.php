@@ -136,14 +136,22 @@
                         <td><?php echo $r['C_Name'] ?></td>
                         <td><img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" height="100px" width="100px"></td>
                         <td>
-                            <form method="post" action="AdCategory.php#update_form"><a href="#update_form"><button
-                                        type="submit" class="btn btn-dark" value="<?php echo $r['C_Id'] ?>" name="showCat"
-                                        onclick="update(1)"><i class="fa fa-eye"></i></button></a>
+                            <form method="post" action="AdCategory.php#update_form">
+                                <a href="#update_form">
+                                    <button type="submit" class="btn btn-dark" value="<?php echo $r['C_Id'] ?>"
+                                        name="showCat" onclick="update(1)"><i class="fa fa-eye"></i></button>
+                                </a>
                             </form>
                         </td>
 
-                        <td><button type="submit" name="changeStatus"
-                                class="btn btn-dark"><?php echo $r['C_Status'] == 'Active' ? 'Activated' : 'Deactivated'; ?></button>
+                        <td>
+                            <form method="post" action="AdCategory.php">
+                                <input type="hidden" name="categoryId" value="<?php echo $r['C_Id']; ?>">
+                                <input type="hidden" name="currentStatus" value="<?php echo $r['C_Status']; ?>">
+                                <button type="submit" name="changeStatus" class="btn btn-dark">
+                                    <?php echo $r['C_Status'] == 'Active' ? 'Hide' : 'Show'; ?>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     <?php
@@ -404,6 +412,28 @@
             </script>
             <?php
         }
+    }
+    // status update from table
+    if (isset($_POST['changeStatus'])) {
+        $id = $_POST['categoryId'];
+        $currentStatus = $_POST['currentStatus'];
+
+        // Determine the new status
+        $newStatus = ($currentStatus == 'Active') ? 'Deactivate' : 'Active';
+
+        // Update the status in the database
+        $query = "UPDATE `category_tbl` SET `C_Status`='$newStatus' WHERE `C_Id`=$id";
+
+        if (mysqli_query($con, $query)) {
+            setcookie('success', "Status updated successfully", time() + 5, "/");
+        } else {
+            setcookie('error', "Error in updating status", time() + 5, "/");
+        }
+        ?>
+        <script>
+            window.location.href = 'AdCategory.php';
+        </script>
+        <?php
     }
     ?>
 </body>

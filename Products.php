@@ -73,7 +73,22 @@
 
         while ($r = mysqli_fetch_assoc($result)) {
           ?>
-          <div class="art-item">
+          <div class="card">
+            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
+              <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+                alt="<?php echo $r['P_Name']; ?>" />
+              <div class="card__overlay">
+                <div class="card__header">
+                  <div class="card__header-text">
+                    <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                    <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                  </div>
+                </div>
+                <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
+              </div>
+            </a>
+          </div>
+          <!-- <div class="art-item">
             <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Artwork 1" style="width:100%;">
             <b>
               <h5 class="mt-2"><?php echo $r['P_Name'] ?></h5>
@@ -82,7 +97,7 @@
             <p><?php echo $r['P_Company_Name'] ?></p>
             <p>Rs. <?php echo $r['P_Price'] ?></p>
             <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>"><button class="cirbutton">View</button></a>
-          </div>
+          </div> -->
           <?php
         }
         ?>

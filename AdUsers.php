@@ -30,6 +30,7 @@
             border: 1px black solid;
             padding: 10px;
         }
+
         th:nth-child(1),
         td:nth-child(1) {
             width: 10%;
@@ -153,16 +154,15 @@
                         <th>Status</th>
                         <th>Role</th>
                         <th>View</th>
-                        <th>Remove</th>
+                        <th>Status</th>
                     </tr>
                     <?php
                     $search = isset($_GET['search']) ? $_GET['search'] : '';
                     // SQL query to include the search condition
                     $search_query = '';
                     if (!empty($search)) {
-                        $search_query = "WHERE U_Fnm LIKE '%$search%'";
+                        $search_query = "WHERE U_Fnm LIKE '%$search%' OR U_Lnm LIKE '%$search%' OR U_Email LIKE '%$search%' OR U_Phn LIKE '%$search%' OR U_Add LIKE '%$search%' OR U_City LIKE '%$search%'OR U_State LIKE '%$search%' OR U_Zip LIKE '%$search%' OR U_Pwd LIKE '%$search%' OR U_Role LIKE '%$search%' OR U_Status LIKE '%$search%'";
                     }
-
 
                     // Determine the total number of records
                     $q = "SELECT * FROM user_tbl $search_query";
@@ -200,8 +200,15 @@
                                             name="showUsr" onclick="showUser(1)"><i class="fa fa-eye"></i></button></a>
                                 </form>
                             </td>
-                            <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434"><i
-                                        class="fa fa-times"></i></button></td>
+                            <td>
+                                <form method="post" action="AdUsers.php">
+                                    <input type="hidden" name="userId" value="<?php echo $r['U_Id']; ?>">
+                                    <input type="hidden" name="currentStatus" value="<?php echo $r['U_Status']; ?>">
+                                    <button type="submit" name="changeStatus" class="btn btn-dark">
+                                        <?php echo $r['U_Status'] == 'Active' ? 'Hide' : 'Show'; ?>
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         <?php
                     }
@@ -474,6 +481,49 @@
             }
         }
     </script>
+    <!-- <script>
+        function updateForm() {
+            event.preventDefault();
+            let validate = true;
+
+            // var id = document.getElementById('id');
+            // var id_er = document.getElementById('idError');
+            var fn = document.getElementById('fnm');
+            var fn_er = document.getElementById('FnmError');
+            var ln = document.getElementById('lnm');
+            var ln_er = document.getElementById('LnmError');
+            var email = document.getElementById('email');
+            var em_er = document.getElementById('EmailError');
+            var phn = document.getElementById('phn');
+            var phn_er = document.getElementById('PhnError');
+            var add = document.getElementById('add');
+            var add_er = document.getElementById('AddError');
+            var city = document.getElementById('city');
+            var city_er = document.getElementById('CityError');
+            var state = document.getElementById('state');
+            var state_er = document.getElementById('StateError');
+            var zip = document.getElementById('zip');
+            var zip_er = document.getElementById('ZipError');
+            var img = document.getElementById('img');
+            var img_er = document.getElementById('ImgError');
+            var pwd = document.getElementById('pwd');
+            var pwd_er = document.getElementById('pwdError');
+
+            // CommonValidate(id,id_er);
+            NameValidate(fn, fn_er);
+            NameValidate(ln, ln_er);
+            EmailValidate(email, em_er);
+            PhnValidate(phn, phn_er);
+            BigTextValidate(add, add_er);
+            NameValidate(city, city_er);
+            NameValidate(state, state_er);
+            ZipValidate(zip, zip_er);
+            ImgValidate(img, img_er);
+            PwdValidate(pwd, pwd_er);
+
+            return validate;
+        }
+    </script> -->
 
     <?php
     include 'Footer.php';
@@ -646,53 +696,29 @@
             }
         }
     }
+    // status update from table
+    if (isset($_POST['changeStatus'])) {
+        $id = $_POST['userId'];
+        $currentStatus = $_POST['currentStatus'];
 
-    ?>
-    <!-- <script>
-        function updateForm() {
-            event.preventDefault();
-            let validate = true;
+        // Determine the new status
+        $newStatus = ($currentStatus == 'Active') ? 'Deactivate' : 'Active';
 
-            // var id = document.getElementById('id');
-            // var id_er = document.getElementById('idError');
-            var fn = document.getElementById('fnm');
-            var fn_er = document.getElementById('FnmError');
-            var ln = document.getElementById('lnm');
-            var ln_er = document.getElementById('LnmError');
-            var email = document.getElementById('email');
-            var em_er = document.getElementById('EmailError');
-            var phn = document.getElementById('phn');
-            var phn_er = document.getElementById('PhnError');
-            var add = document.getElementById('add');
-            var add_er = document.getElementById('AddError');
-            var city = document.getElementById('city');
-            var city_er = document.getElementById('CityError');
-            var state = document.getElementById('state');
-            var state_er = document.getElementById('StateError');
-            var zip = document.getElementById('zip');
-            var zip_er = document.getElementById('ZipError');
-            var img = document.getElementById('img');
-            var img_er = document.getElementById('ImgError');
-            var pwd = document.getElementById('pwd');
-            var pwd_er = document.getElementById('pwdError');
+        // Update the status in the database
+        $query = "UPDATE `user_tbl` SET `U_Status`='$newStatus' WHERE `U_Id`=$id";
 
-            // CommonValidate(id,id_er);
-            NameValidate(fn, fn_er);
-            NameValidate(ln, ln_er);
-            EmailValidate(email, em_er);
-            PhnValidate(phn, phn_er);
-            BigTextValidate(add, add_er);
-            NameValidate(city, city_er);
-            NameValidate(state, state_er);
-            ZipValidate(zip, zip_er);
-            ImgValidate(img, img_er);
-            PwdValidate(pwd, pwd_er);
-
-            return validate;
+        if (mysqli_query($con, $query)) {
+            setcookie('success', "Status updated successfully", time() + 5, "/");
+        } else {
+            setcookie('error', "Error in updating status", time() + 5, "/");
         }
-
-
-    </script> -->
+        ?>
+        <script>
+            window.location.href = 'AdUsers.php';
+        </script>
+        <?php
+    }
+    ?>
 </body>
 
 </html>

@@ -27,10 +27,12 @@
 
 <?php
 $id = $_GET['Id'];
-$query = "select * from product_tbl where P_Id=$id";
+// $query = "select * from product_tbl where P_Id=$id";
+$query = "Select p.*,s.SC_Id,c.C_Id from product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id where p.P_Id=$id";
 $result = mysqli_query($con, $query);
 $r = mysqli_fetch_assoc($result);
 $sc_id = $r['P_SC_Id'];
+$c_id = $r['C_Id'];
 ?>
 
 <body class="bg-dark">
@@ -125,21 +127,29 @@ $sc_id = $r['P_SC_Id'];
     <!-- similar products area -->
     <div class="container mt-5 mb-5">
         <section class="featured" id="latest">
-            <h2>Similar Products</h2>
+            <h2>Featured Products</h2>
             <div class="row mt-1">
                 <div class="art-grid">
                     <?php
-                    $q = "Select * from product_tbl where P_SC_Id=$sc_id and P_Id!=$id";
+                    // $q = "Select * from product_tbl where P_SC_Id=$sc_id";
+                    $q = "Select p.*,s.SC_Id,c.C_Id from product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id where p.P_Id != $id AND (s.C_Id=$c_id OR p.P_SC_Id=$sc_id )";
                     $result = mysqli_query($con, $q);
                     while ($r = mysqli_fetch_assoc($result)) {
                         ?>
-                        <div class="art-item">
-                            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Artwork 1" style="width:100%;">
-                            <h4 class="mt-2"><?php echo $r['P_Name'] ?></h4>
-                            <p><?php echo $r['P_Company_Name'] ?></p>
-                            <p>₹<?php echo $r['P_Price'] ?></p>
-                            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>"><button
-                                    class="cirbutton">View</button></a>
+                        <div class="card">
+                            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
+                                <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+                                    alt="<?php echo $r['P_Name']; ?>" />
+                                <div class="card__overlay">
+                                    <div class="card__header">
+                                        <div class="card__header-text">
+                                            <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                                            <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                                        </div>
+                                    </div>
+                                    <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
+                                </div>
+                            </a>
                         </div>
                         <?php
                     } ?>

@@ -156,14 +156,14 @@
                     <th>Image 1</th>
                     <th>Image 2</th>
                     <th>View</th>
-                    <th>Disable</th>
+                    <th>Status</th>
                 </tr>
                 <?php
                 $search = isset($_GET['search']) ? $_GET['search'] : '';
                 // SQL query to include the search condition
                 $search_query = '';
                 if (!empty($search)) {
-                    $search_query = "WHERE P_Id LIKE '%$search%' OR P_Name LIKE '%$search%'OR P_Price LIKE '%$search%'OR P_Stock LIKE '%$search%'";
+                    $search_query = "WHERE P_Id LIKE '%$search%' OR P_Name LIKE '%$search%'OR P_Price LIKE '%$search%'OR P_Stock LIKE '%$search%' OR P_Status LIKE '%$search%'";
                 }
                 // Determine the total number of records
                 $q = "SELECT p.*,s.SC_Name,c.C_Name FROM product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id $search_query";
@@ -183,11 +183,11 @@
                 $start_from = ($page - 1) * $records_per_page;
 
                 // Fetch the records for the current page
-                $q = $q." LIMIT $start_from, $records_per_page";
+                $q = $q . " LIMIT $start_from, $records_per_page";
                 $result = mysqli_query($con, $q);
 
 
-               
+
                 while ($r = mysqli_fetch_assoc($result)) {
                     ?>
                     <tr>
@@ -195,7 +195,7 @@
                         <td><?php echo $r['P_Name'] ?></td>
                         <td><?php echo $r['P_Price'] ?></td>
                         <td><?php echo $r['P_Stock'] ?></td>
-                        <td><a href="AdSubcategory.php"><?php echo $r['SC_Name']?></a></td>
+                        <td><a href="AdSubcategory.php"><?php echo $r['SC_Name'] ?></a></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
                         <td>
@@ -207,8 +207,15 @@
                                         class="fa fa-eye"></i></button></a> -->
                         </td>
 
-                        <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
-                                    class="fa fa-times"></i></button></td>
+                        <td>
+                            <form method="post" action="AdProducts.php">
+                                <input type="hidden" name="productId" value="<?php echo $r['P_Id']; ?>">
+                                <input type="hidden" name="currentStatus" value="<?php echo $r['P_Status']; ?>">
+                                <button type="submit" name="changeStatus" class="btn btn-dark">
+                                    <?php echo $r['P_Status'] == 'Active' ? 'Hide' : 'Show'; ?>
+                                </button>
+                            </form></button>
+                        </td>
                     </tr>
                     <?php
                 }
@@ -458,6 +465,7 @@
     <?php
     include 'Footer.php';
 
+    // add product
     if (isset($_POST['addProduct'])) {
         $pnm = $_POST['pnm'];
         $cnm = $_POST['cnm'];
@@ -493,6 +501,7 @@
             <?php
         }
     }
+    //update product
     if (isset($_POST['updateProduct'])) {
         $id = $_POST['uid'];
         $pnm = $_POST['upnm'];
@@ -552,6 +561,28 @@
             </script>
             <?php
         }
+    }
+    // status update from table
+    if (isset($_POST['changeStatus'])) {
+        $id = $_POST['productId'];
+        $currentStatus = $_POST['currentStatus'];
+
+        // Determine the new status
+        $newStatus = ($currentStatus == 'Active') ? 'Deactivate' : 'Active';
+
+        // Update the status in the database
+        $query = "UPDATE `product_tbl` SET `P_Status`='$newStatus' WHERE `P_Id`=$id";
+
+        if (mysqli_query($con, $query)) {
+            setcookie('success', "Status updated successfully", time() + 5, "/");
+        } else {
+            setcookie('error', "Error in updating status", time() + 5, "/");
+        }
+        ?>
+        <script>
+            window.location.href = 'AdProducts.php';
+        </script>
+        <?php
     }
     ?>
 </body>

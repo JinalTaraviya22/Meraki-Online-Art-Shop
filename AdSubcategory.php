@@ -121,7 +121,7 @@
                     <th>Image</th>
                     <th>Main Category</th>
                     <th>View</th>
-                    <th>Disable</th>
+                    <th>Status</th>
                 </tr>
                 <?php
                 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -170,8 +170,14 @@
                                 </a>
                             </form>
                         </td>
-                        <td><button type="submit"
-                                class="btn btn-dark"><?php echo $r['SC_Status'] == 'Active' ? 'Activated' : 'Deactivated'; ?></button>
+                        <td>
+                            <form method="post" action="AdSubcategory.php">
+                                <input type="hidden" name="categoryId" value="<?php echo $r['SC_Id']; ?>">
+                                <input type="hidden" name="currentStatus" value="<?php echo $r['SC_Status']; ?>">
+                                <button type="submit" name="changeStatus" class="btn btn-dark">
+                                    <?php echo $r['SC_Status'] == 'Active' ? 'Hide' : 'Show'; ?>
+                                </button>
+                            </form></button>
                         </td>
                     </tr>
                     <?php
@@ -207,7 +213,7 @@
         $query = "select * from subcategory_tbl where SC_Id=$id";
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
-        $status=$r['SC_Status'];
+        $status = $r['SC_Status'];
         ?>
         <div class="container mt-5" id="update_form">
             <div class="row">
@@ -404,7 +410,7 @@
         $id = $_POST['cid'];
         $cnm = $_POST['cnm'];
         $mcat = $_POST['cat'];
-        $status=$_POST['status'];
+        $status = $_POST['status'];
         $oimg = $_POST['oldimg'];
 
         if ($_FILES['cimg']['name'] != "") {
@@ -438,6 +444,28 @@
             </script>
             <?php
         }
+    }
+    // update status from table
+    if (isset($_POST['changeStatus'])) {
+        $id = $_POST['categoryId'];
+        $currentStatus = $_POST['currentStatus'];
+
+        // Determine the new status
+        $newStatus = ($currentStatus == 'Active') ? 'Deactivate' : 'Active';
+
+        // Update the status in the database
+        $query = "UPDATE `subcategory_tbl` SET `SC_Status`='$newStatus' WHERE `SC_Id`=$id";
+
+        if (mysqli_query($con, $query)) {
+            setcookie('success', "Status updated successfully", time() + 5, "/");
+        } else {
+            setcookie('error', "Error in updating status", time() + 5, "/");
+        }
+        ?>
+        <script>
+            window.location.href = 'AdSubcategory.php';
+        </script>
+        <?php
     }
     ?>
 </body>
