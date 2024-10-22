@@ -10,15 +10,13 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
-    include('Header.php');
+    include 'Header.php';
+    if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
+        header("Location: Login.php");
+        exit();
+    }
     ?>
-    <style>
-        /* .container {
-            background-color: rgba(165, 165, 165, 0.7);
-            border-radius: 50px;
-            padding: 50px;
-        } */
-    </style>
+    
 </head>
 
 

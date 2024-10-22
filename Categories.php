@@ -58,13 +58,23 @@
       while ($r = mysqli_fetch_assoc($result)) {
         ?>
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 cat-block">
-          <a href="subCategories.php?Id=<?php echo $r['C_Id']; ?>">
-            <img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" alt="Product Image" class="cat-image">
-            <div class="overlay">
-              <div class="text"><?php echo $r['C_Name'] ?></div>
-            </div>
-          </a>
+          <div class="card">
+            <a href="subCategories.php?Id=<?php echo $r['C_Id'] ?>" class="card">
+              <img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" class="card__image" alt="<?php echo $r['C_Name']; ?>" />
+              <div class="card__overlay">
+                <p class="card__description"><?php echo $r['C_Name'] ?></p>
+              </div>
+            </a>
+          </div>
         </div>
+        <!-- <div class="col-lg-3 col-md-4 col-sm-6 mb-4 cat-block">
+            <a href="subCategories.php?Id=<?php echo $r['C_Id']; ?>">
+              <img src="db_img/cat_img/<?php echo $r['C_Img'] ?>" alt="Product Image" class="cat-image">
+              <div class="overlay">
+                <div class="text"><?php echo $r['C_Name'] ?></div>
+              </div>
+            </a>
+          </div> -->
         <?php
       }
       ?>
