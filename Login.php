@@ -80,7 +80,7 @@
               <?php
             } else {
               setcookie('success', "Login Successful", time() + 5, "/");
-              $_SESSION['U_User'] = $email;
+              $_SESSION['U_User']  = $email;
               ?>
               <script>
                 window.location.href = "Index.php";

@@ -22,6 +22,11 @@
     </style>
     <?php
     include 'Header.php';
+    // session_start();
+    if(!isset($_SESSION['U_User']) &&  !isset($_SESSION['U_Admin'])) {
+        header("Location: Login.php");
+        exit();
+    }
     ?>
 </head>
 
@@ -46,32 +51,36 @@ $c_id = $r['C_Id'];
                     <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Product Image"
                         class="img-fluid rounded">
                 </div>
-                <div class="quantity mt-3">
-                    <label for="quantity">Quantity:</label>
-                    <select id="quantity" class="form-select">
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                        <option value="1">4</option>
-                    </select>
-                </div>
-                <div class="col-md-8 mt-3">
-                    <a href="order.php?<?php echo $r['P_Id'] ?>"><button class="cirbutton">
-                            <div class="icon-container">
-                                <i class="fa fa-shopping-bag" style="color:white;"></i>
-                            </div><span>Buy Now</span>
-                        </button></a><br /><br />
-                    <a href="cart.php"><button class="cirbutton">
+                <form method="POST" action="single_product.php?Id=<?php echo $r['P_Id']; ?>">
+                    <div class="quantity mt-3">
+                        <label for="quantity">Quantity:</label>
+                        <select name="quan" class="form-select">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8 mt-3">
+                        <a href="order.php?id=<?php echo $r['P_Id'] ?>"><button class="cirbutton">
+                                <div class="icon-container">
+                                    <i class="fa fa-shopping-bag" style="color:white;"></i>
+                                </div><span>Buy Now</span>
+                            </button></a><br /><br />
+                            <a href="cart.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="cart" id="cart" class="cirbutton"> 
                             <div class="icon-container">
                                 <i class="fa fa-shopping-cart" style="color:white;"></i>
                             </div><span>Add to Cart</span>
-                        </button></a><br /><br />
-                    <a href="wishlist.php"><button class="cirbutton">
-                            <div class="icon-container">
-                                <i class="fa fa-heart" style="color: white;"></i>
-                            </div><span>Add to Wishlist</span>
                         </button></a>
-                </div>
+                        <br /><br />
+                        <a href="wishlist.php" value="<?php echo "$P_Id" ?>"><button class="cirbutton" name='wish'
+                                id='wish'>
+                                <div class="icon-container">
+                                    <i class="fa fa-heart" style="color: white;"></i>
+                                </div><span>Add to Wishlist</span>
+                            </button></a>
+                    </div>
+                </form>
             </div>
             <!-- Right Column -->
             <div class="col-md-8">
@@ -172,11 +181,44 @@ $c_id = $r['C_Id'];
             </div>
         </section>
 
-    </div>
-    <?php
-    include "Footer.php";
-    ?>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+        <?php
+        include "Footer.php";
+
+     
+      
+        
+        if (isset($_POST['cart'])) {
+            // Check if the user is logged in
+         
+           
+
+                // User is logged in, process adding to the cart
+                $Ct_Quantity = $_POST['quan']; // Get quantity from the form
+                $Ct_P_Id = $id; // Get product ID from the URL
+                $Ct_U_Email = $_SESSION['U_User']; // Get user's email from session
+        
+                // Insert into cart table
+                $sql = "INSERT INTO cart_tb (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
+                $data = mysqli_query($con, $sql);
+        
+                if ($data) {
+                    // Redirect to cart page after successful insertion
+                    echo "<script>location.replace('cart.php');</script>";
+                } else {
+                    echo "Error inserting data into cart";
+                }
+           
+        }
+        // if (isset($_SESSION['U_Email'])) {
+        //     echo "User email: " . $_SESSION['U_Email']; // Debugging output to ensure email is set
+        // } else {
+        //     echo "User is not logged in or email not set in session."; // Debug message
+        // }
+        
+        ?>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 
 </html>

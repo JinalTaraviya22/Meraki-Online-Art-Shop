@@ -88,6 +88,7 @@
               </div>
             </a>
           </div>
+          
           <!-- <div class="art-item">
             <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Artwork 1" style="width:100%;">
             <b>
