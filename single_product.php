@@ -23,10 +23,12 @@
     <?php
     include 'Header.php';
     // session_start();
-    if(!isset($_SESSION['U_User']) &&  !isset($_SESSION['U_Admin'])) {
+    if (!isset($_SESSION['U_User']) && !isset($_SESSION['U_Admin'])) {
         header("Location: Login.php");
         exit();
     }
+    $Email_Session=$_SESSION['U_User'];
+    $Email_Session=$_SESSION['U_Admin'];
     ?>
 </head>
 
@@ -67,13 +69,14 @@ $c_id = $r['C_Id'];
                                     <i class="fa fa-shopping-bag" style="color:white;"></i>
                                 </div><span>Buy Now</span>
                             </button></a><br /><br />
-                            <a href="cart.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="cart" id="cart" class="cirbutton"> 
-                            <div class="icon-container">
-                                <i class="fa fa-shopping-cart" style="color:white;"></i>
-                            </div><span>Add to Cart</span>
-                        </button></a>
+                        <a href="cart.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="cart" id="cart"
+                                class="cirbutton">
+                                <div class="icon-container">
+                                    <i class="fa fa-shopping-cart" style="color:white;"></i>
+                                </div><span>Add to Cart</span>
+                            </button></a>
                         <br /><br />
-                        <a href="wishlist.php" value="<?php echo "$P_Id" ?>"><button class="cirbutton" name='wish'
+                        <a href="wishlist.php" value="<?php echo $r['P_Id'] ?>"><button type="submit" class="cirbutton" name='wish'
                                 id='wish'>
                                 <div class="icon-container">
                                     <i class="fa fa-heart" style="color: white;"></i>
@@ -162,60 +165,43 @@ $c_id = $r['C_Id'];
                         </div>
                         <?php
                     } ?>
-                    <!-- <div class="art-item">
-                        <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                        <h3 class="mt-2">Product Name</h3>
-                        <p>Comapny Name</p>
-                        <p>$200</p>
-                        <a href="single_product.php"><button class="cirbutton">View</button></a>
-                    </div>
-                    <div class="art-item">
-                        <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                        <h3 class="mt-2">Product Name</h3>
-                        <p>Comapny Name</p>
-                        <p>$200</p>
-                        <a href="single_product.php"><button class="cirbutton">View</button></a>
-                    </div> -->
-                    <!-- Add more artworks as needed -->
                 </div>
             </div>
         </section>
 
-
-
         <?php
         include "Footer.php";
-
-     
-      
-        
         if (isset($_POST['cart'])) {
-            // Check if the user is logged in
-         
-           
+            $Ct_Quantity = $_POST['quan']; 
+            $Ct_P_Id = $id;
+            $Ct_U_Email = $Email_Session; 
+    
+            $sql = "INSERT INTO cart_tb (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
+            $data = mysqli_query($con, $sql);
 
-                // User is logged in, process adding to the cart
-                $Ct_Quantity = $_POST['quan']; // Get quantity from the form
-                $Ct_P_Id = $id; // Get product ID from the URL
-                $Ct_U_Email = $_SESSION['U_User']; // Get user's email from session
-        
-                // Insert into cart table
-                $sql = "INSERT INTO cart_tb (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
-                $data = mysqli_query($con, $sql);
-        
-                if ($data) {
-                    // Redirect to cart page after successful insertion
-                    echo "<script>location.replace('cart.php');</script>";
-                } else {
-                    echo "Error inserting data into cart";
-                }
-           
+            if ($data) {
+                echo "<script>location.replace('cart.php');</script>";
+            } else {
+                echo "Error inserting data into cart";
+            }
+
         }
-        // if (isset($_SESSION['U_Email'])) {
-        //     echo "User email: " . $_SESSION['U_Email']; // Debugging output to ensure email is set
-        // } else {
-        //     echo "User is not logged in or email not set in session."; // Debug message
-        // }
+
+        if (isset($_POST['wish'])) {
+            $W_Quantity = $_POST['quan']; 
+            $W_P_Id = $id;
+            $W_U_Email = $Email_Session; 
+    
+            $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
+            $data = mysqli_query($con, $sql);
+
+            if ($data) {
+                echo "<script>location.replace('wishlist.php');</script>";
+            } else {
+                echo "Error inserting data into wishlist";
+            }
+
+        }
         
         ?>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>

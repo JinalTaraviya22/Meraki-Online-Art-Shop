@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2024 at 04:06 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Oct 22, 2024 at 09:44 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `aboutus_tbl`
+--
+
+CREATE TABLE `aboutus_tbl` (
+  `a_Id` int(11) NOT NULL,
+  `a_content` text NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Image` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_tb`
+--
+
+CREATE TABLE `cart_tb` (
+  `Ct_Id` int(33) NOT NULL,
+  `Ct_Quantity` int(45) NOT NULL,
+  `Ct_P_Id` int(56) NOT NULL,
+  `Ct_U_Email` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart_tb`
+--
+
+INSERT INTO `cart_tb` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
+(2, 1, 1, ''),
+(3, 1, 1, ''),
+(4, 1, 1, ''),
+(5, 1, 1, ''),
+(6, 1, 1, ''),
+(7, 1, 2, 'angelraiyanii@gmail.com'),
+(8, 2, 2, 'angelraiyanii@gmail.com');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category_tbl`
 --
 
@@ -32,7 +72,7 @@ CREATE TABLE `category_tbl` (
   `C_Name` varchar(60) NOT NULL,
   `C_Img` varchar(60) NOT NULL,
   `C_Status` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `category_tbl`
@@ -57,7 +97,7 @@ CREATE TABLE `contact_tbl` (
   `Co_Email` varchar(100) NOT NULL,
   `Co_Msg` text NOT NULL,
   `Co_Reply` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `contact_tbl`
@@ -71,6 +111,27 @@ INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `order_tbl`
+--
+
+CREATE TABLE `order_tbl` (
+  `O_id` int(56) NOT NULL,
+  `O_U_Email` varchar(56) NOT NULL,
+  `O_P_Id` int(45) NOT NULL,
+  `O_Amount` decimal(56,0) NOT NULL,
+  `O_Quantity` int(56) NOT NULL,
+  `O_Shipping_Add` text NOT NULL,
+  `O_Payment_Add` text NOT NULL,
+  `O_Phn` varchar(56) NOT NULL,
+  `O_City` varchar(78) NOT NULL,
+  `O_Zip` int(89) NOT NULL,
+  `O_State` varchar(56) NOT NULL,
+  `O_Date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_token_tbl`
 --
 
@@ -80,7 +141,7 @@ CREATE TABLE `password_token_tbl` (
   `Otp` int(11) NOT NULL,
   `Created_at` datetime NOT NULL,
   `Expires_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -99,7 +160,7 @@ CREATE TABLE `product_tbl` (
   `P_Img1` varchar(60) NOT NULL,
   `P_Img2` varchar(60) NOT NULL,
   `P_Status` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product_tbl`
@@ -120,7 +181,7 @@ CREATE TABLE `slider_tbl` (
   `Img_1` varchar(100) NOT NULL,
   `Img_2` varchar(100) NOT NULL,
   `Img_3` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `slider_tbl`
@@ -141,7 +202,7 @@ CREATE TABLE `subcategory_tbl` (
   `C_Id` int(3) NOT NULL,
   `SC_Img` varchar(60) NOT NULL,
   `SC_Status` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `subcategory_tbl`
@@ -172,7 +233,7 @@ CREATE TABLE `user_tbl` (
   `U_Profile` varchar(255) DEFAULT NULL,
   `U_Role` char(10) DEFAULT 'Normal',
   `U_Status` char(10) DEFAULT 'Inactive'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_tbl`
@@ -185,9 +246,34 @@ INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `
 (59, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 2147483647, 'rku', 'Rajkot', 'Gujarat', 360005, 'kallu', '670606a6a6640Untitled design.png', 'Normal', 'Active'),
 (60, 'Vibhuti', 'Chavda', 'jinal.taraviya2205@gmail.com', 1234567890, 'RKU', 'Rajkot', 'Gujarat', 360005, 'bhuti', '', 'Normal', 'Active');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist_tbl`
+--
+
+CREATE TABLE `wishlist_tbl` (
+  `W_Id` int(65) NOT NULL,
+  `W_U_Email` varchar(56) NOT NULL,
+  `W_P_Id` int(56) NOT NULL,
+  `W_quantity` int(56) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `aboutus_tbl`
+--
+ALTER TABLE `aboutus_tbl`
+  ADD PRIMARY KEY (`a_Id`);
+
+--
+-- Indexes for table `cart_tb`
+--
+ALTER TABLE `cart_tb`
+  ADD PRIMARY KEY (`Ct_Id`);
 
 --
 -- Indexes for table `category_tbl`
@@ -200,6 +286,12 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
+
+--
+-- Indexes for table `order_tbl`
+--
+ALTER TABLE `order_tbl`
+  ADD PRIMARY KEY (`O_id`);
 
 --
 -- Indexes for table `password_token_tbl`
@@ -233,8 +325,26 @@ ALTER TABLE `user_tbl`
   ADD UNIQUE KEY `U_Email` (`U_Email`);
 
 --
+-- Indexes for table `wishlist_tbl`
+--
+ALTER TABLE `wishlist_tbl`
+  ADD PRIMARY KEY (`W_Id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `aboutus_tbl`
+--
+ALTER TABLE `aboutus_tbl`
+  MODIFY `a_Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cart_tb`
+--
+ALTER TABLE `cart_tb`
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -247,6 +357,12 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `order_tbl`
+--
+ALTER TABLE `order_tbl`
+  MODIFY `O_id` int(56) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `password_token_tbl`
@@ -277,6 +393,12 @@ ALTER TABLE `subcategory_tbl`
 --
 ALTER TABLE `user_tbl`
   MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `wishlist_tbl`
+--
+ALTER TABLE `wishlist_tbl`
+  MODIFY `W_Id` int(65) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
