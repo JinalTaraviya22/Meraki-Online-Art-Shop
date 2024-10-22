@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
-        include('Header.php');
+        include 'Header.php';
+        if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
+            header("Location: Login.php");
+            exit();
+        }
     ?>
     <style>
-      /* .container{
-        background-color: rgba(165, 165, 165, 0.7);
-        border-radius: 50px;
-        padding: 50px;
-      } */
       tr {
             border: 1px black solid;
             text-align: center;
@@ -34,12 +33,6 @@
     </style>
 </head>
 
-
-<!-- <body style="background-image: url(img/bg6.png); 
-background-attachment:fixed;
-background-repeat: no-repeat; 
-background-size: cover;
-color:white"> -->
 <body class="bg-dark">
 <div class="container mt-5">
     <div class="row"  style="text-align: center;">
@@ -111,7 +104,7 @@ color:white"> -->
 </div>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <?php
-        include('Footer.php');
+        include 'Footer.php';
     ?>
 </body>
 </html>

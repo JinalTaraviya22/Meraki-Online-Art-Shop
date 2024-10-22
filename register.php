@@ -110,10 +110,10 @@
     <script>
         function reg() {
             let validate = true;
-            var fn = document.getElementById('fnm');
-            var fn_er = document.getElementById('fnm_er');
-            var ln = document.getElementById('lnm');
-            var ln_er = document.getElementById('lnm_er');
+            var fnm = document.getElementById('fnm');
+            var fnm_er = document.getElementById('fnm_er');
+            var lnm = document.getElementById('lnm');
+            var lnm_er = document.getElementById('lnm_er');
             var email = document.getElementById('email');
             var em_er = document.getElementById('email_er');
             var phn = document.getElementById('phn');
@@ -134,7 +134,7 @@
             NameValidate(fnm, fnm_er);
             NameValidate(lnm, lnm_er);
             //EmailValidate(email, email_er);
-            CommanValidate(email, email_er);
+            CommanValidate(email, em_er);
             PhnValidate(phn, phn_er);
             //BigTextValidate(add, add_er);
             CommanValidate(add, add_er);

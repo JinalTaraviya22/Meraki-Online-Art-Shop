@@ -11,7 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 
 <?php
 
-include_once("footer.php");
+include_once "footer.php";
 
 if (isset($_SESSION['forgot_email'])) {
     $email = $_SESSION['forgot_email'];
@@ -37,21 +37,15 @@ if (isset($_SESSION['forgot_email'])) {
 
 
     if ($result && mysqli_num_rows(result: $result) > 0) {
-        // Email exists, display error message and redirect to OTP form
-        setcookie('error', "An OTP has already been sent to this email. New OTP will be generated once current OTP expires.", time() + 5, "/");
-        ?>
-        <script>
-            window.location.href = "otp_form.php";
-        </script>
-        <?php
-    } else {
-
         // Generate OTP
         $otp = rand(100000, 999999);
+        $email_time = date("Y-m-d H:i:s");
+        $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); 
+
+        $update_query = "UPDATE password_token_tbl SET Otp = '$otp', Created_at = '$email_time', Expires_at = '$expiry_time' WHERE Email = '$email'";
+        mysqli_query($con, $update_query);
 
         // Use PHPMailer to send the OTP
-
-
         $mail = new PHPMailer();
         try {
             $mail->isSMTP();
@@ -98,16 +92,9 @@ if (isset($_SESSION['forgot_email'])) {
 
             $mail->send();
 
-            // Store the email, OTP, and timestamps in the database
-            $email_time = date("Y-m-d H:i:s");
-            $expiry_time = date("Y-m-d H:i:s", strtotime('+1 minutes')); // OTP valid for 10 minutes
-            $query = "INSERT INTO  password_token_tbl  (email, otp, created_at, expires_at) VALUES ('$email', '$otp', '$email_time', '$expiry_time')";
-            mysqli_query($con, $query);
-
-
-            $_SESSION['forgot_email'] = $email;
-            setcookie('success', "OTP for resetting your password is sent to the registered mail address", time() + 2, "/")
-                ?>
+            // Set success message and redirect to OTP form
+            setcookie('success', "OTP for resetting your password is sent to the registered mail address", time() + 2, "/");
+            ?>
             <script>
                 window.location.href = "otp_form.php";
             </script>
@@ -116,6 +103,15 @@ if (isset($_SESSION['forgot_email'])) {
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
+    } else {
+        // Email does not exist, display error message and redirect to Forgot password form
+        setcookie('error', "An OTP has already been sent to this email. New OTP will be generated once current OTP expires.", time() + 5, "/");
+        ?>
+        <script>
+            window.location.href = "Forgot_password.php";
+        </script>
+        <?php
+        exit;
     }
 }
 ?>

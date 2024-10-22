@@ -91,41 +91,6 @@
     </div>
   </div>
 
-
-  <div class="container mt-5">
-    <div class="row">
-      <!-- Left Column -->
-      <div class="col-md-4">
-        <p class="price"></p>
-        <div class="product-image">
-          <img src="img/aboutus.png" alt="User Image" class="img-fluid rounded">
-        </div>
-      </div>
-      <!-- Right Column -->
-      <div class="col-md-8">
-        <div class="product-image-large">
-          <div id="info">
-            <div class="row">
-              <div class="col-md-12 mb-6"><br>
-                <label for="name" class="form-label" style="font-weight: bold;">Our History</label> <br><br>
-                <p>With the intent to make the most premium quality art more accessible, Dessine Art is here to
-                  revolutionize the Art Industry and enhance the confidence of online art buyers.
-                  <br>
-                  <br>With us, you can effortlessly buy art ranging from every style, from classical to contemporary and
-                  affordable to high-end pieces.Every artwork on Dessine Art is creatively curated by our team to cater
-                  to the aesthetics of art lovers around the world. Along with established artists, we are also
-                  promoting the work of budding artists so that it can help them reach out to a wider audience.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
-
   <!-- Featured products -->
   <div class="container mt-5 mb-5">
     <div class="row mt-1">
