@@ -27,8 +27,7 @@
         header("Location: Login.php");
         exit();
     }
-    $Email_Session=$_SESSION['U_User'];
-    $Email_Session=$_SESSION['U_Admin'];
+    $Email_Session=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    
     ?>
 </head>
 
