@@ -167,6 +167,7 @@ $c_id = $r['C_Id'];
                 </div>
             </div>
         </section>
+        </div>
 
         <?php
         include "Footer.php";
@@ -175,7 +176,7 @@ $c_id = $r['C_Id'];
             $Ct_P_Id = $id;
             $Ct_U_Email = $Email_Session; 
     
-            $sql = "INSERT INTO cart_tb (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
+            $sql = "INSERT INTO cart_tbl (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
             $data = mysqli_query($con, $sql);
 
             if ($data) {

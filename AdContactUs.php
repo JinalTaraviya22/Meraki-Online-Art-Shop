@@ -103,7 +103,7 @@
                     // Calculate the start record for the current page
                     $start_from = ($page - 1) * $records_per_page;
 
-                    $q = "Select * from contact_tbl $search_query LIMIT $start_from, $records_per_page";
+                    $q = "Select * from contact_tbl $search_query ORDER BY (Co_Reply ='') DESC, Co_Id ASC LIMIT $start_from, $records_per_page";
                     $result = mysqli_query($con, $q);
 
                     while ($r = mysqli_fetch_assoc($result)) {

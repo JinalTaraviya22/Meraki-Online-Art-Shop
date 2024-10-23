@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 09:44 AM
+-- Generation Time: Oct 23, 2024 at 05:18 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -32,8 +32,15 @@ CREATE TABLE `aboutus_tbl` (
   `a_content` text NOT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Image` varchar(45) NOT NULL
+  `a_Image` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `aboutus_tbl`
+--
+
+INSERT INTO `aboutus_tbl` (`a_Id`, `a_content`, `created_at`, `updated_at`, `a_Image`) VALUES
+(1, '<p><span style=\"color:#cccccc;\">With the intent to make the most premium quality art more accessible, Dessine Art is here to revolutionize the Art Industry and enhance the confidence of online art buyers.</span></p><p><span style=\"color:#cccccc;\">With us, you can effortlessly buy art ranging from every style, from classical to contemporary and affordable to high-end pieces. Every artwork on Dessine Art is creatively curated by our team to cater to the aesthetics of art lovers around the world. Along with established artists, we are also promoting the work of budding &nbsp;artists so that it can help them reach out to a wider audience.</span></p>', '2024-10-22 19:33:10', '2024-10-23 08:46:50', 'ab1.png');
 
 -- --------------------------------------------------------
 
@@ -59,7 +66,8 @@ INSERT INTO `cart_tb` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
 (5, 1, 1, ''),
 (6, 1, 1, ''),
 (7, 1, 2, 'angelraiyanii@gmail.com'),
-(8, 2, 2, 'angelraiyanii@gmail.com');
+(8, 2, 2, 'angelraiyanii@gmail.com'),
+(9, 1, 2, 'angelraiyanii@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -209,7 +217,7 @@ CREATE TABLE `subcategory_tbl` (
 --
 
 INSERT INTO `subcategory_tbl` (`SC_Id`, `SC_Name`, `C_Id`, `SC_Img`, `SC_Status`) VALUES
-(1, 'Charcoal', 1, '66f77fc5982ccCharcoal.png', 'Active'),
+(1, 'Charcoal', 1, '6717591be16d5drawing_illustration.png', 'Active'),
 (2, 'Markers', 1, '6713ae1e1d37bmarkers.png', 'Active'),
 (3, 'Watercolors', 3, '6713af6b9a4e9watercolor.png', 'Active');
 
@@ -244,7 +252,8 @@ INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `
 (53, 'ayushi', 'mehta', 'amehta123@gmail.com', 1234567890, 'qwer', 'Kalavad', 'Gujarat', 360005, 'ayushi', '', 'Normal', 'Inactive'),
 (54, 'Angel', 'Raiyani', 'angelraiyanii@gmail.com', 1234567890, 'qwerftg', 'Rajkot', 'Gujarat', 360005, 'angel', '', 'Normal', 'Active'),
 (59, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 2147483647, 'rku', 'Rajkot', 'Gujarat', 360005, 'kallu', '670606a6a6640Untitled design.png', 'Normal', 'Active'),
-(60, 'Vibhuti', 'Chavda', 'jinal.taraviya2205@gmail.com', 1234567890, 'RKU', 'Rajkot', 'Gujarat', 360005, 'bhuti', '', 'Normal', 'Active');
+(60, 'Vibhuti', 'Chavda', 'jinal.taraviya2205@gmail.com', 1234567890, 'RKU', 'Rajkot', 'Gujarat', 360005, 'bhuti', '', 'Normal', 'Active'),
+(62, '', '', '', 0, '', '', '', 0, '', '671760ba8ea90', 'Normal', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -338,13 +347,13 @@ ALTER TABLE `wishlist_tbl`
 -- AUTO_INCREMENT for table `aboutus_tbl`
 --
 ALTER TABLE `aboutus_tbl`
-  MODIFY `a_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `a_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cart_tb`
 --
 ALTER TABLE `cart_tb`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -392,7 +401,7 @@ ALTER TABLE `subcategory_tbl`
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `wishlist_tbl`

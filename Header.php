@@ -141,7 +141,7 @@ include 'conn.php';
                                     <li><a class="dropdown-item" href="AdProducts.php">Products</a></li>
                                     <li><a class="dropdown-item" href="AdUsers.php">Users</a></li>
                                     <li><a class="dropdown-item" href="AdContactUs.php">Contact</a></li>
-                                    <li><a class="dropdown-item" href="">Site Settings</a></li>
+                                    <li><a class="dropdown-item" href="AdAboutUs.php">About Us</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">

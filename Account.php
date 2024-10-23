@@ -11,12 +11,11 @@
     <script src="validation.js"></script>
     <?php
     include 'Header.php';
-
-    if (isset($_SESSION['U_Admin'])) {
-        $email = $_SESSION['U_Admin'];
-    } else if (isset($_SESSION['U_User'])) {
-        $email = $_SESSION['U_User'];
+    if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
+        header("Location: Index.php");
+        exit();
     }
+    $email=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    
     $query = "select * from user_tbl where U_Email='$email'";
     $result = mysqli_query($con, $query);
     $r = mysqli_fetch_assoc($result);
@@ -118,7 +117,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Email :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Email'] ?>" id="email"
-                                    name="email" placeholder="Enter Email">
+                                    name="email" placeholder="Enter Email" readonly>
                                 <span id="EmailError"></span>
                             </div>
                             <div class="col-md-6 mb-3">

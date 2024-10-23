@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,46 +10,53 @@
     <link rel="stylesheet" href="styles.css">
     <script src="validation.js"></script>
     <?php
-        include 'Header.php';
-        if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
-            header("Location: Login.php");
-            exit();
-        }
+    include 'Header.php';
+    if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
+        header("Location: Login.php");
+        exit();
+    }
+    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
     ?>
     <style>
-      tr {
+        tr {
             border: 1px black solid;
             text-align: center;
         }
 
-        th {
-            border: 1px black solid;
+        table {
+            width: 100%;
         }
 
+        th,
         td {
+            width: 100%;
             border: 1px black solid;
-            padding-left: 10px;
-            padding-right: 10px;
+            padding: 10px;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 40%;
         }
     </style>
 </head>
 
 <body class="bg-dark">
-<div class="container mt-5">
-    <div class="row"  style="text-align: center;">
-        <h2>Welcome to Cart!</h2>
-        <div class="col-md-6">
-            <p>Total:1,300</p>
-        </div>
-        <div class="col-md-6">
-            <button type="submit" class="btn btn-dark">Check Out</button>
-        </div>
-        
-    </div>
-  </div>
+    <div class="container mt-5">
+        <div class="row" style="text-align: center;">
+            <h2>Welcome to Cart!</h2>
+            <div class="col-md-6">
+                <p>Total:1,300</p>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-dark">Check Out</button>
+            </div>
 
-  <div class="container mt-5 mb-5">
-    <!-- <div class="row">
+        </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <!-- <div class="row">
         <div class="col-md-4">
             <div class="product-image-circle">
                 <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded">
@@ -74,37 +82,49 @@
           </div>
         </div>
     </div> -->
-    <div class="row" id="product">
+        <div class="row" id="product">
             <table>
                 <tr>
-                    <th style="width:50px">Id</th>
+                    <!-- <th style="width:50px">Id</th> -->
                     <th>Product Name</th>
                     <th>Price</th>
-                    <th>Company Name</th>
                     <th>Quantity</th>
                     <th>Image 1</th>
                     <th>Image 2</th>
                     <th>Order</th>
                     <th>Disable</th>
                 </tr>
-                <tr>
-                    <td>E1</td>
-                    <td>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</td>
-                    <td>1,300</td>
-                    <td>Himalaya Fine Arts</td>
-                    <td><select><option>3</option><option>1</option></select></td>
-                    <td><img src="img/easeal1.png" height="100px" width="100px"></td>
-                    <td><img src="img/easeal2.png" height="100px" width="100px"></td>
-                    <td><a href="#update_form"><button class="btn btn-dark" onclick="update(1)"><i
-                                    class="fa fa-shopping-bag"></i></button></a></td>
-                    <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
-                </tr>
+                <?php
+                $query = "SELECT p.*,c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id=c.Ct_P_Id WHERE c.Ct_U_Email='$Email_Session'";
+                $result = mysqli_query($con, $query);
+                while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                        <!-- <td><?php echo $r['Ct_Id'] ?></td> -->
+                        <td><?php echo $r['P_Name'] ?></td>
+                        <td><?php echo $r['P_Price'] * $r['Ct_Quantity'] ?></td>
+                        <td>
+                            <select>
+                                <option>3</option>
+                                <option>1</option>
+                            </select>
+                        </td>
+                        <td><img src="db_img/product_img/<?php echo $r['P_Img1']?>" height="100px" width="100px"></td>
+                        <td><img src="db_img/product_img/<?php echo $r['P_Img2']?>" height="100px" width="100px"></td>
+                        <td><a href="#update_form"><button class="btn btn-dark" onclick="update(1)"><i
+                                        class="fa fa-shopping-bag"></i></button></a></td>
+                        <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
+                                    class="fa fa-times"></i></button></td>
+                    </tr>
+                <?php } ?>
             </table>
         </div>
-</div>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <?php
-        include 'Footer.php';
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <?php
+    include 'Footer.php';
     ?>
 </body>
+
 </html>
