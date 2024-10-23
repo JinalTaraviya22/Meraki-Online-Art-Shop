@@ -71,7 +71,7 @@
                 <div class="col col-md-12">
                     <h2>Add New Category</h2>
                     <!-- <form onsubmit="return addCat()" > -->
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" onsubmit="return  mainCat()">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Name :</label>
@@ -266,81 +266,16 @@
         }
     </script>
     <script>
-        function productInfo() {
-            event.preventDefault();
-            let validate = true;
-            var nm = document.getElementById('nm');
-            var nm_er = document.getElementById('nm_er');
-            var price = document.getElementById('price');
-            var price_er = document.getElementById('price_er');
-            var desc = document.getElementById('desc');
-            var desc_er = document.getElementById('desc_er');
-            var img1 = document.getElementById('img1');
-            var img1_er = document.getElementById('img1_er');
-            var img2 = document.getElementById('img2');
-            var img2_er = document.getElementById('img2_er');
+        function mainCat() {
+            validate = true;
 
-            NameValidate(nm, nm_er);
-            PriceValidate(price, price_er);
-            BigTextValidate(desc, desc_er);
-            ImgValidate(img1, img1_er);
-            ImgValidate(img2, img2_er);
-
-            return validate;
+            NameValidate(document.getElementById('catNm'), document.getElementById('catNm_er'));
+            ImgValidate(document.getElementById('catImg'), document.getElementById('catImg_er'));
+            if (validate) {
+                return true;
+            }
+            return false;
         }
-
-        function addproductInfo() {
-            event.preventDefault();
-            let validate = true;
-
-            const anm = document.getElementById('anm');
-            const anm_er = document.getElementById('anm_er');
-            const aprice = document.getElementById('aprice');
-            const aprice_er = document.getElementById('aprice_er');
-            const adesc = document.getElementById('adesc');
-            const adesc_er = document.getElementById('adesc_er');
-            const aimg1 = document.getElementById('aimg1');
-            const aimg1_er = document.getElementById('aimg1_er');
-            const aimg2 = document.getElementById('aimg2');
-            const aimg2_er = document.getElementById('aimg2_er');
-
-            validate = NameValidate(anm, anm_er) && validate;
-            validate = PriceValidate(aprice, aprice_er) && validate;
-            validate = BigTextValidate(adesc, adesc_er) && validate;
-            validate = ImgValidate(aimg1, aimg1_er) && validate;
-            validate = ImgValidate(aimg2, aimg2_er) && validate;
-
-            return validate;
-        }
-
-        function addCat() {
-            event.preventDefault();
-            let validate = true;
-            var catNm = document.getElementById('catNm');
-            var catNm = document.getElementById('catNm_er');
-            var catImg = document.getElementById('catImg');
-            var catImg_er = document.getElementById('catImg_er');
-
-            NameValidate(catNm, catNm_er);
-            ImgValidate(catImg, catImg_er);
-
-            return validate;
-        }
-
-        function addSubCat() {
-            event.preventDefault();
-            let validate = true;
-            var scatNm = document.getElementById('scatnm');
-            var scatNm_er = document.getElementById('scatnm_er');
-            var scatImg = document.getElementById('scatimg');
-            var scatImg_er = document.getElementById('scatImg_er');
-
-            NameValidate(scatNm, scatNm_er);
-            ImgValidate(scatImg, scatImg_er);
-
-            return validate;
-        }
-
     </script>
     <?php
     include 'Footer.php';

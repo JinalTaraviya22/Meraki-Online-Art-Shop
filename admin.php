@@ -117,9 +117,15 @@
                         <div class="col-md-4">Rate:<input type="text" id="rate" class="form-control"><span
                                 id="rate_er"></span></div>
                         <div class="col-md-4">Category:<select class="form-control">
-                                <option>cat 1</option>
-                                <option>cat 2</option>
-                                <option>cat 3</option>
+                                <?php
+                                $q = "Select * from category_tbl";
+                                $result = mysqli_query($con, $q);
+                                while ($r = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <option value="<?php echo $r['C_Id']; ?>"><?php echo $r['C_Name']; ?></option>
+                                    <?php
+                                }
+                                ?>
                             </select></div></br>
                         <div class="col-md-4"><button type="submit" class="button-28">Change</button>
                         </div>
@@ -138,7 +144,7 @@
             <div class="col col-md-6">
                 <h2>Add New Category</h2>
                 <!-- <form onsubmit="return addCat()" > -->
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" onsubmit="return mainCat()">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Name :</label>
@@ -165,7 +171,7 @@
             <div class="col col-md-6">
                 <h2>Add New Sub Category</h2>
                 <!-- <form onsubmit="return addSubCat()"> -->
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data" onsubmit="return subCat()">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Name :</label>
@@ -176,7 +182,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Image :</label>
                             <input type="file" class="form-control" name="simg" id="scatimg">
-                            <span id="scatImg_er"></span>
+                            <span id="scatimg_er"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -222,44 +228,37 @@
         }
     </script>
     <script>
-        function banner() {
-            event.preventDefault();
-
-            let validate = true;
-
-            var b1 = document.getElementById('b1');
-            var b1_er = document.getElementById('b1_er');
-            var b2 = document.getElementById('b2');
-            var b2_er = document.getElementById('b2_er');
-            var b3 = document.getElementById('b3');
-            var b3_er = document.getElementById('b3_er');
-
-            ImgValidate(b1, b1_er);
-            ImgValidate(b2, b2_er);
-            ImgValidate(b3, b3_er);
-
-            return validate;
-        }
         function discount() {
-            event.preventDefault();
-
             validate = true;
 
-            var sdt = document.getElementById('sdt');
-            var sdt_er = document.getElementById('sdt_er');
-            var edt = document.getElementById('edt');
-            var edt_er = document.getElementById('edt_er');
-            var bnr = document.getElementById('bnr');
-            var bnr_er = document.getElementById('bnr_er');
-            var rate = document.getElementById('rate');
-            var rate_er = document.getElementById('rate_er');
+            CommanValidate(document.getElementById('sdt'), document.getElementById('sdt_er'));
+            CommanValidate(document.getElementById('edt'), document.getElementById('edt_er'));
+            ImgValidate(document.getElementById('bnr'), document.getElementById('bnr_er'));
+            RateValidate(document.getElementById('rate'), document.getElementById('rate_er'));
 
-            CommanValidate(sdt, sdt_er);
-            CommanValidate(edt, edt_er);
-            ImgValidate(bnr, bnr_er);
-            RateValidate(rate, rate_er);
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+        function mainCat() {
+            validate = true;
 
-            return validate;
+            NameValidate(document.getElementById('catNm'), document.getElementById('catNm_er'));
+            ImgValidate(document.getElementById('catImg'), document.getElementById('catImg_er'));
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+        function subCat() {
+            validate = true;
+            NameValidate(document.getElementById('scatnm'), document.getElementById('scatnm_er'));
+            ImgValidate(document.getElementById('scatimg'), document.getElementById('scatimg_er'));
+            if (validate) {
+                return true;
+            }
+            return false;
         }
     </script>
     <?php

@@ -173,7 +173,7 @@
             <div class="row">
                 <h2 class="mb-3">Name : <?php echo $r['Co_Name']; ?></h2>
                 <div class="col-md-12">
-                    <form method="post">
+                    <form method="post" onsubmit="return replyForm()">
                         <input type="hidden" name="Coid" id="Coid" value="<?php echo $r['Co_Id'] ?>">
                         <input type="hidden" name="email" value="<?php echo $r['Co_Email'] ?>">
                         <input type="hidden" name="nm" value="<?php echo $r['Co_Name']; ?>">
@@ -187,6 +187,7 @@
                             <label for="name" class="form-label">Reply :</label>
                             <textarea name="reply" id="reply" placeholder="Write a reply..."
                                 class="form-control"><?php echo $r['Co_Reply']?></textarea>
+                                <span id="reply_er"></span>
                         </div>
                         <div class="row">
                             <button type="submit" class="btn btn-dark" name="replybtn"
@@ -208,6 +209,16 @@
             if (a == 1) {
                 $('#user_profile').show();
             }
+        }
+    </script>
+    <script>
+        function replyForm(){
+            validate=true;
+            BigTextValidate(document.getElementById('reply'), document.getElementById('reply_er'));
+            if(validate){
+                return true;
+            }
+            return false;
         }
     </script>
 

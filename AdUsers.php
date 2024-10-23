@@ -60,7 +60,7 @@
                 <h2 style="text-align:center">Register</h2>
                 <!-- <div class="col-md-3"></div> -->
                 <div class="col-md-12 mt-3">
-                    <form id="register" name="register" method="post" enctype="multipart/form-data">
+                    <form id="register" name="register" onsubmit="return reg()" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">First Name :</label>
@@ -481,8 +481,28 @@
             }
         }
     </script>
-    <!-- <script>
+    <script>
+        function reg() {
+            validate = true;
+            NameValidate(document.getElementById('fnm'), document.getElementById('fnm_er'));
+            NameValidate(document.getElementById('lnm'), document.getElementById('lnm_er'));
+            EmailValidate(document.getElementById('email'), document.getElementById('email_er'));
+            PhnValidate(document.getElementById('phn'), document.getElementById('phn_er'));
+            BigTextValidate(document.getElementById('add'), document.getElementById('add_er'));
+            NameValidate(document.getElementById('city'), document.getElementById('city_er'));
+            NameValidate(document.getElementById('state'), document.getElementById('state_er'));
+            ZipValidate(document.getElementById('zip'), document.getElementById('zip_er'));
+            PwdValidate(document.getElementById('pwd'), document.getElementById('pwd_er'));
+            ImgValidate(document.getElementById('img'), document.getElementById('img_er'));
+
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
         function updateForm() {
+
+            
             event.preventDefault();
             let validate = true;
 
@@ -523,7 +543,7 @@
 
             return validate;
         }
-    </script> -->
+    </script>
 
     <?php
     include 'Footer.php';
