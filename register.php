@@ -27,8 +27,7 @@
             <h2 style="text-align:center">Register</h2>
             <div class="col-md-3"></div>
             <div class="col-md-6 mt-3">
-                <form id="update" name="update" action="register.php" method="post" enctype="multipart/form-data"
-                    >
+                <form id="update" name="update" onsubmit="return reg()" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">First Name :</label>
@@ -109,48 +108,22 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script>
         function reg() {
-            let validate = true;
-            var fnm = document.getElementById('fnm');
-            var fnm_er = document.getElementById('fnm_er');
-            var lnm = document.getElementById('lnm');
-            var lnm_er = document.getElementById('lnm_er');
-            var email = document.getElementById('email');
-            var em_er = document.getElementById('email_er');
-            var phn = document.getElementById('phn');
-            var phn_er = document.getElementById('phn_er');
-            var add = document.getElementById('add');
-            var add_er = document.getElementById('add_er');
-            var city = document.getElementById('city');
-            var city_er = document.getElementById('city_er');
-            var state = document.getElementById('state');
-            var state_er = document.getElementById('state_er');
-            var zip = document.getElementById('zip');
-            var zip_er = document.getElementById('zip_er');
-            var pwd = document.getElementById('pwd');
-            var pwd_er = document.getElementById('pwd_er');
-            var img = document.getElementById('img');
-            var img_er = document.getElementById('img_er');
-
-            NameValidate(fnm, fnm_er);
-            NameValidate(lnm, lnm_er);
-            //EmailValidate(email, email_er);
-            CommanValidate(email, em_er);
-            PhnValidate(phn, phn_er);
-            //BigTextValidate(add, add_er);
-            CommanValidate(add, add_er);
-            NameValidate(city, city_er);
-            NameValidate(state, state_er);
-            ZipValidate(zip, zip_er);
-            //PwdValidate(pwd, pwd_er);
-            CommanValidate(pwd, pwd_er);
-            ImgValidate(img, img_er);
+            validate = true;
+            NameValidate(document.getElementById('fnm'), document.getElementById('fnm_er'));
+            NameValidate(document.getElementById('lnm'), document.getElementById('lnm_er'));
+            EmailValidate(document.getElementById('email'), document.getElementById('email_er'));
+            PhnValidate(document.getElementById('phn'), document.getElementById('phn_er'));
+            BigTextValidate(document.getElementById('add'), document.getElementById('add_er'));
+            NameValidate(document.getElementById('city'), document.getElementById('city_er'));
+            NameValidate(document.getElementById('state'), document.getElementById('state_er'));
+            ZipValidate(document.getElementById('zip'), document.getElementById('zip_er'));
+            PwdValidate(document.getElementById('pwd'), document.getElementById('pwd_er'));
+            ImgValidate(document.getElementById('img'), document.getElementById('img_er'));
 
             if (validate) {
-                // Remove the event.preventDefault() call
-                document.getElementById('update').submit();
-            }else{
-                event.preventDefault();
+                return true;
             }
+            return false;
         }
     </script>
 

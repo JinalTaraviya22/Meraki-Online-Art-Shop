@@ -13,41 +13,41 @@
   <script src="js/jquery.validate.js"></script>
   <script src="js/additional-methods.js"></script>
 
-  <script>
-    $(document).ready(function() {
-        $("#Login").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                },
-                pwd: {
-                    required: true
-                }
-            },
-            messages: {
-                email: {
-                    required: "Please enter your email",
-                    email: "Please enter a valid email address"
-                },
-                pwd: {
-                    required: "Please provide a password"
-                }
-            },
-            errorElement: "div",
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback");
-                error.insertAfter(element);
-            },
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass("is-invalid").removeClass("is-valid");
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).addClass("is-valid").removeClass("is-invalid");
-            }
-        });
+  <!-- <script>
+    $(document).ready(function () {
+      $("#Login").validate({
+        rules: {
+          email: {
+            required: true,
+            email: true
+          },
+          pwd: {
+            required: true
+          }
+        },
+        messages: {
+          email: {
+            required: "Please enter your email",
+            email: "Please enter a valid email address"
+          },
+          pwd: {
+            required: "Please provide a password"
+          }
+        },
+        errorElement: "div",
+        errorPlacement: function (error, element) {
+          error.addClass("invalid-feedback");
+          error.insertAfter(element);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass("is-invalid").removeClass("is-valid");
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).addClass("is-valid").removeClass("is-invalid");
+        }
+      });
     });
-</script>
+  </script> -->
 
   <?php
   include 'Header.php';
@@ -65,7 +65,7 @@
       <div class="col-md-4"></div>
       <div class="col-md-4 mt-3">
         <!-- login form -->
-        <form method="post" id="Login">
+        <form method="post" id="Login" onsubmit="return validateForm();">
           <label for="name" class="form-label">Email :</label>
           <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
           <span id="email_er"></span><br>
@@ -88,24 +88,22 @@
     </div>
   </div>
 
-  <!-- <script>
-    function LoginForm() {
-      event.preventDefault();
-      let validate = true;
-      var email = document.getElementById('email');
-      var email_er = document.getElementById('email_er');
-      var pwd = document.getElementById('pwd');
-      var pwd_er = document.getElementById('pwd_er');
+  <script>
+    function validateForm() {
+      validate = true; // Reset validate to true
 
-      EmailValidate(email, email_er);
-      CommanValidate(pwd, pwd_er);
+      // Call validation functions
+      EmailValidate(document.getElementById('email'), document.getElementById('email_er'));
+      //PwdValidate(document.getElementById('pwd'), document.getElementById('pwd_er'));
 
       if (validate) {
-        document.getElementById('Login').submit(); // Submit the form if valid
+        // Submit the form if valid
+        return true;
       }
+      // Prevent default form submission
       return false;
     }
-  </script> -->
+  </script>
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -132,7 +130,7 @@
               <?php
             } else {
               setcookie('success', "Login Successful", time() + 5, "/");
-              $_SESSION['U_User']  = $email;
+              $_SESSION['U_User'] = $email;
               ?>
               <script>
                 window.location.href = "Index.php";

@@ -13,8 +13,10 @@ include 'conn.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles.css">
-
-    <style>
+    <!-- <script src="js/jquery.validate.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/additional-methods.js"></script> -->
+    <style> 
         .header {
             background-color: rgba(165, 165, 165, 0.7);
             padding: 10px 20px;

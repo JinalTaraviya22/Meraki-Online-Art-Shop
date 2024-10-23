@@ -32,8 +32,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4 mt-3">
                 <!-- new pwd form -->
-                <form id="changePwd" method="post" enctype="multipart/form-data">
-
+                <form id="changePwd" method="post" onsubmit="return newPwdForm()" enctype="multipart/form-data">
                     <label for="name" class="form-label">New Password :</label>
                     <input type="text" class="form-control" id="newPwd" name="newPwd" placeholder="Enter New password">
                     <span id="NPwdError"></span>
@@ -52,6 +51,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function newPwdForm(){
+            validate=true;
+            PwdValidate(document.getElementById('newPwd'), document.getElementById('NPwdError'));
+            CommanValidate(document.getElementById('coPwd'),document.getElementById('CPwdError'));
+
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

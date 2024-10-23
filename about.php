@@ -66,7 +66,7 @@
     <div class="row mt-5">
       <h2>Contact Us</h2><br /><br />
       <div class="col">
-        <form method="post" id="contactForm">
+        <form method="post" id="contactForm" onsubmit="return conForm()">
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="name" class="form-label">Name :</label>
@@ -83,6 +83,7 @@
             <div class="col-md-12 mb-3">
               <label for="name" class="form-label">Message :</label>
               <textarea name="msg" id="msg" class="form-control" placeholder="Enter your queries here..."></textarea>
+              <span id="AddError"></span>
             </div>
           </div>
           <div class="row">
@@ -99,32 +100,18 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-
+  <script>
     function conForm() {
       event.preventDefault();
-      let validate = true;
-      var fn = document.getElementById('fname');
-      var fn_er = document.getElementById('FnmError');
-      var ln = document.getElementById('lname');
-      var ln_er = document.getElementById('LnmError');
-      var email = document.getElementById('email');
-      var em_er = document.getElementById('EmailError');
-      var phn = document.getElementById('phn');
-      var phn_er = document.getElementById('PhnError');
-      var add = document.getElementById('add');
-      var add_er = document.getElementById('AddError');
-      var city = document.getElementById('city');
-      var city_er = document.getElementById('CityError');
+      validate = true;
+      NameValidate(document.getElementById('fname'), document.getElementById('FnmError'));
+      EmailValidate(document.getElementById('email'), document.getElementById('EmailError'));
+      BigTextValidate(document.getElementById('msg'), document.getElementById('AddError'));
 
-      NameValidate(fn, fn_er);
-      NameValidate(ln, ln_er);
-      EmailValidate(email, em_er);
-      PhnValidate(phn, phn_er);
-      BigTextValidate(add, add_er);
-      NameValidate(city, city_er);
-
-      return valiate;
+      if (validate) {
+        return true;
+      }
+      return false;
 
     }
   </script>

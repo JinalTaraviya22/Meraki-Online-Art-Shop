@@ -23,10 +23,10 @@
     <?php
     include 'Header.php';
     // session_start();
-    if (!isset($_SESSION['U_User']) && !isset($_SESSION['U_Admin'])) {
-        header("Location: Login.php");
-        exit();
-    }
+    // if (!isset($_SESSION['U_User']) && !isset($_SESSION['U_Admin'])) {
+    //     header("Location: Login.php");
+    //     exit();
+    // }
     $Email_Session=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    
     ?>
 </head>

@@ -65,7 +65,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4 mt-3">
                 <!-- otp form -->
-                <form id="otp" method="post" id="form1" style="align-contect:center">
+                <form id="otp" method="post" onsubmit="return otpForm();" id="form1" style="align-contect:center">
                     <label for="name" class="form-label">Enter OTP :</label>
                     <input type="text" class="form-control" id="otptxt" name="otptxt"
                         placeholder="Enter OTP sent to your email">
@@ -114,7 +114,6 @@
                     <button type="submit" name="otp_btn" id="otp_btn" class="btn btn-dark">Submit</button>
                 </form>
                 <!-- otp form -->
-
                 <div class="col-md-12">
                     <br><a href="register.php">Don't have an account?Register here!</a>
                 </div>
@@ -122,6 +121,16 @@
         </div>
     </div>
 
+    <script>
+        function otpForm(){
+            validate =true;
+            ZipValidate(document.getElementById('otptxt'), document.getElementById('otp_er'));
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <?php

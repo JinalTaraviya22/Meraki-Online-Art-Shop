@@ -32,7 +32,7 @@
       <div class="col-md-4"></div>
       <div class="col-md-4 mt-3">
         <!-- forgot password -->
-        <form id="forgot" method="post" style="align-contect:center">
+        <form id="forgot" method="post" onsubmit="return forgotEmail()" style="align-contect:center">
           <label for="name" class="form-label">Email :</label>
           <input type="text" class="form-control" id="femail" name="femail" placeholder="Enter Email">
           <span id="femail_er"></span><br>
@@ -45,6 +45,17 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function forgotEmail() {
+      validate = true;
+      EmailValidate(document.getElementById('femail'), document.getElementById('femail_er'));
+      if (validate) {
+        return true;
+      }
+      return false;
+    }
+  </script>
 
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -68,9 +79,7 @@
         </script>
         <?php
         exit;
-      }
-       else 
-       {
+      } else {
         $otp = rand(100000, 999999);
 
         // Use PHPMailer to send the OTP
