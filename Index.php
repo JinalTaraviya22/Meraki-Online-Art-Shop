@@ -98,38 +98,46 @@
         <section class="featured" id="latest">
           <h2>Bestsellers</h2>
           <div class="art-grid">
-            <a href="single_product.php">
-              <div class="art-item">
-                <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                <h3>Product Name</h3>
-                <p>Company Name</p>
-                <p>Rs. 13,000</p>
+            <?php
+            $q = "SELECT * FROM product_tbl ORDER BY P_Id DESC LIMIT 3";
+            $result = mysqli_query($con, $q);
+
+            while ($r = mysqli_fetch_assoc($result)) {
+              ?>
+              <div class="card">
+                <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
+                  <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+                    alt="<?php echo $r['P_Name']; ?>" />
+                  <div class="card__overlay">
+                    <div class="card__header">
+                      <div class="card__header-text">
+                        <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                        <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                      </div>
+                    </div>
+                    <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
+                  </div>
+                </a>
               </div>
-            </a>
-            <a href="single_product.php">
-              <div class="art-item">
-                <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                <h3>Product Name</h3>
-                <p>Comapny Name</p>
-                <p>$200</p>
-              </div>
-            </a>
-            <a href="single_product.php">
-              <div class="art-item">
-                <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                <h3>Product Name</h3>
-                <p>Comapny Name</p>
-                <p>$200</p>
-              </div>
-            </a>
-          <!-- Add more artworks as needed -->
+              <!-- <a href="single_product.php">
+                <div class="art-item">
+                  <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
+                  <h3>Product Name</h3>
+                  <p>Comapny Name</p>
+                  <p>$200</p>
+                </div>
+              </a> -->
+              <?php
+            }
+            ?>
           </div>
+          <!-- Add more artworks as needed -->
         </section>
       </div>
     </div>
-  </div> 
+  </div>
 
-  
+
   <!-- offers -->
   <div class="container mt-5 mb-5">
     <h5>Offers</h5>
@@ -166,30 +174,46 @@
         <section class="featured" id="latest">
           <h2>Newest Products</h2>
           <div class="art-grid">
-            <a href="single_product.php">
+            <!-- <a href="single_product.php">
               <div class="art-item">
                 <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
                 <h3>Product Name</h3>
                 <p>Company Name</p>
                 <p>Rs. 13,000</p>
               </div>
-            </a>
-            <a href="single_product.php">
-              <div class="art-item">
-                <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                <h3>Product Name</h3>
-                <p>Comapny Name</p>
-                <p>$200</p>
+            </a> -->
+            <?php
+            $q = "SELECT * FROM product_tbl ORDER BY P_Id DESC LIMIT 3";
+            $result = mysqli_query($con, $q);
+
+            while ($r = mysqli_fetch_assoc($result)) {
+              ?>
+              <div class="card">
+                <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
+                  <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+                    alt="<?php echo $r['P_Name']; ?>" />
+                  <div class="card__overlay">
+                    <div class="card__header">
+                      <div class="card__header-text">
+                        <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                        <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                      </div>
+                    </div>
+                    <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
+                  </div>
+                </a>
               </div>
-            </a>
-            <a href="single_product.php">
-              <div class="art-item">
-                <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
-                <h3>Product Name</h3>
-                <p>Comapny Name</p>
-                <p>$200</p>
-              </div>
-            </a>
+              <!-- <a href="single_product.php">
+                <div class="art-item">
+                  <img src="Img/categories.png" alt="Artwork 1" style="width:100%;">
+                  <h3>Product Name</h3>
+                  <p>Comapny Name</p>
+                  <p>$200</p>
+                </div>
+              </a> -->
+              <?php
+            }
+            ?>
             <!-- Add more artworks as needed -->
           </div>
         </section>
