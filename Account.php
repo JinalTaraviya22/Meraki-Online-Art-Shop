@@ -174,7 +174,7 @@
                         </div>
                     </form>
                     <!-- change password -->
-                    <form id="changePwd" method="post" enctype="multipart/form-data" style="display:none !important;">
+                    <form id="changePwd" onsubmit="return Pwdch()" method="post" enctype="multipart/form-data" style="display:none !important;">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Old Password :</label>
@@ -272,38 +272,17 @@
             return validate;
         }
 
-        function cPwd() {
-            event.preventDefault();
+        function Pwdch() {
+            validate = true;
 
-            let validate = true;
+            CommanValidate(document.getElementById('oldPwd'), document.getElementById('OPwdError'))
+            PwdValidate(document.getElementById('newPwd'), document.getElementById('NPwdError'));
+            CommanValidate(document.getElementById('coPwd'), document.getElementById('CPwdError'));
 
-            var op = document.getElementById('oldPwd');
-            var op_er = document.getElementById('OPwdError');
-            var np = document.getElementById('newPwd');
-            var np_er = document.getElementById('NPwdError');
-            var cp = document.getElementById('coPwd');
-            var cp_er = document.getElementById('CPwdError');
-
-            validate = CommanValidate(op, op_er) && validate;
-            validate = PwdValidate(np, np_er) && validate;
-            validate = CommanValidate(cp, cp_er) && validate;
-
-            if (cp.value === "") {
-                cp_er.textContent = "This is required field";
-                cp_er.style.color = "red";
-                validate = false;
-            } else {
-                if (np.value !== cp.value) {
-                    cp_er.textContent = "Passwords do not match";
-                    cp_er.style.color = "red";
-                    validate = false;
-                } else {
-                    cp_er.textContent = "";
-                }
+            if(validate){
+                return true;
             }
-
-
-            return validate;
+            return false;
         }
     </script>
     <?php
