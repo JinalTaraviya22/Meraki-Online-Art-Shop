@@ -298,7 +298,7 @@
                 </script>
                 <?php
             } else {
-                echo "File upload error: " . $_FILES['cimg']['error'];
+                echo "File upload error: ". $_FILES['cimg']['error'];
             }
         } else {
             setcookie('error', 'Error in adding Category', time() + 5, "/");

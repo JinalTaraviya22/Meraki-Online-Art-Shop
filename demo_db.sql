@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 05:18 AM
+-- Generation Time: Nov 13, 2024 at 03:43 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -119,6 +119,26 @@ INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders_tbl`
+--
+
+CREATE TABLE `orders_tbl` (
+  `or_Id` int(45) NOT NULL,
+  `or_P_Id` int(77) NOT NULL,
+  `or_Quantity` int(12) NOT NULL,
+  `or_U_Email` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders_tbl`
+--
+
+INSERT INTO `orders_tbl` (`or_Id`, `or_P_Id`, `or_Quantity`, `or_U_Email`) VALUES
+(1, 1, 2, 'angelraiyanii@gmail.com');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `order_tbl`
 --
 
@@ -134,7 +154,7 @@ CREATE TABLE `order_tbl` (
   `O_City` varchar(78) NOT NULL,
   `O_Zip` int(89) NOT NULL,
   `O_State` varchar(56) NOT NULL,
-  `O_Date` date NOT NULL
+  `O_Date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -297,6 +317,12 @@ ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
 
 --
+-- Indexes for table `orders_tbl`
+--
+ALTER TABLE `orders_tbl`
+  ADD PRIMARY KEY (`or_Id`);
+
+--
 -- Indexes for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
@@ -366,6 +392,12 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `orders_tbl`
+--
+ALTER TABLE `orders_tbl`
+  MODIFY `or_Id` int(45) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_tbl`

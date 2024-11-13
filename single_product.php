@@ -63,7 +63,7 @@ $c_id = $r['C_Id'];
                         </select>
                     </div>
                     <div class="col-md-8 mt-3">
-                        <a href="order.php?id=<?php echo $r['P_Id'] ?>"><button class="cirbutton">
+                        <a href="order.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="order" id="order" class="cirbutton">
                                 <div class="icon-container">
                                     <i class="fa fa-shopping-bag" style="color:white;"></i>
                                 </div><span>Buy Now</span>
@@ -171,6 +171,21 @@ $c_id = $r['C_Id'];
 
         <?php
         include "Footer.php";
+        if (isset($_POST['order'])) {
+            $or_Quantity = $_POST['quan']; 
+            $or_P_Id = $id;
+            $or_U_Email = $Email_Session; 
+    
+            $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$or_Quantity')";
+            $data = mysqli_query($con, $sql);
+
+            if ($data) {
+                echo "<script>location.replace('order.php');</script>";
+            } else {
+                echo "Error inserting data into wishlist";
+            }
+
+        }
         if (isset($_POST['cart'])) {
             $Ct_Quantity = $_POST['quan']; 
             $Ct_P_Id = $id;

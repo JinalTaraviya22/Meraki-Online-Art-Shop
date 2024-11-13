@@ -95,7 +95,7 @@
                     <th>Disable</th>
                 </tr>
                 <?php
-                $query = "SELECT p.*,c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id=c.Ct_P_Id WHERE c.Ct_U_Email='$Email_Session'";
+                $query = "SELECT p.*,c.* FROM product_tbl p JOIN cart_tb c ON p.P_Id=c.Ct_P_Id WHERE c.Ct_U_Email='$Email_Session'";
                 $result = mysqli_query($con, $query);
                 while ($r = mysqli_fetch_assoc($result)) {
                     ?>
@@ -104,14 +104,15 @@
                         <td><?php echo $r['P_Name'] ?></td>
                         <td><?php echo $r['P_Price'] * $r['Ct_Quantity'] ?></td>
                         <td>
-                            <select>
+                            <!-- <select>
                                 <option>3</option>
                                 <option>1</option>
-                            </select>
+                            </select> -->
+                            <?php echo $r['Ct_Quantity'] ?>
                         </td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img1']?>" height="100px" width="100px"></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img2']?>" height="100px" width="100px"></td>
-                        <td><a href="#update_form"><button class="btn btn-dark" onclick="update(1)"><i
+                        <td><a href=""><button name="order" id="order" class="btn btn-dark"><i
                                         class="fa fa-shopping-bag"></i></button></a></td>
                         <td><button type="submit" class="btn btn-dark" style="background-color:#ad3434;"><i
                                     class="fa fa-times"></i></button></td>
@@ -124,6 +125,20 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <?php
     include 'Footer.php';
+
+    if (isset($_POST['order'])) {
+        $or_P_Id = $id;
+        $or_U_Email = $Email_Session; 
+        $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$Ct_Quantity')";
+        $data = mysqli_query($con, $sql);
+
+        if ($data) {
+            echo "<script>location.replace('order.php');</script>";
+        } else {
+            echo "Error inserting data into wishlist";
+        }
+
+    }
     ?>
 </body>
 

@@ -15,6 +15,7 @@
         header("Location: Login.php");
         exit();
     }
+    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
     ?>
     
 </head>
@@ -35,17 +36,29 @@ background-size: cover;color:white"> -->
                 <!-- Left column : Image -->
                 <div class="col-md-4">
                     <div class="product-image-circle">
-                        <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded">
+                    <?php
+                $query = "SELECT p.*,o.* FROM product_tbl p JOIN orders_tbl o ON p.P_Id=o.or_P_Id WHERE o.or_U_Email='$Email_Session'";
+                $result = mysqli_query($con, $query);
+                while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                        <!-- <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded"> -->
+                         <?php echo $r['P_Img1']; ?>
                     </div>
                 </div>
                 <!-- Right Column -->
                 <div class="col-md-6">
                     <div class="product-image-large">
                         <!-- product Information -->
-                        <h4>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</h4>
-                        <p class="price" style="font-size: 16px;">Rs. 1,300</p>
-                        Quantity:2
+                      
+                        <h4>
+                            <?php
+                            echo $r['P_Name'];
+                            ?>
+                        </h4>
+                        <p class="price" style="font-size: 16px;">Price : <?php echo $r['P_Price'] ?></p>
+                        Quantity : <?php echo $r['or_Quantity']; ?>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

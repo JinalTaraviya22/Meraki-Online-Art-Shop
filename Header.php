@@ -89,33 +89,33 @@ include 'conn.php';
 <body>
     <?php
     // Success cookie
-    if (isset($_COOKIE['success'])) {
+  //  if (isset($_COOKIE['success'])) {
         ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <!-- <div class="alert alert-success alert-dismissible fade show" role="alert"> 
+             <strong>Success!</strong> <?php echo $_COOKIE['success']; ?> 
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+        <!-- </div> -->
         <?php
-    }
+   // }
     // Error cookie
-    if (isset($_COOKIE['error'])) {
+    //if (isset($_COOKIE['error'])) {
         ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Error!</strong> <?php echo $_COOKIE['error']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        </div> -->
         <?php
-    }
-
-    // Clear cookies
-    if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
-        setcookie('success', '', time() - 3600, '/');
-        setcookie('error', '', time() - 3600, '/');
-    }
+   // }
+   
+   // Clear cookies
+   //  if (isset($_COOKIE['success']) || isset($_COOKIE['error'])) {
+    //     setcookie('success', '', time() - 3600, '/');
+    //     setcookie('error', '', time() - 3600, '/');
+    // }
     ?>
-
-
     <header class="header">
+
+
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand logo" href="#">
