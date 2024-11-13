@@ -17,7 +17,7 @@
     }
     $Email_Session=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    
     
-    $query = "SELECT p.*,w.* FROM product_tbl p JOIN wishlist_tbl w ON p.P_Id=w.W_P_Id WHERE w.W_U_Email='$Email_Session'";
+    $query = "SELECT p.*,w.* FROM product_tbl p JOIN wishlist_tbl w ON p.P_Id=w.W_P_Id WHERE w.W_U_Email='$Email_Session' order by w.W_Id desc";
     $result = mysqli_query($con, $query);
     ?>
 </head>
@@ -27,7 +27,7 @@
         <div class="row" style="text-align: center;">
             <h2>Welcome to Wishlist!</h2>
             <div class="col-md-6">
-                <p>Total:1,300</p>
+                <p>0</p>
             </div>
             <div class="col-md-6">
                 <button type="submit" class="btn btn-dark">Remove All</button>
@@ -81,7 +81,7 @@
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
     <?php
-    include('Footer.php');
+    include 'Footer.php';
     ?>
 </body>
 

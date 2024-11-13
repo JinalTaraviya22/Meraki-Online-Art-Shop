@@ -22,6 +22,7 @@
   </style>
   <?php
   include 'Header.php';
+  $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
   //$id = $_GET['Id'];
   ?>
 </head>
@@ -74,31 +75,38 @@
         while ($r = mysqli_fetch_assoc($result)) {
           ?>
           <div class="card">
-            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
-              <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
-                alt="<?php echo $r['P_Name']; ?>" />
-              <div class="card__overlay">
-                <div class="card__header">
-                  <div class="card__header-text">
-                    <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
-                    <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
-                  </div>
+            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+              alt="<?php echo $r['P_Name']; ?>" />
+            <div class="card__overlay">
+              <div class="card__header">
+                <div class="card__header-text">
+                  <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                  <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                  <p><?php echo $r['P_Company_Name'] ?></p>
                 </div>
-                <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
               </div>
-            </a>
+              <form method="post">
+                <p class="card__description">
+                  <input type="hidden" name="p_id" value="<?php echo $r['P_Id']; ?>">
+                  <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>">
+                    <button type="button" class="btn btn-dark">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                  </a>
+                  <a href="cart.php">
+                    <button type="submit" name="cart" class="btn btn-dark">
+                      <i class="fa fa-shopping-cart"></i>
+                    </button>
+                  </a>
+                  <a href="wishlist.php">
+                    <button type="submit" name="wish" class="btn btn-dark">
+                      <i class="fa fa-heart"></i>
+                    </button>
+                  </a>
+                </p>
+              </form>
+            </div>
           </div>
-          
-          <!-- <div class="art-item">
-            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" alt="Artwork 1" style="width:100%;">
-            <b>
-              <h5 class="mt-2"><?php echo $r['P_Name'] ?></h5>
-            </b>
-
-            <p><?php echo $r['P_Company_Name'] ?></p>
-            <p>Rs. <?php echo $r['P_Price'] ?></p>
-            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>"><button class="cirbutton">View</button></a>
-          </div> -->
           <?php
         }
         ?>
@@ -125,6 +133,60 @@
   </div>
   <?php
   include "Footer.php";
+
+  if (isset($_POST['cart'])) {
+    $Ct_Quantity = 1;
+    $Ct_P_Id = $_POST['p_id'];
+    $Ct_U_Email = $Email_Session;
+
+    $chechQuery = "select * from cart_tbl where Ct_P_Id=$Ct_P_Id And Ct_U_Email=$Ct_U_Email";
+    $CheckData = mysqli_query($con, $chechQuery);
+
+    if ($CheckData) {
+      $sql = "INSERT INTO cart_tbl (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
+      $data = mysqli_query($con, $sql);
+
+      if ($data) {
+        echo "<script>location.replace('cart.php');</script>";
+      } else {
+        echo "Error inserting data into cart";
+      }
+    } else {
+      setcookie('success', "This product is already in cart!!!", time() + 5, "/");
+      ?>
+      <script>
+        window.location.href = 'cart.php';
+      </script>";
+      <?php
+    }
+  }
+
+  if (isset($_POST['wish'])) {
+    $W_Quantity = 1;
+    $W_P_Id = $_POST['p_id'];
+    $W_U_Email = $Email_Session;
+
+    $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email=$W_U_Email";
+    $CheckData = mysqli_query($con, $checkQuery);
+
+    if ($CheckData) {
+      $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
+      $data = mysqli_query($con, $sql);
+
+      if ($data) {
+        echo "<script>location.replace('wishlist.php');</script>";
+      } else {
+        echo "Error inserting data into wishlist";
+      }
+    } else {
+      setcookie('success', "This product is already in your Wishlist!!!", time() + 5, "/");
+      ?>
+      <script>
+        window.location.href = 'wishlist.php';
+      </script>";
+      <?php
+    }
+  }
   ?>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>

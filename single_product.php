@@ -27,7 +27,7 @@
     //     header("Location: Login.php");
     //     exit();
     // }
-    $Email_Session=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    
+    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
     ?>
 </head>
 
@@ -63,7 +63,8 @@ $c_id = $r['C_Id'];
                         </select>
                     </div>
                     <div class="col-md-8 mt-3">
-                        <a href="order.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="order" id="order" class="cirbutton">
+                        <a href="order.php?id=<?php echo $r['P_Id'] ?>"><button type="submit" name="order" id="order"
+                                class="cirbutton">
                                 <div class="icon-container">
                                     <i class="fa fa-shopping-bag" style="color:white;"></i>
                                 </div><span>Buy Now</span>
@@ -75,8 +76,8 @@ $c_id = $r['C_Id'];
                                 </div><span>Add to Cart</span>
                             </button></a>
                         <br /><br />
-                        <a href="wishlist.php" value="<?php echo $r['P_Id'] ?>"><button type="submit" class="cirbutton" name='wish'
-                                id='wish'>
+                        <a href="wishlist.php" value="<?php echo $r['P_Id'] ?>"><button type="submit" class="cirbutton"
+                                name='wish' id='wish'>
                                 <div class="icon-container">
                                     <i class="fa fa-heart" style="color: white;"></i>
                                 </div><span>Add to Wishlist</span>
@@ -167,30 +168,34 @@ $c_id = $r['C_Id'];
                 </div>
             </div>
         </section>
-        </div>
+    </div>
 
-        <?php
-        include "Footer.php";
-        if (isset($_POST['order'])) {
-            $or_Quantity = $_POST['quan']; 
-            $or_P_Id = $id;
-            $or_U_Email = $Email_Session; 
-    
-            $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$or_Quantity')";
-            $data = mysqli_query($con, $sql);
+    <?php
+    include "Footer.php";
+    if (isset($_POST['order'])) {
+        $or_Quantity = $_POST['quan'];
+        $or_P_Id = $id;
+        $or_U_Email = $Email_Session;
 
-            if ($data) {
-                echo "<script>location.replace('order.php');</script>";
-            } else {
-                echo "Error inserting data into wishlist";
-            }
+        $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$or_Quantity')";
+        $data = mysqli_query($con, $sql);
 
+        if ($data) {
+            echo "<script>location.replace('order.php');</script>";
+        } else {
+            echo "Error inserting data into wishlist";
         }
-        if (isset($_POST['cart'])) {
-            $Ct_Quantity = $_POST['quan']; 
-            $Ct_P_Id = $id;
-            $Ct_U_Email = $Email_Session; 
-    
+
+    }
+    if (isset($_POST['cart'])) {
+        $Ct_Quantity = $_POST['quan'];
+        $Ct_P_Id = $id;
+        $Ct_U_Email = $Email_Session;
+
+        $chechQuery = "select * from cart_tbl where Ct_P_Id=$Ct_P_Id And Ct_U_Email=$Ct_U_Email";
+        $CheckData = mysqli_query($con, $chechQuery);
+
+        if ($CheckData) {
             $sql = "INSERT INTO cart_tbl (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
             $data = mysqli_query($con, $sql);
 
@@ -199,14 +204,25 @@ $c_id = $r['C_Id'];
             } else {
                 echo "Error inserting data into cart";
             }
-
+        } else {
+            setcookie('success', "This product is already in cart!!!", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'cart.php';
+            </script>";
+            <?php
         }
+    }
 
-        if (isset($_POST['wish'])) {
-            $W_Quantity = $_POST['quan']; 
-            $W_P_Id = $id;
-            $W_U_Email = $Email_Session; 
-    
+    if (isset($_POST['wish'])) {
+        $W_Quantity = $_POST['quan'];
+        $W_P_Id = $id;
+        $W_U_Email = $Email_Session;
+
+        $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email=$W_U_Email";
+        $CheckData = mysqli_query($con, $checkQuery);
+
+        if ($CheckData) {
             $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
             $data = mysqli_query($con, $sql);
 
@@ -215,11 +231,19 @@ $c_id = $r['C_Id'];
             } else {
                 echo "Error inserting data into wishlist";
             }
-
+        } else {
+            setcookie('success', "This product is already in your Wishlist!!!", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'wishlist.php';
+            </script>";
+            <?php
         }
-        
-        ?>
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    }
+
+    ?>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 
 </html>
