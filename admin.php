@@ -55,7 +55,7 @@
 
 <body class="bg-dark">
     <!-- change Main banners -->
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid bgcolor mt-5 mb-5">
         <div class="row">
             <h2>Change Main Banners</h2>
             <p>Image size should be :1600x500</p>
@@ -97,7 +97,7 @@
     </div>
 
     <!-- change offer banners -->
-    <div class="container mt-5 mb-5" id="discount">
+    <div class="container-fluid bgcolor mt-5 mb-5" id="discount">
         <div class="row">
             <h2>Discount</h2>
             <div class="col">
@@ -139,7 +139,7 @@
     </div>
 
     <!-- Add Category -->
-    <div class="container mt-5 mb-5" id="category">
+    <div class="container-fluid bgcolor mt-5 mb-5" id="category">
         <div class="row">
             <div class="col col-md-6">
                 <h2>Add New Category</h2>

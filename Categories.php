@@ -13,7 +13,7 @@
 </head>
 
 <body class="bg-dark">
-  <div class="container mt-5 mb-5" style="padding:20px;">
+  <div class="container-fluid bgcolor mt-5 mb-5" style="padding:20px;">
     <div class="row mt-3 mb-3">
       <h2 class="col-md-3" style="color:white">Categories</h2>
       <div class="col-md-5"></div>

@@ -23,11 +23,11 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 bgcolor">
         <div class="row" style="text-align: center;">
             <h2>Welcome to Wishlist!</h2>
             <div class="col-md-6">
-                <p>0</p>
+                <p> </p>
             </div>
             <div class="col-md-6">
                 <button type="submit" class="btn btn-dark">Remove All</button>
@@ -36,11 +36,11 @@
         </div>
     </div>
 
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid mt-5 mb-5 bgcolor">
         <?php 
              while ($r = mysqli_fetch_assoc($result)) {
         ?>
-        <div class="row mb-5">
+        <div class="row">
             <!-- Left column : Image -->
             <div class="col-md-3">
                 <div class="product-image-circle">
@@ -54,22 +54,26 @@
                     <h4><?php echo $r['P_Name']?></h4>
                     <p class="price" style="font-size: 16px;">Rs. <?php echo $r['P_Price']*$r['W_quantity']?></p>
                     <p><?php echo $r['P_Company_Name']?></p>
-                    Quantity:
+                    <a href="single_product.php?Id=<?php echo $r['W_P_Id']?>"><button class="btn btn-dark">See Product</button></a>
+                    <!-- Quantity:
                     <select id="quantity" class="form-select" style="width: 100px;">
                         <option value="1">1</option>
                         <option value="2" selected>2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="product-image-large">
+                    <form method="post">
+                        <input type="hidden" name="W_Id" value="<?php echo $r['W_Id']?>">
                     <a href="cart.php"><button type="submit" class="btn btn-dark"><i
                                 class="fa fa-shopping-cart"></i></button></a>
                     <a href="order.php"><button type="submit" class="btn btn-dark"><i
                                 class="fa fa-arrow-right"></i></button></a>
-                    <button type="submit" class="btn btn-dark"><i class="fa fa-times"></i></button>
+                    <button type="submit" class="btn btn-dark" name="deleteitem"><i class="fa fa-times"></i></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -82,6 +86,19 @@
 
     <?php
     include 'Footer.php';
+
+    if (isset($_POST['deleteitem'])) {
+        $id=$_POST['W_Id'];
+
+        $query="delete from wishlist_tbl where W_Id=$id";
+        $data=mysqli_query($con,$query);
+
+        if($data){
+            setcookie('success', "Product removed from wishlist", time() + 5, "/");
+        }
+        echo $id;
+
+    }
     ?>
 </body>
 

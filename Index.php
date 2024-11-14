@@ -14,11 +14,11 @@
 
   ?>
   <style>
-    .container {
+    /* .container {
       background-color: rgba(165, 165, 165, 0.7);
       border-radius: 50px;
       padding: 50px;
-    }
+    } */
 
     body {
       margin: 0;
@@ -60,7 +60,7 @@
 
 <body class="bg-dark">
   <!-- <body style="background-color:#48172d"> -->
-  <div class="container mt-5">
+  <div class="container-fluid bgcolor mt-5">
     <div class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <?php
@@ -92,7 +92,7 @@
   </div>
 
   <!-- Featured products -->
-  <div class="container mt-5 mb-5">
+  <div class="container-fluid bgcolor mt-5 mb-5">
     <div class="row mt-1">
       <div class="col">
         <section class="featured" id="latest">
@@ -139,7 +139,7 @@
 
 
   <!-- offers -->
-  <div class="container mt-5 mb-5">
+  <div class="container-fluid bgcolor mt-5 mb-5">
     <h5>Offers</h5>
     <div class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -168,7 +168,7 @@
 
 
   <!-- Newest products -->
-  <div class="container mt-5 mb-5">
+  <div class="container-fluid bgcolor mt-5 mb-5">
     <div class="row mt-1">
       <div class="col">
         <section class="featured" id="latest">

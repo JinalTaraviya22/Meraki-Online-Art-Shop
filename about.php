@@ -18,7 +18,7 @@
 <!-- <body style="background-image: url(img/firstbigbox.png);background-size: cover;color:white;"> -->
 
 <body class="bg-dark">
-  <div class="container mt-5">
+  <div class="container-fluid mt-5 bgcolor">
     <div class="row">
       <h2>Meraki</h2>
       <!-- Left Column -->
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div class="container mt-5 mb-5">
+  <div class="container-fluid mt-5 mb-5 bgcolor">
     <!-- Add a Review Section -->
     <div class="row mt-5">
       <h2>Contact Us</h2><br /><br />

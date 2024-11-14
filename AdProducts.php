@@ -38,7 +38,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Products</h2>
             <div class="col-md-3" style="text-align:right">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- add products -->
-        <div class="container mt-5 mb-5" id="add_form" style="display:none !important">
+        <div class="container-fluid bgcolor mt-5 mb-5" id="add_form" style="display:none !important">
             <div class="row">
                 <h2>Add Products</h2>
                 <div class="col">
@@ -248,7 +248,7 @@
         $p_status = $r['P_Status'];
         $default_subcat_id = $r['P_SC_Id'];
         ?>
-        <div class="container mt-5" id="update_form">
+        <div class="container-fluid bgcolor mt-5" id="update_form">
             <div class="row">
                 <!-- Images Column -->
                 <div class="col-md-4">

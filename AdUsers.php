@@ -39,7 +39,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Users</h2>
             <div class="col-md-3" style="text-align:right">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- add users -->
-        <div class="container mt-5 mb-5" id="register" style="display:none">
+        <div class="container-fluid bgcolor mt-5 mb-5" id="register" style="display:none">
             <div class="row">
                 <h2 style="text-align:center">Register</h2>
                 <!-- <div class="col-md-3"></div> -->
@@ -244,7 +244,7 @@
         $r = mysqli_fetch_assoc($result);
         $p_status = $r['U_Status'];
         ?>
-        <div class="container mt-5" id="user_profile">
+        <div class="container-fluid bgcolor mt-5" id="user_profile">
             <div class="row">
                 <h2>Hello, <?php echo $r['U_Fnm']; ?></h2>
                 <!-- Left Column -->

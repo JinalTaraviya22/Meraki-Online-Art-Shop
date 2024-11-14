@@ -42,7 +42,7 @@ $c_id = $r['C_Id'];
 ?>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 bgcolor">
         <div class="row">
             <!-- Left Column -->
             <div class="col-md-4">
@@ -137,7 +137,7 @@ $c_id = $r['C_Id'];
     </div> -->
 
     <!-- similar products area -->
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid mt-5 mb-5 bgcolor">
         <section class="featured" id="latest">
             <h2>Featured Products</h2>
             <div class="row mt-1">
@@ -195,7 +195,7 @@ $c_id = $r['C_Id'];
         $chechQuery = "select * from cart_tbl where Ct_P_Id=$Ct_P_Id And Ct_U_Email=$Ct_U_Email";
         $CheckData = mysqli_query($con, $chechQuery);
 
-        if ($CheckData) {
+        if (!$CheckData) {
             $sql = "INSERT INTO cart_tbl (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
             $data = mysqli_query($con, $sql);
 
@@ -222,7 +222,7 @@ $c_id = $r['C_Id'];
         $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email=$W_U_Email";
         $CheckData = mysqli_query($con, $checkQuery);
 
-        if ($CheckData) {
+        if (!$CheckData) {
             $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
             $data = mysqli_query($con, $sql);
 

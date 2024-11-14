@@ -56,7 +56,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row mt-3 mb-3">
             <h2 class="col-md-4" style="color:white">Users</h2>
             <div class="col-md-3" style="text-align:right">
@@ -169,7 +169,7 @@
         $result = mysqli_query($con, $query);
         $r = mysqli_fetch_assoc($result);
         ?>
-        <div class="container mt-5" id="user_profile">
+        <div class="container-fluid bgcolor mt-5" id="user_profile">
             <div class="row">
                 <h2 class="mb-3">Name : <?php echo $r['Co_Name']; ?></h2>
                 <div class="col-md-12">

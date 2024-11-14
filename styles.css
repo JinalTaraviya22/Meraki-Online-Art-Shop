@@ -12,6 +12,15 @@ body {
   margin-left: 5%;
   margin-right: 5%;
 }
+.bgcolor {
+  background-color: rgba(165, 165, 165, 0.7);
+  padding: 50px;
+  border-radius: 50px;
+  width: auto;
+  margin-top: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
 
 a {
   color: #000000;

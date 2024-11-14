@@ -28,7 +28,7 @@
 </head>
 
 <body class="bg-dark">
-  <div class="container mt-5 mb-5" style="padding:20px;">
+  <div class="container-fluid mt-5 mb-5 bgcolor" style="padding:20px;">
     <!-- Similar Products Section -->
     <div class="row mt-3 mb-3">
       <h2 class="col-md-3" style="color:white">Products</h2>
@@ -169,7 +169,7 @@
     $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email=$W_U_Email";
     $CheckData = mysqli_query($con, $checkQuery);
 
-    if ($CheckData) {
+    if (!$CheckData) {
       $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
       $data = mysqli_query($con, $sql);
 

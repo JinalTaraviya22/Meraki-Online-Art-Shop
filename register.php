@@ -22,7 +22,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid bgcolor mt-5 mb-5">
         <div class="row">
             <h2 style="text-align:center">Register</h2>
             <div class="col-md-3"></div>

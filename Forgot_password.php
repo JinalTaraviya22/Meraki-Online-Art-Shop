@@ -26,7 +26,7 @@
 </head>
 
 <body class="bg-dark">
-  <div class="container mt-5 mb-5">
+  <div class="container-fluid bgcolor mt-5 mb-5">
     <div class="row">
       <h2 style="text-align:center">Forgot Password</h2>
       <div class="col-md-4"></div>

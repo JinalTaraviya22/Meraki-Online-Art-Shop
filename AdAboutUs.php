@@ -17,7 +17,7 @@
 
 <body class="bg-dark">
     <form action="AdAboutUs.php" method="post">
-        <div class="container mt-5">
+        <div class="container-fluid mt-5 bgcolor">
             <div class="row mt-3 mb-3">
                 <h2 class="col-md-4" style="color:white">About As</h2>
                 <!-- Editor container -->

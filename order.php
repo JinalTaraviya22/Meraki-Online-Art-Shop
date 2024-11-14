@@ -19,19 +19,13 @@
     ?>
     
 </head>
-
-
-<!-- <body style="background-image: url(img/bg7.png); 
-background-attachment:fixed;
-background-repeat: no-repeat; 
-background-size: cover;color:white"> -->
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row">
             <h2>Order Details</h2>
             <h6>Enter your order details to buy the product.</h6>
         </div>
-        <div class="container mt-3 mb-2" style="padding:20px">
+        <div class="container-fluid bgcolor mt-3 mb-2" style="padding:20px">
             <div class="row">
                 <!-- Left column : Image -->
                 <div class="col-md-4">
@@ -64,7 +58,7 @@ background-size: cover;color:white"> -->
         </div>
     </div>
 
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid bgcolor mt-5 mb-5">
         <!-- Add a Review Section -->
         <div class="row mb-3">
             <h4 class="mb-3">Shipping Details</h4>

@@ -37,7 +37,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row mt-3 mb-3">
             <!-- <h2 class="col-md-3">Orders</h2>
             <div class="col-md-9" style="text-align:right;padding-right:25px;"><i class="fa fa-search"></i></div> -->

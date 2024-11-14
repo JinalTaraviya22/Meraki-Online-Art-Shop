@@ -23,7 +23,7 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 bgcolor">
         <div class="row">
             <h2>Hello, <?php echo $r['U_Fnm']; ?></h2>
             <!-- Left Column -->

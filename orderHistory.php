@@ -21,13 +21,13 @@
 
 <!-- <body style="background-image: url(img/bg6.png);background-size: cover;color:white;"> -->
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid bgcolor mt-5">
         <div class="row" style="text-align: center;">
             <h2>Order History</h2>
         </div>
     </div>
 
-    <div class="container mt-5 mb-5">
+    <div class="container-fluid bgcolor mt-5 mb-5">
         <div class="row">
             <!-- Left column : Image -->
             <div class="col-md-4">

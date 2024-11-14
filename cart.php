@@ -42,11 +42,19 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 bgcolor">
         <div class="row" style="text-align: center;">
             <h2>Welcome to Cart!</h2>
             <div class="col-md-6">
-                <p>Total:1,300</p>
+            <?php
+                $totalAmount=0;
+                $query = "SELECT p.*, c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id = c.Ct_P_Id WHERE c.Ct_U_Email = '$Email_Session' ORDER BY c.Ct_Id DESC";
+                $result = mysqli_query($con, $query);
+                while ($r = mysqli_fetch_assoc($result)) {
+                    $totalAmount += $r['P_Price'] * $r['Ct_Quantity']; //total
+                }
+                ?>
+                <p>Total:<?php echo $totalAmount?></p>
             </div>
             <div class="col-md-6">
                 <button type="submit" class="btn btn-dark">Check Out</button>
@@ -55,33 +63,7 @@
         </div>
     </div>
 
-    <div class="container mt-5 mb-5">
-        <!-- <div class="row">
-        <div class="col-md-4">
-            <div class="product-image-circle">
-                <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="product-image-large">
-                 <h4>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</h4>
-                <p class="price" style="font-size: 16px;">Rs. 1,300</p>
-                Quantity:
-                <select id="quantity" class="form-select" style="width: 100px;">
-                    <option value="1">1</option>
-                    <option value="2" selected>2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-          </div>
-        </div>
-        <div class="col-md-2">
-            <div class="product-image-large">
-                <a href="Account.php"><button type="submit" class="btn btn-dark"><i class="fa fa-times"></i></button></a>
-                <a href="order.php"><button type="submit" class="btn btn-dark"><i class="fa fa-arrow-right"></i></button></a>
-          </div>
-        </div>
-    </div> -->
+    <div class="container-fluid mt-5 mb-5 bgcolor">
         <div class="row" id="product">
             <table>
                 <tr>
@@ -102,7 +84,7 @@
                     <tr>
                         <!-- <td><?php echo $r['Ct_Id'] ?></td> -->
                         <td><?php echo $r['P_Name'] ?></td>
-                        <td><?php echo $r['P_Price'] * $r['Ct_Quantity'] ?></td>
+                        <td><?php echo $r['P_Price'] ?></td>
                         <td>
                             <!-- <select>
                                 <option>3</option>
@@ -150,7 +132,7 @@
         $data=mysqli_query($con,$query);
 
         if($data){
-
+            setcookie('success', "Product removed from cart", time() + 5, "/");
         }
         echo $id;
 
