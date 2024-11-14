@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 03:43 AM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Nov 13, 2024 at 01:23 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,41 +33,37 @@ CREATE TABLE `aboutus_tbl` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `a_Image` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `aboutus_tbl`
 --
 
 INSERT INTO `aboutus_tbl` (`a_Id`, `a_content`, `created_at`, `updated_at`, `a_Image`) VALUES
-(1, '<p><span style=\"color:#cccccc;\">With the intent to make the most premium quality art more accessible, Dessine Art is here to revolutionize the Art Industry and enhance the confidence of online art buyers.</span></p><p><span style=\"color:#cccccc;\">With us, you can effortlessly buy art ranging from every style, from classical to contemporary and affordable to high-end pieces. Every artwork on Dessine Art is creatively curated by our team to cater to the aesthetics of art lovers around the world. Along with established artists, we are also promoting the work of budding &nbsp;artists so that it can help them reach out to a wider audience.</span></p>', '2024-10-22 19:33:10', '2024-10-23 08:46:50', 'ab1.png');
+(1, '<p><span style=\"color:#cccccc;\">With the intent to make the most premium quality art more accessible, Dessine Art is here to revolutionize the Art Industry and enhance the confidence of online art buyers.</span></p><p><span style=\"color:#cccccc;\">With us, you can effortlessly buy art ranging from every style, from classical to contemporary and affordable to high-end pieces. Every artwork on Dessine Art is creatively curated by our team to cater to the aesthetics of art lovers around the world. Along with established artists, we are also promoting the work of budding &nbsp;artists so that it can help them reach out to a wider audience.</span></p>', '2024-10-22 19:33:10', '2024-10-23 08:52:27', 'Meraki.png');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart_tb`
+-- Table structure for table `cart_tbl`
 --
 
-CREATE TABLE `cart_tb` (
+CREATE TABLE `cart_tbl` (
   `Ct_Id` int(33) NOT NULL,
   `Ct_Quantity` int(45) NOT NULL,
   `Ct_P_Id` int(56) NOT NULL,
   `Ct_U_Email` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `cart_tb`
+-- Dumping data for table `cart_tbl`
 --
 
-INSERT INTO `cart_tb` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
-(2, 1, 1, ''),
-(3, 1, 1, ''),
-(4, 1, 1, ''),
-(5, 1, 1, ''),
-(6, 1, 1, ''),
-(7, 1, 2, 'angelraiyanii@gmail.com'),
-(8, 2, 2, 'angelraiyanii@gmail.com'),
-(9, 1, 2, 'angelraiyanii@gmail.com');
+INSERT INTO `cart_tbl` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
+(1, 1, 3, 'jinal.taraviya997@gmail.com'),
+(2, 3, 3, 'patelbhakti636@gmail.com'),
+(7, 1, 1, 'jtaraviya932@rku.ac.in'),
+(10, 1, 1, 'angelraiyanii@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -80,7 +76,7 @@ CREATE TABLE `category_tbl` (
   `C_Name` varchar(60) NOT NULL,
   `C_Img` varchar(60) NOT NULL,
   `C_Status` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category_tbl`
@@ -91,7 +87,7 @@ INSERT INTO `category_tbl` (`C_Id`, `C_Name`, `C_Img`, `C_Status`) VALUES
 (2, 'Sculpting and Modeling', '66f77c93e0b08Sculpting and Modeling.png', 'Active'),
 (3, 'Paints', '670b644d762f7acrylicColors.png', 'Active'),
 (4, 'Surfaces', '670bbd8b8bad7paper_boards.png', 'Active'),
-(5, 'Furniture', '670c9735a71dfeaseal_furniture.png', 'Deactivate');
+(5, 'Furniture', '670c9735a71dfeaseal_furniture.png', 'Active');
 
 -- --------------------------------------------------------
 
@@ -105,7 +101,7 @@ CREATE TABLE `contact_tbl` (
   `Co_Email` varchar(100) NOT NULL,
   `Co_Msg` text NOT NULL,
   `Co_Reply` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contact_tbl`
@@ -113,28 +109,9 @@ CREATE TABLE `contact_tbl` (
 
 INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`) VALUES
 (1, 'Angel Raiyani', 'angelraiyanii@gmail.com', 'first record', 'hello contact us successful🎉🎉'),
-(2, 'Jinal taraviya', 'jtaraviya932@rku.ac.in', 'hello, when will new products be added??? ', 'This website is still under development. Once it is complete we will upload products as soon as possible. Thank you for being patient. '),
-(3, 'Ayushi Mehta', 'jinal.taraviya997@gmail.com', 'I want to reset my password', 'then do it');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders_tbl`
---
-
-CREATE TABLE `orders_tbl` (
-  `or_Id` int(45) NOT NULL,
-  `or_P_Id` int(77) NOT NULL,
-  `or_Quantity` int(12) NOT NULL,
-  `or_U_Email` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `orders_tbl`
---
-
-INSERT INTO `orders_tbl` (`or_Id`, `or_P_Id`, `or_Quantity`, `or_U_Email`) VALUES
-(1, 1, 2, 'angelraiyanii@gmail.com');
+(2, 'Jinal taraviya', 'jtaraviya932@rku.ac.in', 'hello, when will new products be added??? ', 'This website is still under development. '),
+(3, 'Ayushi Mehta', 'jinal.taraviya997@gmail.com', 'I want to reset my password', 'then do it'),
+(4, 'Bhakti Bhut', 'angelraiyanii@gmail.com', 'loved your site😍', '');
 
 -- --------------------------------------------------------
 
@@ -154,8 +131,8 @@ CREATE TABLE `order_tbl` (
   `O_City` varchar(78) NOT NULL,
   `O_Zip` int(89) NOT NULL,
   `O_State` varchar(56) NOT NULL,
-  `O_Date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `O_Date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -169,7 +146,14 @@ CREATE TABLE `password_token_tbl` (
   `Otp` int(11) NOT NULL,
   `Created_at` datetime NOT NULL,
   `Expires_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `password_token_tbl`
+--
+
+INSERT INTO `password_token_tbl` (`Id`, `Email`, `Otp`, `Created_at`, `Expires_at`) VALUES
+(8, 'akbarinirali27@gmail.com', 602662, '2024-10-23 09:34:51', '2024-10-23 09:35:51');
 
 -- --------------------------------------------------------
 
@@ -188,7 +172,7 @@ CREATE TABLE `product_tbl` (
   `P_Img1` varchar(60) NOT NULL,
   `P_Img2` varchar(60) NOT NULL,
   `P_Status` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_tbl`
@@ -196,7 +180,8 @@ CREATE TABLE `product_tbl` (
 
 INSERT INTO `product_tbl` (`P_Id`, `P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`, `P_Status`) VALUES
 (1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2530, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active'),
-(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 728, 100, 'BRUSTRO', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active');
+(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 728, 100, 'BRUSTRO', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active'),
+(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active');
 
 -- --------------------------------------------------------
 
@@ -209,7 +194,7 @@ CREATE TABLE `slider_tbl` (
   `Img_1` varchar(100) NOT NULL,
   `Img_2` varchar(100) NOT NULL,
   `Img_3` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `slider_tbl`
@@ -230,14 +215,14 @@ CREATE TABLE `subcategory_tbl` (
   `C_Id` int(3) NOT NULL,
   `SC_Img` varchar(60) NOT NULL,
   `SC_Status` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `subcategory_tbl`
 --
 
 INSERT INTO `subcategory_tbl` (`SC_Id`, `SC_Name`, `C_Id`, `SC_Img`, `SC_Status`) VALUES
-(1, 'Charcoal', 1, '6717591be16d5drawing_illustration.png', 'Active'),
+(1, 'Charcoal', 1, '6714b8fee66fdcharcoal sketch.png', 'Active'),
 (2, 'Markers', 1, '6713ae1e1d37bmarkers.png', 'Active'),
 (3, 'Watercolors', 3, '6713af6b9a4e9watercolor.png', 'Active');
 
@@ -261,19 +246,20 @@ CREATE TABLE `user_tbl` (
   `U_Profile` varchar(255) DEFAULT NULL,
   `U_Role` char(10) DEFAULT 'Normal',
   `U_Status` char(10) DEFAULT 'Inactive'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_tbl`
 --
 
 INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `U_City`, `U_State`, `U_Zip`, `U_Pwd`, `U_Profile`, `U_Role`, `U_Status`) VALUES
-(1, 'Jinal', 'Taraviya', 'jtaraviya932@rku.ac.in', 1234567890, 'rku', 'Rajkot', 'Gujarat', 789998, 'jinal', '670e05e118e2abg9.png', 'Admin', 'Active'),
-(53, 'ayushi', 'mehta', 'amehta123@gmail.com', 1234567890, 'qwer', 'Kalavad', 'Gujarat', 360005, 'ayushi', '', 'Normal', 'Inactive'),
-(54, 'Angel', 'Raiyani', 'angelraiyanii@gmail.com', 1234567890, 'qwerftg', 'Rajkot', 'Gujarat', 360005, 'angel', '', 'Normal', 'Active'),
+(1, 'Jinal', 'Taraviya', 'jtaraviya932@rku.ac.in', 1234567890, 'Ranchhod Nagar-7', 'Rajkot', 'Gujarat', 789998, 'jinal', '670e05e118e2abg9.png', 'Admin', 'Active'),
+(53, 'ayushi', 'mehta', 'amehta123@gmail.com', 1234567890, 'qwer', 'Kalavad', 'Gujarat', 360005, 'ayu', '6713cb1fe29f7Untitled design.png', 'Normal', 'Active'),
+(54, 'Angel', 'Raiyani', 'angelraiyanii@gmail.com', 1234567890, 'qwerftg', 'Rajkot', 'Gujarat', 360005, 'angel', '6713ccb4809567.jpg', 'Normal', 'Active'),
 (59, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 2147483647, 'rku', 'Rajkot', 'Gujarat', 360005, 'kallu', '670606a6a6640Untitled design.png', 'Normal', 'Active'),
-(60, 'Vibhuti', 'Chavda', 'jinal.taraviya2205@gmail.com', 1234567890, 'RKU', 'Rajkot', 'Gujarat', 360005, 'bhuti', '', 'Normal', 'Active'),
-(62, '', '', '', 0, '', '', '', 0, '', '671760ba8ea90', 'Normal', 'Inactive');
+(63, 'Bhakti', 'Bhut', 'patelbhakti636@gmail.com', 1234567890, 'Nanivavdi', 'Dhoraji', 'Gujarat', 360005, 'bhut', '671875ea5252cghost-face.png', 'Normal', 'Active'),
+(65, 'kishn', 'vekariya', 'jinal.taraviya2205@gmail.com', 2147483647, 'rk university', 'Rajkot', 'Gujarat', 360005, 'kallu', '67188ec68a363ghost-face.png', 'Normal', 'Active'),
+(66, 'Nirali', 'Akbari', 'akbarinirali27@gmail.com', 1234567890, 'rku', 'Rajkot', 'Gujarat', 360005, 'Nirali27@27', '6718a4dbd28c3Screenshot (76).png', 'Normal', 'Active');
 
 -- --------------------------------------------------------
 
@@ -286,7 +272,23 @@ CREATE TABLE `wishlist_tbl` (
   `W_U_Email` varchar(56) NOT NULL,
   `W_P_Id` int(56) NOT NULL,
   `W_quantity` int(56) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `wishlist_tbl`
+--
+
+INSERT INTO `wishlist_tbl` (`W_Id`, `W_U_Email`, `W_P_Id`, `W_quantity`) VALUES
+(2, 'jtaraviya932@rku.ac.in', 3, 4),
+(3, 'jtaraviya932@rku.ac.in', 1, 1),
+(4, 'patelbhakti636@gmail.com', 2, 1),
+(5, 'jtaraviya932@rku.ac.in', 2, 3),
+(6, 'jtaraviya932@rku.ac.in', 0, 1),
+(7, 'angelraiyanii@gmail.com', 1, 1),
+(8, 'angelraiyanii@gmail.com', 1, 1),
+(9, 'angelraiyanii@gmail.com', 3, 1),
+(10, 'angelraiyanii@gmail.com', 3, 1),
+(11, 'angelraiyanii@gmail.com', 3, 1);
 
 --
 -- Indexes for dumped tables
@@ -299,9 +301,9 @@ ALTER TABLE `aboutus_tbl`
   ADD PRIMARY KEY (`a_Id`);
 
 --
--- Indexes for table `cart_tb`
+-- Indexes for table `cart_tbl`
 --
-ALTER TABLE `cart_tb`
+ALTER TABLE `cart_tbl`
   ADD PRIMARY KEY (`Ct_Id`);
 
 --
@@ -315,12 +317,6 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
-
---
--- Indexes for table `orders_tbl`
---
-ALTER TABLE `orders_tbl`
-  ADD PRIMARY KEY (`or_Id`);
 
 --
 -- Indexes for table `order_tbl`
@@ -376,10 +372,10 @@ ALTER TABLE `aboutus_tbl`
   MODIFY `a_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `cart_tb`
+-- AUTO_INCREMENT for table `cart_tbl`
 --
-ALTER TABLE `cart_tb`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `cart_tbl`
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -391,13 +387,7 @@ ALTER TABLE `category_tbl`
 -- AUTO_INCREMENT for table `contact_tbl`
 --
 ALTER TABLE `contact_tbl`
-  MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `orders_tbl`
---
-ALTER TABLE `orders_tbl`
-  MODIFY `or_Id` int(45) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_tbl`
@@ -409,13 +399,13 @@ ALTER TABLE `order_tbl`
 -- AUTO_INCREMENT for table `password_token_tbl`
 --
 ALTER TABLE `password_token_tbl`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `product_tbl`
 --
 ALTER TABLE `product_tbl`
-  MODIFY `P_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `P_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `slider_tbl`
@@ -427,19 +417,19 @@ ALTER TABLE `slider_tbl`
 -- AUTO_INCREMENT for table `subcategory_tbl`
 --
 ALTER TABLE `subcategory_tbl`
-  MODIFY `SC_Id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `SC_Id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `U_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `wishlist_tbl`
 --
 ALTER TABLE `wishlist_tbl`
-  MODIFY `W_Id` int(65) NOT NULL AUTO_INCREMENT;
+  MODIFY `W_Id` int(65) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
