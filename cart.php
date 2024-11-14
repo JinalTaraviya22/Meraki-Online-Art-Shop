@@ -46,64 +46,71 @@
         <div class="row" style="text-align: center;">
             <h2>Welcome to Cart!</h2>
             <div class="col-md-6">
-            <?php
-                $totalAmount=0;
+                <?php
+                $totalAmount = 0;
                 $query = "SELECT p.*, c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id = c.Ct_P_Id WHERE c.Ct_U_Email = '$Email_Session' ORDER BY c.Ct_Id DESC";
                 $result = mysqli_query($con, $query);
-                while ($r = mysqli_fetch_assoc($result)) {
-                    $totalAmount += $r['P_Price'] * $r['Ct_Quantity']; //total
-                }
-                ?>
-                <p>Total:<?php echo $totalAmount?></p>
-            </div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-dark">Check Out</button>
-            </div>
+                $cartItems = mysqli_num_rows($result);
 
-        </div>
-    </div>
-
-    <div class="container-fluid mt-5 mb-5 bgcolor">
-        <div class="row" id="product">
-            <table>
-                <tr>
-                    <!-- <th style="width:50px">Id</th> -->
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Image 1</th>
-                    <th>Image 2</th>
-                    <th>Order</th>
-                    <th>Disable</th>
-                </tr>
-                <?php
-                $query = "SELECT p.*,c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id=c.Ct_P_Id WHERE c.Ct_U_Email='$Email_Session' order by c.Ct_Id desc";
-                $result = mysqli_query($con, $query);
-                while ($r = mysqli_fetch_assoc($result)) {
+                if ($cartItems > 0) {
+                    while ($r = mysqli_fetch_assoc($result)) {
+                        $totalAmount += $r['P_Price'] * $r['Ct_Quantity']; // total
+                    }
                     ?>
+                    <p>Total:<?php echo $totalAmount ?></p>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-dark">Check Out</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container-fluid mt-5 mb-5 bgcolor">
+            <div class="row" id="product">
+                <table>
                     <tr>
-                        <!-- <td><?php echo $r['Ct_Id'] ?></td> -->
-                        <td><?php echo $r['P_Name'] ?></td>
-                        <td><?php echo $r['P_Price'] ?></td>
-                        <td>
-                            <!-- <select>
+                        <!-- <th style="width:50px">Id</th> -->
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Image 1</th>
+                        <th>Image 2</th>
+                        <th>Order</th>
+                        <th>Disable</th>
+                    </tr>
+                    <?php
+                    $query = "SELECT p.*,c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id=c.Ct_P_Id WHERE c.Ct_U_Email='$Email_Session' order by c.Ct_Id desc";
+                    $result = mysqli_query($con, $query);
+                    while ($r = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <tr>
+                            <!-- <td><?php echo $r['Ct_Id'] ?></td> -->
+                            <td><?php echo $r['P_Name'] ?></td>
+                            <td><?php echo $r['P_Price'] ?></td>
+                            <td>
+                                <!-- <select>
                                 <option>3</option>
                                 <option>1</option>
                             </select> -->
-                            <?php echo $r['Ct_Quantity'] ?>
-                        </td>
-                        <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
-                        <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
-                        <form method="post">
-                            <input type="hidden" name="cartId" value="<?php echo $r['Ct_Id']?>">
+                                <?php echo $r['Ct_Quantity'] ?>
+                            </td>
+                            <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
+                            <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
+                            <form method="post">
+                                <input type="hidden" name="cartId" value="<?php echo $r['Ct_Id'] ?>">
 
-                            <td><a href="order.php"><button type="submit" name="order" id="order" class="btn btn-dark"><i
-                                            class="fa fa-shopping-bag"></i></button></a></td>
-                            <td><button type="submit" name="deleteitem" class="btn btn-dark"
-                                    style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
-                        </form>
-                    </tr>
-                <?php } ?>
+                                <td><a href="order.php"><button type="submit" name="order" id="order" class="btn btn-dark"><i
+                                                class="fa fa-shopping-bag"></i></button></a></td>
+                                <td><button type="submit" name="deleteitem" class="btn btn-dark"
+                                        style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
+                            </form>
+                        </tr>
+                    <?php
+                    }
+                } else {
+                    echo 'Your cart is empty!';
+                } ?>
             </table>
         </div>
     </div>
@@ -117,22 +124,27 @@
     //     $or_U_Email = $Email_Session;
     //     $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$Ct_Quantity')";
     //     $data = mysqli_query($con, $sql);
-
+    
     //     if ($data) {
     //         echo "<script>location.replace('order.php');</script>";
     //     } else {
     //         echo "Error inserting data into wishlist";
     //     }
     // }
-
+    
     if (isset($_POST['deleteitem'])) {
-        $id=$_POST['cartId'];
+        $id = $_POST['cartId'];
 
-        $query="delete from cart_tbl where Ct_Id=$id";
-        $data=mysqli_query($con,$query);
+        $query = "delete from cart_tbl where Ct_Id=$id";
+        $data = mysqli_query($con, $query);
 
-        if($data){
+        if ($data) {
             setcookie('success', "Product removed from cart", time() + 5, "/");
+            ?>
+            <script>
+                window.location.href = 'cart.php';
+            </script>";
+            <?php
         }
         echo $id;
 

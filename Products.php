@@ -53,8 +53,8 @@
         }
 
         $q = "SELECT p.*,s.SC_Name,c.C_Name FROM product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id where s.SC_Id=$sc_id AND p.P_Status='Active' $search_query";
-        $result = mysqli_query($con, $q);
-        $total_records = mysqli_num_rows($result);
+        // $result = mysqli_query($con, $q);
+        $total_records = mysqli_num_rows(mysqli_query($con, $q));
 
         // Set the number of records per page
         $records_per_page = 4;
@@ -139,15 +139,14 @@
     $Ct_P_Id = $_POST['p_id'];
     $Ct_U_Email = $Email_Session;
 
-    $chechQuery = "select * from cart_tbl where Ct_P_Id=$Ct_P_Id And Ct_U_Email=$Ct_U_Email";
-    $CheckData = mysqli_query($con, $chechQuery);
-
-    if ($CheckData) {
+    $chechQuery = "select * from cart_tbl where Ct_P_Id=$Ct_P_Id And Ct_U_Email='$Ct_U_Email'";
+    $CheckData = mysqli_num_rows(mysqli_query($con, $chechQuery));
+    if ($CheckData == 0) {
       $sql = "INSERT INTO cart_tbl (Ct_Quantity, Ct_P_Id, Ct_U_Email) VALUES ('$Ct_Quantity', '$Ct_P_Id', '$Ct_U_Email')";
       $data = mysqli_query($con, $sql);
 
       if ($data) {
-        echo "<script>location.replace('cart.php');</script>";
+        echo "<script>window.location.href='cart.php';</script>";
       } else {
         echo "Error inserting data into cart";
       }
@@ -166,10 +165,10 @@
     $W_P_Id = $_POST['p_id'];
     $W_U_Email = $Email_Session;
 
-    $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email=$W_U_Email";
-    $CheckData = mysqli_query($con, $checkQuery);
+    $checkQuery = "select * from wishlist_tbl where W_P_Id=$W_P_Id And W_U_Email='$W_U_Email'";
+    $CheckData = mysqli_num_rows(mysqli_query($con, $checkQuery));
 
-    if (!$CheckData) {
+    if ($CheckData == 0) {
       $sql = "INSERT INTO wishlist_tbl (W_U_Email,W_P_Id, W_Quantity) VALUES ('$W_U_Email', '$W_P_Id', '$W_Quantity')";
       $data = mysqli_query($con, $sql);
 
