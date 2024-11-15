@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 01:23 PM
+-- Generation Time: Nov 15, 2024 at 07:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -62,8 +62,8 @@ CREATE TABLE `cart_tbl` (
 INSERT INTO `cart_tbl` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
 (1, 1, 3, 'jinal.taraviya997@gmail.com'),
 (2, 3, 3, 'patelbhakti636@gmail.com'),
-(7, 1, 1, 'jtaraviya932@rku.ac.in'),
-(10, 1, 1, 'angelraiyanii@gmail.com');
+(12, 3, 3, 'angelraiyanii@gmail.com'),
+(19, 1, 1, 'jtaraviya932@rku.ac.in');
 
 -- --------------------------------------------------------
 
@@ -171,17 +171,18 @@ CREATE TABLE `product_tbl` (
   `P_Desc` text NOT NULL,
   `P_Img1` varchar(60) NOT NULL,
   `P_Img2` varchar(60) NOT NULL,
-  `P_Status` varchar(10) NOT NULL
+  `P_Status` varchar(10) NOT NULL,
+  `P_Discount` int(10) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_tbl`
 --
 
-INSERT INTO `product_tbl` (`P_Id`, `P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`, `P_Status`) VALUES
-(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2530, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active'),
-(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 728, 100, 'BRUSTRO', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active'),
-(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active');
+INSERT INTO `product_tbl` (`P_Id`, `P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`, `P_Status`, `P_Discount`) VALUES
+(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2500, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active', 20),
+(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 2500, 400, 'BRUSTRO ', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active', 0),
+(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5000, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active', 0);
 
 -- --------------------------------------------------------
 
@@ -284,11 +285,7 @@ INSERT INTO `wishlist_tbl` (`W_Id`, `W_U_Email`, `W_P_Id`, `W_quantity`) VALUES
 (4, 'patelbhakti636@gmail.com', 2, 1),
 (5, 'jtaraviya932@rku.ac.in', 2, 3),
 (6, 'jtaraviya932@rku.ac.in', 0, 1),
-(7, 'angelraiyanii@gmail.com', 1, 1),
-(8, 'angelraiyanii@gmail.com', 1, 1),
-(9, 'angelraiyanii@gmail.com', 3, 1),
-(10, 'angelraiyanii@gmail.com', 3, 1),
-(11, 'angelraiyanii@gmail.com', 3, 1);
+(8, 'angelraiyanii@gmail.com', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -375,7 +372,7 @@ ALTER TABLE `aboutus_tbl`
 -- AUTO_INCREMENT for table `cart_tbl`
 --
 ALTER TABLE `cart_tbl`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`

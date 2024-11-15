@@ -81,7 +81,7 @@
               <div class="card__header">
                 <div class="card__header-text">
                   <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
-                  <span class="card__status">Rs. <?php echo $r['P_Price'] ?></span>
+                  <span class="card__status">Rs. <del><?php echo $r['P_Price'] ?></del> Rs.200<div style="color:red">50% off</div>  </span>
                   <p><?php echo $r['P_Company_Name'] ?></p>
                 </div>
               </div>

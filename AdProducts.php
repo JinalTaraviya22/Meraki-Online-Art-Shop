@@ -265,28 +265,28 @@
                 <div class="col-md-8">
                     <div class="product-image-large">
                         <!-- update information -->
-                        <form method="post" id="upProduct" enctype="multipart/form-data">
+                        <form method="post" onsubmit="return addproductInfo()" id="upProduct" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <input type="hidden" name="uid" value="<?php echo $r['P_Id'] ?>" />
                                     <input type="hidden" name="Oldimg1" value="<?php echo $r['P_Img1'] ?>" />
                                     <input type="hidden" name="Oldimg2" value="<?php echo $r['P_Img2'] ?>" />
                                     <label for="anm" class="form-label">Product Name:</label>
-                                    <input type="text" class="form-control" name="upnm" id="anm"
+                                    <input type="text" class="form-control" name="upnm" id="upnm"
                                         value="<?php echo $r['P_Name'] ?>">
-                                    <span id="unm_er" class="text-danger"></span>
+                                    <span id="upnm_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="aprice" class="form-label">Company Name:</label>
-                                    <input type="text" class="form-control" name="ucnm" id="aprice"
+                                    <input type="text" class="form-control" name="ucnm" id="ucnm"
                                         value="<?php echo $r['P_Company_Name'] ?>">
-                                    <span id="uprice_er" class="text-danger"></span>
+                                    <span id="ucnm_er" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="udesc" class="form-label">Description:</label>
-                                    <textarea class="form-control" name="udesc" id="adesc"
+                                    <textarea class="form-control" name="udesc" id="udesc"
                                         placeholder="Enter Description"><?php echo $r['P_Desc'] ?></textarea>
                                     <span id="udesc_er" class="text-danger"></span>
                                 </div>
@@ -295,7 +295,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="aprice" class="form-label">Price:</label>
-                                    <input type="text" class="form-control" name="uprice" id="aprice"
+                                    <input type="text" class="form-control" name="uprice" id="uprice"
                                         value="<?php echo $r['P_Price'] ?>">
                                     <span id="uprice_er" class="text-danger"></span>
                                 </div>
@@ -303,7 +303,7 @@
                                     <label for="name" class="form-label">Stock :</label>
                                     <input type="text" class="form-control" id="ustock" name="ustock"
                                         value="<?php echo $r['P_Stock'] ?>">
-                                    <span id="StockError"></span>
+                                    <span id="ustock"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -339,17 +339,22 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="aimg1" class="form-label">Image 1:</label>
-                                    <input type="file" class="form-control" name="uimg1" id="aimg1">
+                                    <input type="file" class="form-control" name="uimg1" id="uimg1">
                                     <span id="uimg1_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="uimg2" class="form-label">Image 2:</label>
-                                    <input type="file" class="form-control" name="uimg2" id="aimg2">
+                                    <input type="file" class="form-control" name="uimg2" id="uimg2">
                                     <span id="uimg2_er" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-9 mb-3">
+                                    <label for="uimg2" class="form-label">Discount:</label>
+                                    <input type="text" class="form-control"
+                                        value="<?php echo $r['P_Discount'] ?>" name="udiscount"
+                                        id="udiscount">
+                                    <span id="udiscount_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-3 mb-3" style="align-content: end;">
                                     <button class="btn btn-dark" onclick="update(2)"><i class="fa fa-times"></i></button>
@@ -385,12 +390,13 @@
     <script>
         function addproductInfo() {
             validate = true;
-            NameValidate(document.getElementById('anm'), document.getElementById('anm_er'));
-            PriceValidate(document.getElementById('aprice'), document.getElementById('aprice_er'));
-            BigTextValidate(document.getElementById('adesc'), document.getElementById('adesc_er'));
-            ImgValidate(document.getElementById('aimg1'), document.getElementById('aimg1_er'));
-            ImgValidate(document.getElementById('aimg2'), document.getElementById('aimg2_er'));
-            PriceValidate(document.getElementById('astock'), document.getElementById('astock_er'));
+            CommanValidate(document.getElementById('upnm'), document.getElementById('upnm_er'));
+            NameValidate(document.getElementById('ucnm'), document.getElementById('ucnm_er'));
+            PriceValidate(document.getElementById('uprice'), document.getElementById('uprice_er'));
+            BigTextValidate(document.getElementById('udesc'), document.getElementById('udesc_er'));
+            PriceValidate(document.getElementById('ustock'), document.getElementById('ustock_er'));
+            RateValidate(document.getElementById('udiscount'), document.getElementById('udiscount_er'));
+
             if (validate) {
                 return true;
             }
@@ -446,6 +452,7 @@
         $cat = $_POST['usub-cat'];
         $desc = $_POST['udesc'];
         $status = $_POST['ustatus'];
+        $discount = $_POST['udiscount'];
         // For old images
         $oimg1 = $_POST['Oldimg1'];
         $oimg2 = $_POST['Oldimg2'];
@@ -467,7 +474,7 @@
         }
 
         // Update query
-        $query = "UPDATE `product_tbl` SET `P_Name`='$pnm',`P_Price`='$price',`P_Stock`='$stock',`P_Company_Name`='$cnm',`P_SC_Id`='$cat',`P_Desc`='$desc',`P_Img1`='$img1',`P_Img2`='$img2',`P_Status`='$status' WHERE `P_Id`=$id ";
+        $query = "UPDATE `product_tbl` SET `P_Name`='$pnm',`P_Price`='$price',`P_Stock`='$stock',`P_Company_Name`='$cnm',`P_SC_Id`='$cat',`P_Desc`='$desc',`P_Img1`='$img1',`P_Img2`='$img2',`P_Status`='$status',`P_Discount`=$discount WHERE `P_Id`=$id ";
 
         if (mysqli_query($con, $query)) {
             if ($_FILES['uimg1']['name'] != "") {

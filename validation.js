@@ -27,7 +27,7 @@ function PhnValidate(phn, phn_er) {
 }
 
 function BigTextValidate(txt, txt_er) {
-    validateField(txt, txt_er, /^[A-Za-z\s]+$/, "Invalid Values");
+    validateField(txt, txt_er, /^[A-Za-z0-9\s,.-]+$/, "Invalid Values");
 }
 
 function ZipValidate(z, z_er) {
