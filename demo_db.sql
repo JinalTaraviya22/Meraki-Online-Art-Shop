@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2024 at 07:09 AM
+-- Generation Time: Nov 19, 2024 at 03:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -83,7 +83,7 @@ CREATE TABLE `category_tbl` (
 --
 
 INSERT INTO `category_tbl` (`C_Id`, `C_Name`, `C_Img`, `C_Status`) VALUES
-(1, 'Drawing Materials', '670c9715c2eaadrawing_illustration.png', 'Active'),
+(1, 'Drawing Materials', '670c9715c2eaadrawing_illustration.png', 'Deactivate'),
 (2, 'Sculpting and Modeling', '66f77c93e0b08Sculpting and Modeling.png', 'Active'),
 (3, 'Paints', '670b644d762f7acrylicColors.png', 'Active'),
 (4, 'Surfaces', '670bbd8b8bad7paper_boards.png', 'Active'),
@@ -112,6 +112,31 @@ INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`)
 (2, 'Jinal taraviya', 'jtaraviya932@rku.ac.in', 'hello, when will new products be added??? ', 'This website is still under development. '),
 (3, 'Ayushi Mehta', 'jinal.taraviya997@gmail.com', 'I want to reset my password', 'then do it'),
 (4, 'Bhakti Bhut', 'angelraiyanii@gmail.com', 'loved your site😍', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offers_tbl`
+--
+
+CREATE TABLE `offers_tbl` (
+  `Of_Id` int(11) NOT NULL,
+  `Of_Name` varchar(255) NOT NULL,
+  `Of_Description` text NOT NULL,
+  `Of_Discount_Percentage` decimal(5,2) NOT NULL,
+  `Of_Cart_Total` int(11) NOT NULL,
+  `Of_Max_Discount` int(11) NOT NULL,
+  `Of_Start_Date` varchar(10) NOT NULL,
+  `Of_End_Date` varchar(10) NOT NULL,
+  `Of_Status` enum('Active','Deactivate') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `offers_tbl`
+--
+
+INSERT INTO `offers_tbl` (`Of_Id`, `Of_Name`, `Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) VALUES
+(1, 'Big Sale', 'asdfghjklo', 20.00, 3000, 20, '', '2024-11-23', 'Active');
 
 -- --------------------------------------------------------
 
@@ -316,6 +341,12 @@ ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
 
 --
+-- Indexes for table `offers_tbl`
+--
+ALTER TABLE `offers_tbl`
+  ADD PRIMARY KEY (`Of_Id`);
+
+--
 -- Indexes for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
@@ -385,6 +416,12 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `offers_tbl`
+--
+ALTER TABLE `offers_tbl`
+  MODIFY `Of_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_tbl`

@@ -99,40 +99,41 @@
     <!-- change offer banners -->
     <div class="container-fluid bgcolor mt-5 mb-5" id="discount">
         <div class="row">
-            <h2>Discount</h2>
+            <h2>Offers/Discount</h2>
             <div class="col">
                 <div class="row">
                     <div class="col-md-4"><img src="img/slide1.png" height="100px" /></div>
                 </div></br>
-                <form id="offer" onsubmit="return discount()" style="display: none !important;">
+                <form id="offer" method="post" onsubmit="return discount()" style="display: none !important;">
                     <div class="row">
-                        <div class="col-md-4">Start Date:<input type="date" id="sdt" class="form-control"><span
-                                id="sdt_er"></span></div></br>
-                        <div class="col-md-4">End Date:<input type="date" id="edt" class="form-control"><span
-                                id="edt_er"></span></div></br>
-                        <div class="col-md-4">Banner:<input type="file" id="bnr" class="form-control"><span
-                                id="bnr_er"></span></div>
+                        <div class="col-md-4">Name:<input type="text" name="onm" id="onm" class="form-control"
+                                placeholder="Enter Offer Title"><span id="onm_er"></span></div></br>
+                        <div class="col-md-4">Description:<textarea id="odes" name="odes" class="form-control"
+                                placeholder="Enter Offer Description"></textarea><span id="odes_er"></span></div></br>
+                        <div class="col-md-4">Rate:<input type="text" id="rate" name="rate" class="form-control"
+                                placeholder="Enter Rate"><span id="rate_er"></span></div>
+
                     </div></br>
                     <div class="row">
-                        <div class="col-md-4">Rate:<input type="text" id="rate" class="form-control"><span
-                                id="rate_er"></span></div>
-                        <div class="col-md-4">Category:<select class="form-control">
-                                <?php
-                                $q = "Select * from category_tbl";
-                                $result = mysqli_query($con, $q);
-                                while ($r = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                    <option value="<?php echo $r['C_Id']; ?>"><?php echo $r['C_Name']; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select></div></br>
-                        <div class="col-md-4"><button type="submit" class="button-28">Change</button>
+                        <div class="col-md-4">Maximum Discount Amount:<input type="text" id="mda" name="mda" class="form-control"
+                                placeholder="Enter Maximum Discount Amount"><span id="mda_er"></span></div></br>
+                        <div class="col-md-4">Order Total:<input type="text" name="odt" id="odt" class="form-control"
+                                placeholder="Enter total"><span id="odt_er"></span></div></br>
+                        <div class="col-md-4">Start Date:<input type="date" name="sdt" id="sdt" class="form-control"><span
+                                id="sdt_er"></span></div></br>
+
+                    </div></br>
+                    <div class="row">
+                        <div class="col-md-4">End Date:<input type="date" name="edt" id="edt" class="form-control"><span
+                                id="edt_er"></span></div></br>
+                        <div class="col-md-4">Banner:<input type="file" name="bnr" id="bnr" class="form-control"><span
+                                id="bnr_er"></span></div>
+                        <div class="col-md-4"><button type="submit" name="offer_add" class="button-28">Add</button>
                         </div>
-                    </div>
+                    </div></br>
                 </form>
                 <div class="row" id="btn2">
-                    <div class="col-md-4"><button onclick="img(2)" class="button-28">Change</button></div>
+                    <div class="col-md-4"><button onclick="img(2)" class="button-28">Add</button></div>
                 </div>
             </div>
         </div>
@@ -231,10 +232,14 @@
         function discount() {
             validate = true;
 
+            NameValidate(document.getElementById('onm'), document.getElementById('onm_er'));
+            BigTextValidate(document.getElementById('odes'), document.getElementById('odes_er'));
+            RateValidate(document.getElementById('rate'), document.getElementById('rate_er'));
+            RateValidate(document.getElementById('mda'), document.getElementById('mda_er'));
+            RateValidate(document.getElementById('odt'), document.getElementById('odt_er'));
             CommanValidate(document.getElementById('sdt'), document.getElementById('sdt_er'));
             CommanValidate(document.getElementById('edt'), document.getElementById('edt_er'));
             ImgValidate(document.getElementById('bnr'), document.getElementById('bnr_er'));
-            RateValidate(document.getElementById('rate'), document.getElementById('rate_er'));
 
             if (validate) {
                 return true;
@@ -365,6 +370,27 @@
                 window.location.href = "admin.php";
             </script>
             <?php
+        }
+    }
+    if (isset($_POST['offer_add'])) {
+        $offer_title = $_POST['onm'];
+        $offer_description = $_POST['odes'];
+        $discount_percentage = $_POST['rate'];
+        $max_discount_amount = $_POST['mda'];
+        $start_date = $_POST['sdt'];
+        $end_date = $_POST['edt'];
+        $status = 'Active';
+        $order_total = $_POST['odt'];
+
+        $query = "INSERT INTO `offers_tbl`(`Of_Name`,`Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) 
+        VALUES ('$offer_title','$offer_description','$discount_percentage','$order_total','$max_discount_amount','$start_date','$end_date','$status')";
+
+        if (mysqli_query($con, $q)) {
+            setcookie('success', "Offer added successfully", time() + 5, "/");
+            echo "<script>window.location.href = 'manage_offers.php';</script>";
+        } else {
+            setcookie('error', 'Error in adding offer', time() + 5, "/");
+            echo "<script>window.location.href = 'admin.php';</script>";
         }
     }
     ?>
