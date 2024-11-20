@@ -54,10 +54,10 @@
 
                 if ($cartItems > 0) {
                     while ($r = mysqli_fetch_assoc($result)) {
-                        $totalAmount += $r['P_Price'] * $r['Ct_Quantity']; // total
+                        $totalAmount += ($r['P_Price']-($r['P_Price']*$r['P_Discount']/100)) * $r['Ct_Quantity']; // total
                     }
                     ?>
-                    <p>Total:<?php echo $totalAmount ?></p>
+                    <p>Total: <b><?php echo $totalAmount ?></b></p>
                 </div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-dark">Check Out</button>
@@ -74,6 +74,8 @@
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th>Discounted Price</th>
+                        <th>Total</th>
                         <th>Image 1</th>
                         <th>Image 2</th>
                         <th>Order</th>
@@ -95,6 +97,10 @@
                             </select> -->
                                 <?php echo $r['Ct_Quantity'] ?>
                             </td>
+                            <td><?php
+                            $discounted = $r['P_Price'] * $r['P_Discount'] / 100;
+                            echo $discounted ?></td>
+                            <td><?php echo ($r['P_Price'] - $discounted) * $r['Ct_Quantity'] ?></td>
                             <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
                             <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
                             <form method="post">
@@ -106,7 +112,7 @@
                                         style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
                             </form>
                         </tr>
-                    <?php
+                        <?php
                     }
                 } else {
                     echo 'Your cart is empty!';
