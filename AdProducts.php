@@ -352,6 +352,9 @@
                                 <div class="col-md-9 mb-3">
                                     <label for="uimg2" class="form-label">Discount:</label>
                                     <input type="text" class="form-control"
+                                    <?php
+                                   
+                                    ?>
                                         value="<?php echo $r['P_Discount'] ?>" name="udiscount"
                                         id="udiscount">
                                     <span id="udiscount_er" class="text-danger"></span>
