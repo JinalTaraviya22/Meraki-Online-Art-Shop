@@ -40,7 +40,7 @@
         <?php 
              while ($r = mysqli_fetch_assoc($result)) {
         ?>
-        <div class="row">
+        <div class="row mb-5">
             <!-- Left column : Image -->
             <div class="col-md-3">
                 <div class="product-image-circle">
@@ -52,7 +52,7 @@
                 <div class="product-image-large">
                     <!-- product Information -->
                     <h4><?php echo $r['P_Name']?></h4>
-                    <p class="price" style="font-size: 16px;">Rs. <?php echo $r['P_Price']*$r['W_quantity']?></p>
+                    <p class="price" style="font-size: 16px;">Rs. <?php echo $r['P_Price']?></p>
                     <p><?php echo $r['P_Company_Name']?></p>
                     <a href="single_product.php?Id=<?php echo $r['W_P_Id']?>"><button class="btn btn-dark">See Product</button></a>
                     <!-- Quantity:

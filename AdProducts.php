@@ -149,6 +149,7 @@
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Stock</th>
+                    <th>Discount</th>
                     <th>Category</th>
                     <th>Image 1</th>
                     <th>Image 2</th>
@@ -192,6 +193,7 @@
                         <td><?php echo $r['P_Name'] ?></td>
                         <td><?php echo $r['P_Price'] ?></td>
                         <td><?php echo $r['P_Stock'] ?></td>
+                        <td><?php echo $r['P_Discount']?>%</td>
                         <td><a href="AdSubcategory.php"><?php echo $r['SC_Name'] ?></a></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" height="100px" width="100px"></td>
                         <td><img src="db_img/product_img/<?php echo $r['P_Img2'] ?>" height="100px" width="100px"></td>
@@ -219,6 +221,8 @@
                 ?>
             </table>
         </div>
+        <br>
+        <br>
         <nav>
             <ul class="pagination">
                 <?php
@@ -247,6 +251,7 @@
         $r = mysqli_fetch_assoc($result);
         $p_status = $r['P_Status'];
         $default_subcat_id = $r['P_SC_Id'];
+        $discount=$r['P_Discount'];
         ?>
         <div class="container-fluid bgcolor mt-5" id="update_form">
             <div class="row">
@@ -338,12 +343,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="aimg1" class="form-label">Image 1:</label>
+                                    <label for="aimg1" class="form-label">Image 1: <small>1024*1024 Dimen</small></label>
                                     <input type="file" class="form-control" name="uimg1" id="uimg1">
                                     <span id="uimg1_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="uimg2" class="form-label">Image 2:</label>
+                                    <label for="uimg2" class="form-label">Image 2: <small>1024*1024 Dimen</small></label>
                                     <input type="file" class="form-control" name="uimg2" id="uimg2">
                                     <span id="uimg2_er" class="text-danger"></span>
                                 </div>
@@ -352,10 +357,7 @@
                                 <div class="col-md-9 mb-3">
                                     <label for="uimg2" class="form-label">Discount:</label>
                                     <input type="text" class="form-control"
-                                    <?php
-                                   
-                                    ?>
-                                        value="<?php echo $r['P_Discount'] ?>" name="udiscount"
+                                        value="<?php echo $discount; ?>" name="udiscount"
                                         id="udiscount">
                                     <span id="udiscount_er" class="text-danger"></span>
                                 </div>
@@ -398,7 +400,7 @@
             PriceValidate(document.getElementById('uprice'), document.getElementById('uprice_er'));
             BigTextValidate(document.getElementById('udesc'), document.getElementById('udesc_er'));
             PriceValidate(document.getElementById('ustock'), document.getElementById('ustock_er'));
-            RateValidate(document.getElementById('udiscount'), document.getElementById('udiscount_er'));
+            //RateValidate(document.getElementById('udiscount'), document.getElementById('udiscount_er'));
 
             if (validate) {
                 return true;
