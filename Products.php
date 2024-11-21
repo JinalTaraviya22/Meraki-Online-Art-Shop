@@ -73,12 +73,15 @@
         $result = mysqli_query($con, $q);
 
         while ($r = mysqli_fetch_assoc($result)) {
-          $discount = $r['P_Discount']; 
+          $discount = $r['P_Discount'];
           $original_price = $r['P_Price'];
           $discounted_price = $original_price - ($original_price * $discount / 100);
           ?>
-         
+
           <div class="card">
+            <?php if ($discount > 0) { ?>
+              <div class="ribbon">30% Off</div>
+            <?php } ?>
             <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
               alt="<?php echo $r['P_Name']; ?>" />
             <div class="card__overlay">
@@ -88,15 +91,16 @@
                   <?php if ($discount > 0) { ?>
 
                     <span class="card__status">
-                            <span style="text-decoration: line-through; color: #888;">Rs. <del><?php echo number_format($original_price, 2); ?></del></span>
-                            <span style="color: #f00;"> Rs. <?php echo number_format($discounted_price, 2); ?></span>
-                        </span>
-                        <div style="color: red;"><?php echo $discount; ?>% off</div>
-                    <?php } else { ?>
-                        <span class="card__status">Rs. <?php echo number_format($original_price, 2); ?></span>
-                    <?php } ?>
+                      <span style="text-decoration: line-through; color: #888;">Rs.
+                        <del><?php echo number_format($original_price, 2); ?></del></span>
+                      <span style="color: #f00;"> Rs. <?php echo number_format($discounted_price, 2); ?></span>
+                    </span>
+                    <div style="color: red;"><?php echo $discount; ?>% off</div>
+                  <?php } else { ?>
+                    <span class="card__status">Rs. <?php echo number_format($original_price, 2); ?></span>
+                  <?php } ?>
 
-                 
+
                   <p><?php echo $r['P_Company_Name'] ?></p>
                 </div>
               </div>

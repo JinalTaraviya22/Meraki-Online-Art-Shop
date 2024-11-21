@@ -152,6 +152,43 @@ a:hover {
   overflow: hidden;
 }
 
+.ribbon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  /* height: 20px; */
+  width: 100px;
+  background-color: #ff4d4d; /* Red background */
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.ribbon::before,
+.ribbon::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #ff4d4d transparent transparent transparent;
+  width: 0;
+  height: 0;
+}
+
+.ribbon::before {
+  left: 0;
+}
+
+.ribbon::after {
+  right: 0;
+}
+
 /* single product details */
 .price {
   font-size: 24px;

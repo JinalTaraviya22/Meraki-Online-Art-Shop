@@ -54,7 +54,7 @@
 
                 if ($cartItems > 0) {
                     while ($r = mysqli_fetch_assoc($result)) {
-                        $totalAmount += ($r['P_Price']-($r['P_Price']*$r['P_Discount']/100)) * $r['Ct_Quantity']; // total
+                        $totalAmount += ($r['P_Price'] - ($r['P_Price'] * $r['P_Discount'] / 100)) * $r['Ct_Quantity']; // total
                     }
                     ?>
                     <p>Total: <b><?php echo $totalAmount ?></b></p>
@@ -118,6 +118,93 @@
                     echo 'Your cart is empty!';
                 } ?>
             </table>
+        </div>
+    </div>
+    <div class="container-fluid bgcolor mt-5" id="update_form">
+        <div class="row">
+            <!-- Images Column -->
+            <div class="col-md-4">
+                <div class="product-image">
+                    <label for="anm" class="form-label">Offer Code:</label>
+                    <input type="text" class="form-control" name="offercode" id="offercode">
+                    <span id="offercode_er" class="text-danger"></span><br>
+                    <button class="btn btn-dark">Apply</button>
+                    <hr />
+
+                    <table style="border: none; border-collapse: collapse; width: 100%;">
+                        <tr style="border: none; padding: 10px;">
+                            <td style="border: none; padding: 10px;text-align:start">
+                                Discount:
+                            </td>
+                            <td style="border: none; padding: 10px;text-align:end">
+                                --%
+                            </td>
+                        </tr>
+                        <tr style="border: none; padding: 10px;">
+                            <td style="border: none; padding: 10px;text-align:start">
+                                Discounted Amount:
+                            </td>
+                            <td style="border: none; padding: 10px;text-align:end">Rs. ---</td>
+                        </tr>
+                        <tr style="border: none; padding: 10px;">
+                            <td style="border: none; padding: 10px;text-align:start">
+                                Total:
+                            </td>
+                            <td style="border: none; padding: 10px;text-align:end">
+                                -----
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- <img src="db_img/img/bg1.png" height="100px" width="100px" alt="Product Image"
+                        class="img-fluid rounded"> -->
+                </div>
+            </div>
+            <!-- Right Column -->
+            <div class="col-md-8">
+                <div class="product-image-large">
+                    <!-- update information -->
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <input type="hidden" name="ofid" value="<?php echo $r['Of_Id'] ?>">
+                            <!-- <input type="hidden" name="oldimg" value="<?php echo $r['Of_Img'] ?>"> -->
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Email :</label>
+                                <input type="text" class="form-control" name="umd" id="umd"
+                                    value="demoMain12@gmail.com" readonly>
+                                <span id="sadd_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Phone Number :</label>
+                                <input type="text" class="form-control" name="umd" id="umd">
+                                <span id="padd_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Shipping Address :</label>
+                                <textarea class="form-control" id="sadd"
+                                    placeholder="Enter your shipping address"></textarea>
+                                <span id="sadd_er"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Payment Address :</label>
+                                <textarea class="form-control" id="padd"
+                                    placeholder="Enter your payment address"></textarea>
+                                <span id="padd_er"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mb-3">
+                            </div>
+                            <div class="col-md-3 mb-3" style="align-content: end;">
+                                <button class="btn btn-dark" onclick="update(2)"><i class="fa fa-times"></i></button>
+                                <button type="submit" class="btn btn-dark" name="updateOffer"><i
+                                        class="fa fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
