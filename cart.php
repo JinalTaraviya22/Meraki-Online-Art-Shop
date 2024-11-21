@@ -51,16 +51,17 @@
                 $query = "SELECT p.*, c.* FROM product_tbl p JOIN cart_tbl c ON p.P_Id = c.Ct_P_Id WHERE c.Ct_U_Email = '$Email_Session' ORDER BY c.Ct_Id DESC";
                 $result = mysqli_query($con, $query);
                 $cartItems = mysqli_num_rows($result);
-
+                
                 if ($cartItems > 0) {
                     while ($r = mysqli_fetch_assoc($result)) {
                         $totalAmount += ($r['P_Price'] - ($r['P_Price'] * $r['P_Discount'] / 100)) * $r['Ct_Quantity']; // total
                     }
                     ?>
-                    <p>Total: <b><?php echo $totalAmount ?></b></p>
+                    <p>Total: <b><?php echo $totalAmount;
+                        $_SESSION['CartTotal']=$totalAmount;?></b></p>
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-dark">Check Out</button>
+                    <a href="#checkOut_form"><button type="submit" class="btn btn-dark">Check Out</button></a>
                 </div>
 
             </div>
@@ -106,7 +107,7 @@
                             <form method="post">
                                 <input type="hidden" name="cartId" value="<?php echo $r['Ct_Id'] ?>">
 
-                                <td><a href="order.php"><button type="submit" name="order" id="order" class="btn btn-dark"><i
+                                <td><a href="order.php"><button type="button" name="order" id="order" class="btn btn-dark"><i
                                                 class="fa fa-shopping-bag"></i></button></a></td>
                                 <td><button type="submit" name="deleteitem" class="btn btn-dark"
                                         style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
@@ -120,15 +121,17 @@
             </table>
         </div>
     </div>
-    <div class="container-fluid bgcolor mt-5" id="update_form">
+    <div class="container-fluid bgcolor mt-5" id="checkOut_form">
         <div class="row">
             <!-- Images Column -->
             <div class="col-md-4">
                 <div class="product-image">
-                    <label for="anm" class="form-label">Offer Code:</label>
-                    <input type="text" class="form-control" name="offercode" id="offercode">
-                    <span id="offercode_er" class="text-danger"></span><br>
-                    <button class="btn btn-dark">Apply</button>
+                    <form method="post">
+                        <label for="anm" class="form-label">Offer Code:</label>
+                        <input type="text" class="form-control" name="offercode" id="offercode">
+                        <span id="offercode_er"></span><br>
+                        <button class="btn btn-dark" type="submit" name="offerApply">Apply</button>
+                    </form>
                     <hr />
 
                     <table style="border: none; border-collapse: collapse; width: 100%;">
@@ -137,21 +140,23 @@
                                 Discount:
                             </td>
                             <td style="border: none; padding: 10px;text-align:end">
-                                --%
+                                <span id="discount_percentage"></span>
                             </td>
                         </tr>
                         <tr style="border: none; padding: 10px;">
                             <td style="border: none; padding: 10px;text-align:start">
                                 Discounted Amount:
                             </td>
-                            <td style="border: none; padding: 10px;text-align:end">Rs. ---</td>
+                            <td style="border: none; padding: 10px;text-align:end">
+                                <span id="discount_amount"></span>
+                            </td>
                         </tr>
                         <tr style="border: none; padding: 10px;">
                             <td style="border: none; padding: 10px;text-align:start">
                                 Total:
                             </td>
                             <td style="border: none; padding: 10px;text-align:end">
-                                -----
+                            <span id="new_cart_total"></span>
                             </td>
                         </tr>
                     </table>
@@ -163,43 +168,59 @@
             <div class="col-md-8">
                 <div class="product-image-large">
                     <!-- update information -->
+                     <?php 
+                        $fetchUsr="select * from user_tbl where U_Email='$Email_Session'";
+                        $result = mysqli_query($con, $fetchUsr);
+                        $r = mysqli_fetch_assoc($result);
+                     ?>
                     <form method="post" enctype="multipart/form-data">
                         <div class="row">
-                            <input type="hidden" name="ofid" value="<?php echo $r['Of_Id'] ?>">
+                            <!-- <input type="hidden" name="ofid" value="<?php echo $r['Of_Id'] ?>"> -->
                             <!-- <input type="hidden" name="oldimg" value="<?php echo $r['Of_Img'] ?>"> -->
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Email :</label>
-                                <input type="text" class="form-control" name="umd" id="umd"
-                                    value="demoMain12@gmail.com" readonly>
+                                <input type="text" class="form-control" name="umd" id="umd" value="<?php echo $r['U_Email']?>"
+                                    readonly>
                                 <span id="sadd_er"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Phone Number :</label>
-                                <input type="text" class="form-control" name="umd" id="umd">
+                                <input type="text" class="form-control" name="umd" id="umd" 
+                                value="<?php echo $r['U_Phn']?>">
                                 <span id="padd_er"></span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="name" class="form-label">Shipping Address :</label>
                                 <textarea class="form-control" id="sadd"
-                                    placeholder="Enter your shipping address"></textarea>
+                                    placeholder="Enter your shipping address"><?php echo $r['U_Add']?></textarea>
                                 <span id="sadd_er"></span>
                             </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Payment Address :</label>
-                                <textarea class="form-control" id="padd"
-                                    placeholder="Enter your payment address"></textarea>
+                                <label for="name" class="form-label">State :</label>
+                                <input type="text" class="form-control" name="state" id="state"
+                                value="<?php echo $r['U_State']?>">
+                                <span id="sadd_er"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">City :</label>
+                                <input type="text" class="form-control" name="city" id="city"
+                                value="<?php echo $r['U_City']?>">
                                 <span id="padd_er"></span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-9 mb-3">
-                            </div>
-                            <div class="col-md-3 mb-3" style="align-content: end;">
-                                <button class="btn btn-dark" onclick="update(2)"><i class="fa fa-times"></i></button>
-                                <button type="submit" class="btn btn-dark" name="updateOffer"><i
-                                        class="fa fa-arrow-right"></i></button>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Zip :</label>
+                                <input type="text" class="form-control" name="zip" id="zip"
+                                value="<?php echo $r['U_Zip']?>">
+                                <span id="padd_er"></span>
+                            </div><div class="col-md-3"></div>
+                            <div class="col-md-3" style="align-content: end;">
+                                <button type="submit" class="btn btn-dark" name="payNow">Check Out</button>
                             </div>
                         </div>
                     </form>
@@ -212,19 +233,64 @@
     <?php
     include 'Footer.php';
 
-    // if (isset($_POST['order'])) {
-    //     $or_P_Id = $id;
-    //     $or_U_Email = $Email_Session;
-    //     $sql = "INSERT INTO orders_tbl (or_U_Email,or_P_Id, or_Quantity) VALUES ('$or_U_Email', '$or_P_Id', '$Ct_Quantity')";
-    //     $data = mysqli_query($con, $sql);
-    
-    //     if ($data) {
-    //         echo "<script>location.replace('order.php');</script>";
-    //     } else {
-    //         echo "Error inserting data into wishlist";
-    //     }
-    // }
-    
+    if(isset($_POST['offerApply']))
+    {
+        $cart_total=$_SESSION['CartTotal'];
+        $offer=$_POST['offercode'];
+
+        $checkCode="select * from offers_tbl where Of_Name='$offer' AND Of_Status='Active'";
+        $result=mysqli_query($con,$checkCode);
+        if(mysqli_num_rows($result)>0)
+        {
+            ?>
+            <script>
+                document.getElementById('offercode_er').style.color = "white";
+                document.getElementById('offercode_er').innerHTML = "Offercode applied successfully";
+            </script>
+            <?php
+             $data = mysqli_fetch_assoc($result);
+             $discount_percentage = $data['Of_Discount_Percentage'];
+             $discount_amount = ($cart_total * $discount_percentage) / 100;
+             $order_total = $data['Of_Cart_Total'];
+             $max_discount = $data['Of_Max_Discount'];
+             $offer = $data['Of_Name'];
+
+             if ($cart_total > $order_total) {
+
+                if ($discount_amount > $max_discount) {
+                    $discount_amount = $max_discount;
+                } else {
+                    $discount_amount = ($cart_total * $discount_percentage) / 100;
+                }
+                $new_cart_total = $cart_total - $discount_amount;
+                ?>
+                <script>
+                    // document.getElementById('offer_code').innerHTML = '<?php echo $offer; ?>';
+                    document.getElementById('discount_percentage').innerHTML = '<?php echo $discount_percentage; ?>%';
+                    document.getElementById('discount_amount').innerHTML = 'Rs. <?php echo number_format($discount_amount, 2); ?>';
+                    document.getElementById('new_cart_total').innerHTML = 'Rs. <?php echo number_format($new_cart_total, 2); ?>';
+                </script>
+            <?php
+            }else {
+                ?>
+                    <script>
+                        document.getElementById('offercode_er').style.color = "red";
+                        document.getElementById('offercode_er').innerHTML = "To avail this offer cart total must be greater than <?php echo $order_total; ?>.";
+                    </script>
+                <?php
+            }
+            $_SESSION['total'] = $new_cart_total;
+        }else{
+            ?>
+            <script>
+                document.getElementById('offercode_er').style.color = "red";
+                document.getElementById('offercode_er').innerHTML = "Invalid Code";
+            </script>
+            <?php
+        }
+    } 
+
+    // delete item from cart
     if (isset($_POST['deleteitem'])) {
         $id = $_POST['cartId'];
 
@@ -239,8 +305,7 @@
             </script>";
             <?php
         }
-        echo $id;
-
+        // echo $id;
     }
     ?>
 </body>
