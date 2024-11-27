@@ -130,16 +130,15 @@ include 'conn.php';
                             <!-- Admin Menu -->
                             <li class="nav-item"><a class="nav-link" href="admin.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="admin.php#discount">Discount/Offers</a></li>
-                            <li class="nav-item"><a class="nav-link" href="admin.php#category">Category</a></li>
+                            <li class="nav-item"><a class="nav-link" href="AdProducts.php">Products</a></li>
+                            <li class="nav-item"><a class="nav-link" href="AdUsers.php">Users</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                                    data-bs-toggle="dropdown" aria-expanded="false">Other</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="AdOrders.php">Orders</a></li>
                                     <li><a class="dropdown-item" href="AdCategory.php">Category</a></li>
                                     <li><a class="dropdown-item" href="AdSubcategory.php">Sub Category</a></li>
-                                    <li><a class="dropdown-item" href="AdProducts.php">Products</a></li>
-                                    <li><a class="dropdown-item" href="AdUsers.php">Users</a></li>
                                     <li><a class="dropdown-item" href="AdOffers.php">Offers</a></li>
                                     <li><a class="dropdown-item" href="AdContactUs.php">Contact</a></li>
                                     <li><a class="dropdown-item" href="AdAboutUs.php">About Us</a></li>
@@ -147,7 +146,7 @@ include 'conn.php';
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">User</a>
+                                    data-bs-toggle="dropdown" aria-expanded="false">User Side</a>
                                 <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="Index.php">Home</a></li>
                                     <li><a class="dropdown-item" href="Index.php#latest">Latest</a></li>

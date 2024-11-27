@@ -126,7 +126,7 @@
             <!-- Images Column -->
             <div class="col-md-4">
                 <div class="product-image">
-                    <form method="post">
+                    <form method="post" action="cart.php#checkOut_form">
                         <label for="anm" class="form-label">Offer Code:</label>
                         <input type="text" class="form-control" name="offercode" id="offercode">
                         <span id="offercode_er"></span><br>
@@ -233,8 +233,8 @@
     <?php
     include 'Footer.php';
 
-    if(isset($_POST['offerApply']))
-    {
+    // offer code
+    if(isset($_POST['offerApply'])){
         $cart_total=$_SESSION['CartTotal'];
         $offer=$_POST['offercode'];
 
@@ -279,6 +279,7 @@
                     </script>
                 <?php
             }
+            // cart total session
             $_SESSION['total'] = $new_cart_total;
         }else{
             ?>
@@ -289,6 +290,33 @@
             <?php
         }
     } 
+
+    // checkout
+    if(isset($_POST['payNow'])){
+        $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
+        if ($total <= 0) {
+            echo "Invalid total price. Please check your cart.";
+            exit;
+        }
+        // Initialize Razorpay API
+        $api_key = 'razor_pay_api_key';
+        $api_secret = 'razor_pay_secret_key';
+        $api = new Api($api_key, $api_secret);
+    
+        try {
+            // Create a Razorpay order
+            $order = $api->order->create([
+                'receipt' => 'order_rcptid_' . time(),
+                'amount' => $total * 100, // Amount in paise
+                'currency' => 'INR'
+            ]);
+            // Get the order ID
+            $_SESSION['order_id'] = $order->id;
+        } catch (Exception $e) {
+            echo "Error creating Razorpay order: " . $e->getMessage();
+            exit;
+        }
+    }
 
     // delete item from cart
     if (isset($_POST['deleteitem'])) {

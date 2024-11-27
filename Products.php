@@ -80,7 +80,7 @@
 
           <div class="card">
             <?php if ($discount > 0) { ?>
-              <div class="ribbon">30% Off</div>
+              <div class="ribbon"><?php echo $discount; ?>% off</div>
             <?php } ?>
             <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
               alt="<?php echo $r['P_Name']; ?>" />
@@ -95,7 +95,6 @@
                         <del><?php echo number_format($original_price, 2); ?></del></span>
                       <span style="color: #f00;"> Rs. <?php echo number_format($discounted_price, 2); ?></span>
                     </span>
-                    <div style="color: red;"><?php echo $discount; ?>% off</div>
                   <?php } else { ?>
                     <span class="card__status">Rs. <?php echo number_format($original_price, 2); ?></span>
                   <?php } ?>
