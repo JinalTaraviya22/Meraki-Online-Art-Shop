@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2024 at 03:22 PM
+-- Generation Time: Nov 27, 2024 at 04:52 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -63,7 +63,8 @@ INSERT INTO `cart_tbl` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
 (1, 1, 3, 'jinal.taraviya997@gmail.com'),
 (2, 3, 3, 'patelbhakti636@gmail.com'),
 (12, 3, 3, 'angelraiyanii@gmail.com'),
-(19, 1, 1, 'jtaraviya932@rku.ac.in');
+(19, 1, 1, 'jtaraviya932@rku.ac.in'),
+(20, 2, 2, 'jtaraviya932@rku.ac.in');
 
 -- --------------------------------------------------------
 
@@ -83,11 +84,11 @@ CREATE TABLE `category_tbl` (
 --
 
 INSERT INTO `category_tbl` (`C_Id`, `C_Name`, `C_Img`, `C_Status`) VALUES
-(1, 'Drawing Materials', '670c9715c2eaadrawing_illustration.png', 'Deactivate'),
+(1, 'Drawing Materials', '670c9715c2eaadrawing_illustration.png', 'Active'),
 (2, 'Sculpting and Modeling', '66f77c93e0b08Sculpting and Modeling.png', 'Active'),
 (3, 'Paints', '670b644d762f7acrylicColors.png', 'Active'),
 (4, 'Surfaces', '670bbd8b8bad7paper_boards.png', 'Active'),
-(5, 'Furniture', '670c9735a71dfeaseal_furniture.png', 'Active');
+(5, 'Furniture', '673d5093c819e6713b2b905deaeaseal2.png', 'Active');
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ CREATE TABLE `offers_tbl` (
 --
 
 INSERT INTO `offers_tbl` (`Of_Id`, `Of_Name`, `Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) VALUES
-(1, 'Big Sale', 'asdfghjklo', 20.00, 3000, 20, '', '2024-11-23', 'Active');
+(1, 'BigSale24', 'asdfghjklo', 20.00, 3000, 20, '', '2024-11-23', 'Active');
 
 -- --------------------------------------------------------
 
@@ -145,18 +146,24 @@ INSERT INTO `offers_tbl` (`Of_Id`, `Of_Name`, `Of_Description`, `Of_Discount_Per
 --
 
 CREATE TABLE `order_tbl` (
-  `O_id` int(56) NOT NULL,
-  `O_U_Email` varchar(56) NOT NULL,
+  `O_Id` int(56) NOT NULL,
+  `O_U_Email` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_Order_Id` varchar(100) NOT NULL,
+  `O_Sub_Order_Id` varchar(100) NOT NULL,
   `O_P_Id` int(45) NOT NULL,
-  `O_Amount` decimal(56,0) NOT NULL,
+  `O_Rating` decimal(10,0) DEFAULT NULL,
+  `O_Review` text DEFAULT NULL,
+  `O_Total_Amount` decimal(56,0) NOT NULL,
   `O_Quantity` int(56) NOT NULL,
-  `O_Shipping_Add` text NOT NULL,
-  `O_Payment_Add` text NOT NULL,
-  `O_Phn` varchar(56) NOT NULL,
-  `O_City` varchar(78) NOT NULL,
+  `O_Add` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_Phn` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_City` varchar(78) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `O_Zip` int(89) NOT NULL,
-  `O_State` varchar(56) NOT NULL,
-  `O_Date` date NOT NULL
+  `O_State` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_Delivery_Status` enum('Ordered','Shipped','Delivered','Returned','Replaced') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Ordered',
+  `O_Payment_Status` enum('Panding','Completed','Failed','') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Completed',
+  `O_Offer_Name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_Date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -205,9 +212,9 @@ CREATE TABLE `product_tbl` (
 --
 
 INSERT INTO `product_tbl` (`P_Id`, `P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`, `P_Status`, `P_Discount`) VALUES
-(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2500, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active', 20),
-(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 2500, 400, 'BRUSTRO ', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active', 0),
-(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5000, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active', 0);
+(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2500, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active', 0),
+(2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 2500, 400, 'BRUSTRO ', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active', 10),
+(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5000, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active', 90);
 
 -- --------------------------------------------------------
 
@@ -306,7 +313,6 @@ CREATE TABLE `wishlist_tbl` (
 
 INSERT INTO `wishlist_tbl` (`W_Id`, `W_U_Email`, `W_P_Id`, `W_quantity`) VALUES
 (2, 'jtaraviya932@rku.ac.in', 3, 4),
-(3, 'jtaraviya932@rku.ac.in', 1, 1),
 (4, 'patelbhakti636@gmail.com', 2, 1),
 (5, 'jtaraviya932@rku.ac.in', 2, 3),
 (6, 'jtaraviya932@rku.ac.in', 0, 1),
@@ -350,7 +356,7 @@ ALTER TABLE `offers_tbl`
 -- Indexes for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
-  ADD PRIMARY KEY (`O_id`);
+  ADD PRIMARY KEY (`O_Id`);
 
 --
 -- Indexes for table `password_token_tbl`
@@ -403,7 +409,7 @@ ALTER TABLE `aboutus_tbl`
 -- AUTO_INCREMENT for table `cart_tbl`
 --
 ALTER TABLE `cart_tbl`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -427,7 +433,7 @@ ALTER TABLE `offers_tbl`
 -- AUTO_INCREMENT for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
-  MODIFY `O_id` int(56) NOT NULL AUTO_INCREMENT;
+  MODIFY `O_Id` int(56) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `password_token_tbl`

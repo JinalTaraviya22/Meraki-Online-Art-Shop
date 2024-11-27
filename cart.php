@@ -11,6 +11,9 @@
     <script src="validation.js"></script>
     <?php
     include 'Header.php';
+    require 'vendor/autoload.php';
+    use Razorpay\Api\Api;
+
     if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
         header("Location: Login.php");
         exit();
@@ -58,7 +61,7 @@
                     }
                     ?>
                     <p>Total: <b><?php echo $totalAmount;
-                        $_SESSION['CartTotal']=$totalAmount;?></b></p>
+                        $_SESSION['total']=$totalAmount;?></b></p>
                 </div>
                 <div class="col-md-6">
                     <a href="#checkOut_form"><button type="submit" class="btn btn-dark">Check Out</button></a>
@@ -173,7 +176,7 @@
                         $result = mysqli_query($con, $fetchUsr);
                         $r = mysqli_fetch_assoc($result);
                      ?>
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" action="CheckOut.php">
                         <div class="row">
                             <!-- <input type="hidden" name="ofid" value="<?php echo $r['Of_Id'] ?>"> -->
                             <!-- <input type="hidden" name="oldimg" value="<?php echo $r['Of_Img'] ?>"> -->
@@ -220,7 +223,7 @@
                                 <span id="padd_er"></span>
                             </div><div class="col-md-3"></div>
                             <div class="col-md-3" style="align-content: end;">
-                                <button type="submit" class="btn btn-dark" name="payNow">Check Out</button>
+                                <button type="submit" class="btn btn-dark" name="checkOut">Check Out</button>
                             </div>
                         </div>
                     </form>
@@ -228,6 +231,8 @@
             </div>
         </div>
     </div>
+    
+       
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <?php
@@ -235,7 +240,7 @@
 
     // offer code
     if(isset($_POST['offerApply'])){
-        $cart_total=$_SESSION['CartTotal'];
+        $cart_total=$_SESSION['total'];
         $offer=$_POST['offercode'];
 
         $checkCode="select * from offers_tbl where Of_Name='$offer' AND Of_Status='Active'";
@@ -291,18 +296,18 @@
         }
     } 
 
-    // checkout
-    if(isset($_POST['payNow'])){
+    // checkout 
+    if (isset($_POST['checkOut'])) {
         $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
         if ($total <= 0) {
             echo "Invalid total price. Please check your cart.";
             exit;
         }
         // Initialize Razorpay API
-        $api_key = 'razor_pay_api_key';
-        $api_secret = 'razor_pay_secret_key';
+        $api_key = 'rzp_test_yCgrsfXSuM7SxL';
+        $api_secret = 'eaxt0pkgow03xe2s2ufGFmBK';
         $api = new Api($api_key, $api_secret);
-    
+
         try {
             // Create a Razorpay order
             $order = $api->order->create([
@@ -318,6 +323,7 @@
         }
     }
 
+    
     // delete item from cart
     if (isset($_POST['deleteitem'])) {
         $id = $_POST['cartId'];
