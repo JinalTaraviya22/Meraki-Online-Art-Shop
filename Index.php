@@ -105,6 +105,9 @@
             while ($r = mysqli_fetch_assoc($result)) {
               ?>
               <div class="card">
+                <?php if ($r['P_Discount'] > 0) { ?>
+                  <div class="ribbon"><?php echo $r['P_Discount']; ?>% off</div>
+                <?php } ?>
                 <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
                   <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
                     alt="<?php echo $r['P_Name']; ?>" />
@@ -139,7 +142,7 @@
 
 
   <!-- offers -->
-  <div class="container-fluid bgcolor mt-5 mb-5">
+  <!-- <div class="container-fluid bgcolor mt-5 mb-5">
     <h5>Offers</h5>
     <div class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -163,6 +166,45 @@
         </div>
       </div>
 
+    </div>
+  </div> -->
+
+  <!-- Offers Section -->
+  <div class="container-fluid bgcolor mt-5 mb-5">
+    <!-- <h2>Offers and Discounts</h2> -->
+    <div id="offerCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <?php
+        $query = "SELECT Of_Banner, Of_Description FROM offers_tbl WHERE Of_Status = 'Active'";
+        $result = mysqli_query($con, $query);
+        $isFirst = true; // Track the first item for the active class
+        
+        while ($row = mysqli_fetch_assoc($result)) {
+          $banner = $row['Of_Banner'];
+          $description = $row['Of_Description'];
+          ?>
+          <div class="carousel-item <?php if ($isFirst)
+            echo 'active'; ?>">
+            <a href="cart.php"><img src="db_img/offer_img/<?php echo $banner; ?>" class="d-block w-100"
+                alt="Offer Image"></a>
+            <div class="carousel-caption d-none d-md-block">
+              <h5><?php echo $description; ?></h5>
+            </div>
+          </div>
+          <?php
+          $isFirst = false; // Set to false after the first iteration
+        }
+        ?>
+      </div>
+      <!-- Optional: Add carousel controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#offerCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#offerCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
   </div>
 
@@ -189,6 +231,9 @@
             while ($r = mysqli_fetch_assoc($result)) {
               ?>
               <div class="card">
+              <?php if ($r['P_Discount'] > 0) { ?>
+                  <div class="ribbon"><?php echo $r['P_Discount']; ?>% off</div>
+                <?php } ?>
                 <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
                   <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
                     alt="<?php echo $r['P_Name']; ?>" />

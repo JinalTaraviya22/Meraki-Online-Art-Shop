@@ -110,8 +110,9 @@
                         <div class="row">
                             <div class="col-md-4">End Date:<input type="date" name="edt" id="edt"
                                     class="form-control"><span id="edt_er"></span></div></br>
-                            <!-- <div class="col-md-4">Banner:<input type="file" id="bnr" class="form-control"><span
-                                    id="bnr_er"></span></div> -->
+                            <div class="col-md-4">Banner:<input type="file" id="bnr" name="bnr"
+                                    class="form-control">Upload files with dimentions of 1600*500
+                                    <span id="bnr_er"></span></div>
                             <div class="col-md-4"><button type="submit" name="offer_add" class="button-28">Add</button>
                             </div>
                         </div></br>
@@ -130,7 +131,7 @@
                     <th>Cart Total</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <!-- <th>Image</th> -->
+                    <th>Image</th>
                     <th>View</th>
                     <th>Status</th>
                 </tr>
@@ -165,7 +166,7 @@
                         <td><?php echo $r['Of_Cart_Total'] ?></td>
                         <td><?php echo $r['Of_Start_Date'] ?></td>
                         <td><?php echo $r['Of_End_Date'] ?></td>
-                        <!-- <td><img src="db_img/offer_img/<?php echo $r['Of_Img'] ?>" height="100px" width="100px"></td> -->
+                        <td><img src="db_img/offer_img/<?php echo $r['Of_Banner'] ?>" height="50px" width="160px"></td>
                         <td>
                             <form method="post" action="AdOffers.php#update_form">
                                 <a href="#update_form">
@@ -225,8 +226,13 @@
                 <!-- Images Column -->
                 <div class="col-md-4">
                     <div class="product-image">
-                        <img src="db_img/img/bg1.png" height="100px" width="100px" alt="Product Image"
-                            class="img-fluid rounded">
+                        <img src="db_img/offer_img/<?php echo $r['Of_Banner']; ?>" height="50px" width="160px"
+                            alt="Offer Image" class="img-fluid rounded">
+                        <br><br>
+                        <label for="uimg" class="form-label">Change Offer Image:</label>
+                        <input type="file" class="form-control" name="ubnr" id="ubnr">
+                        Upload files with dimentions of 1600*500
+                        <span id="uimg_er" class="text-danger"></span>
                     </div>
                 </div>
                 <!-- Right Column -->
@@ -245,7 +251,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Description:</label>
-                                    <textarea class="form-control" name="uodes" id="uodes"><?php echo $r['Of_Description'] ?></textarea>
+                                    <textarea class="form-control" name="uodes"
+                                        id="uodes"><?php echo $r['Of_Description'] ?></textarea>
                                     <span id="uodes_er" class="text-danger"></span>
                                 </div>
                             </div>
@@ -285,13 +292,13 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Start Date:</label>
-                                    <input type="text" class="form-control" name="ustd" id="ustd"
+                                    <input type="date" class="form-control" name="usdt" id="usdt"
                                         value="<?php echo $r['Of_Start_Date'] ?>">
                                     <span id="ustd_er" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">End Date:</label>
-                                    <input type="text" class="form-control" name="uedt" id="uedt"
+                                    <input type="date" class="form-control" name="uedt" id="uedt"
                                         value="<?php echo $r['Of_End_Date'] ?>">
                                     <span id="uedt_er" class="text-danger"></span>
                                 </div>
@@ -361,6 +368,7 @@
         $start_date = $_POST['sdt'];
         $end_date = $_POST['edt'];
         $order_total = $_POST['odt'];
+        $banner = $_POST['bnr'];
 
         $query = "INSERT INTO `offers_tbl`(`Of_Name`,`Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) 
         VALUES ('$offer_title','$offer_description','$discount_percentage','$order_total','$max_discount_amount','$start_date','$end_date','Active')";
@@ -383,28 +391,42 @@
         $discount_percentage = $_POST['udp'];
         $ototal = $_POST['uoct'];
         $max_discount = $_POST['umd'];
-        $status=$_POST['ustatus'];
+        $status = $_POST['ustatus'];
         $startdate = $_POST['usdt'];
         $enddate = $_POST['uedt'];
+        $newImage = "";
 
-        // if ($_FILES['cimg']['name'] != "") {
-        //     $img = uniqid() . $_FILES['cimg']['name'];
-        //     move_uploaded_file($_FILES['cimg']['tmp_name'], "db_img/cat_img/" . $img);
-        // } else {
-        //     $img = $oimg;
-        // }
+        // Handle file upload
+        if (isset($_FILES['ubnr']) && $_FILES['ubnr']['name'] != "") {
+            $newImage = uniqid() . "_" . $_FILES['ubnr']['name']; // Generate unique name
+            $uploadPath = "db_img/offer_img/" . $newImage;
+            move_uploaded_file($_FILES['ubnr']['tmp_name'], $uploadPath);
 
-        $query = "UPDATE `offers_tbl` SET `Of_Name`='$otitle',`Of_Description`='$odescription',`Of_Discount_Percentage`='$discount_percentage',
-        `Of_Cart_Total`='$ototal',`Of_Max_Discount`='$max_discount',`Of_Start_Date`='$startdate',`Of_End_Date`='$enddate',`Of_Status`='$status' WHERE `Of_Id`=$id";
+            // Optional: Delete old image if necessary
+            if (!empty($r['Of_Banner']) && file_exists("db_img/offer_img/" . $r['Of_Banner'])) {
+                unlink("db_img/offer_img/" . $r['Of_Banner']);
+            }
+        } else {
+            // Keep the old image if no new one is uploaded
+            $newImage = $r['Of_Banner'];
+        }
+
+        $query = "UPDATE `offers_tbl` SET 
+                `Of_Name`='$otitle',
+                `Of_Description`='$odescription',
+                `Of_Discount_Percentage`='$discount_percentage',
+                `Of_Cart_Total`='$ototal',
+                `Of_Max_Discount`='$max_discount',
+                `Of_Start_Date`='$startdate',
+                `Of_End_Date`='$enddate',
+                `Of_Status`='$status',
+                `Of_Banner`='$newImage'
+              WHERE `Of_Id`=$id";
+        // $query = "UPDATE `offers_tbl` SET `Of_Name`='$otitle',`Of_Description`='$odescription',`Of_Discount_Percentage`='$discount_percentage',
+        // `Of_Cart_Total`='$ototal',`Of_Max_Discount`='$max_discount',`Of_Start_Date`='$startdate',`Of_End_Date`='$enddate',`Of_Status`='$status' WHERE `Of_Id`=$id";
         echo $query;
 
         if (mysqli_query($con, $query)) {
-            // if ($_FILES['cimg']['name'] != "") {
-            //     $old_image = $oimg;
-            //     if (file_exists("db_img/cat_img/" . $old_image)) {
-            //         unlink("db_img/cat_img/" . $old_image);
-            //     }
-            // }
             setcookie('success', "Offer updated successfully", time() + 5, "/");
             ?>
             <script>

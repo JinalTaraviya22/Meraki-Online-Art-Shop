@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2024 at 04:52 PM
+-- Generation Time: Dec 04, 2024 at 09:46 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -62,9 +62,8 @@ CREATE TABLE `cart_tbl` (
 INSERT INTO `cart_tbl` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
 (1, 1, 3, 'jinal.taraviya997@gmail.com'),
 (2, 3, 3, 'patelbhakti636@gmail.com'),
-(12, 3, 3, 'angelraiyanii@gmail.com'),
-(19, 1, 1, 'jtaraviya932@rku.ac.in'),
-(20, 2, 2, 'jtaraviya932@rku.ac.in');
+(21, 3, 3, 'angelraiyanii@gmail.com'),
+(22, 2, 1, 'angelraiyanii@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -117,6 +116,29 @@ INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `demo_orders`
+--
+
+CREATE TABLE `demo_orders` (
+  `id` int(11) NOT NULL,
+  `order_id` varchar(255) NOT NULL,
+  `sub_order_id` varchar(255) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `rating` decimal(2,1) DEFAULT NULL,
+  `review` text DEFAULT NULL,
+  `email` varchar(50) NOT NULL,
+  `delivery_address` varchar(255) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `delivery_status` enum('Ordered','Shipped','Delivered','Return','Replaced') NOT NULL DEFAULT 'Ordered',
+  `payment_status` enum('Pending','Completed','Failed') NOT NULL DEFAULT 'Pending',
+  `offer_name` varchar(20) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `offers_tbl`
 --
 
@@ -129,6 +151,7 @@ CREATE TABLE `offers_tbl` (
   `Of_Max_Discount` int(11) NOT NULL,
   `Of_Start_Date` varchar(10) NOT NULL,
   `Of_End_Date` varchar(10) NOT NULL,
+  `Of_Banner` text NOT NULL,
   `Of_Status` enum('Active','Deactivate') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -136,8 +159,8 @@ CREATE TABLE `offers_tbl` (
 -- Dumping data for table `offers_tbl`
 --
 
-INSERT INTO `offers_tbl` (`Of_Id`, `Of_Name`, `Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) VALUES
-(1, 'BigSale24', 'asdfghjklo', 20.00, 3000, 20, '', '2024-11-23', 'Active');
+INSERT INTO `offers_tbl` (`Of_Id`, `Of_Name`, `Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Banner`, `Of_Status`) VALUES
+(1, 'BigSale24', 'Cart clearance offer \r\nGet 20% discount on total shopping of 3000', 20.00, 3000, 20, '2024-12-05', '2024-12-11', 'slide2.png', 'Active');
 
 -- --------------------------------------------------------
 
@@ -165,6 +188,16 @@ CREATE TABLE `order_tbl` (
   `O_Offer_Name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `O_Date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `order_tbl`
+--
+
+INSERT INTO `order_tbl` (`O_Id`, `O_U_Email`, `O_Order_Id`, `O_Sub_Order_Id`, `O_P_Id`, `O_Rating`, `O_Review`, `O_Total_Amount`, `O_Quantity`, `O_Add`, `O_Phn`, `O_City`, `O_Zip`, `O_State`, `O_Delivery_Status`, `O_Payment_Status`, `O_Offer_Name`, `O_Date`) VALUES
+(1, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 3, NULL, NULL, 650000, 3, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', '', '', '2024-12-04 13:39:58'),
+(2, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 1, NULL, NULL, 650000, 2, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', '', '', '2024-12-04 13:39:58'),
+(3, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 1, NULL, NULL, 7000, 1, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', '', '', '2024-12-04 14:03:27'),
+(4, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 2, NULL, NULL, 7000, 2, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', '', '', '2024-12-04 14:03:27');
 
 -- --------------------------------------------------------
 
@@ -347,6 +380,12 @@ ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
 
 --
+-- Indexes for table `demo_orders`
+--
+ALTER TABLE `demo_orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `offers_tbl`
 --
 ALTER TABLE `offers_tbl`
@@ -409,7 +448,7 @@ ALTER TABLE `aboutus_tbl`
 -- AUTO_INCREMENT for table `cart_tbl`
 --
 ALTER TABLE `cart_tbl`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -424,6 +463,12 @@ ALTER TABLE `contact_tbl`
   MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `demo_orders`
+--
+ALTER TABLE `demo_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `offers_tbl`
 --
 ALTER TABLE `offers_tbl`
@@ -433,7 +478,7 @@ ALTER TABLE `offers_tbl`
 -- AUTO_INCREMENT for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
-  MODIFY `O_Id` int(56) NOT NULL AUTO_INCREMENT;
+  MODIFY `O_Id` int(56) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `password_token_tbl`
