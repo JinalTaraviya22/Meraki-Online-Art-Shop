@@ -20,7 +20,7 @@ if (isset($_GET['payment_id']) && isset($_GET['order_id']) && isset($_GET['total
         $city = $_SESSION['user_city'];
         $zip = $_SESSION['user_zip'];
         $state = $_SESSION['user_state'];
-        $offer=$_SESSION['offer-name'];
+        $offer = $_SESSION['offer-name'];
 
         $total = $_SESSION['total'];
 
@@ -44,6 +44,15 @@ if (isset($_GET['payment_id']) && isset($_GET['order_id']) && isset($_GET['total
                 echo 'Error while inserting order details';
                 exit();
             }
+
+            // Update the product stock in the product_tbl
+            $update_stock_query = "UPDATE product_tbl SET P_Stock = P_Stock - $quantity WHERE P_Id = '$product_id'";
+
+            if (!mysqli_query($con, $update_stock_query)) {
+                echo 'Error while updating product stock';
+                exit();
+            }
+
         }
 
         // After successfully inserting into the order table, empty the cart
