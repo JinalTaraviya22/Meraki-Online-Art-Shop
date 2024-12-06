@@ -46,6 +46,12 @@
             width: 40%;
         }
     </style>
+    <script>
+    $('#cart').click(function() {
+        location.reload(true); 
+    });
+</script>
+
 </head>
 
 <body class="bg-dark">
@@ -102,17 +108,34 @@
                     </tr>
                     <?php
                     while ($r = mysqli_fetch_assoc($result)) {
+                        $isOutOfStock = $r['P_Stock'] == 0;
                         ?>
-                        <tr>
-                            <!-- <td><?php echo $r['Ct_Id'] ?></td> -->
-                            <td><?php echo $r['P_Name'] ?></td>
-                            <td><?php echo $r['P_Price'] ?></td>
+                        <tr class="<?php echo $isOutOfStock ? 'out-of-stock' : ''; ?>">
+                            <td><?php echo $r['P_Name']; ?></td>
+                            <td><?php echo $r['P_Price']; ?></td>
                             <td>
-                                <!-- <select>
-                                <option>3</option>
-                                <option>1</option>
-                            </select> -->
-                                <?php echo $r['Ct_Quantity'] ?>
+
+                                <form action="cart.php" id="cart" method="POST">
+                                    <?php if ($isOutOfStock) { ?>
+                                        <select class="disabled-button" disabled>
+                                            <option value="0">0</option>
+                                        </select>
+                                    <?php } else {
+                                        $stock = (int) $r['P_Stock'];
+                                        $max = min($stock, 5);
+                                        $cartId = $r['Ct_Id']; // Assuming the cart ID is available
+                                        ?>
+                                        <select name="Ct_Quantity" onchange="this.form.submit()">
+                                            <?php for ($i = 1; $i <= $max; $i++) { ?>
+                                                <option value="<?php echo $i; ?>" <?php echo ($i == $r['Ct_Quantity']) ? 'selected' : ''; ?>>
+                                                    <?php echo $i; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                        <input type="hidden" name="Ct_Id" value="<?php echo $cartId; ?>">
+                                        <input type="hidden" name="update_cart" value="1"> <!-- Hidden flag to detect the update -->
+                                    <?php } ?>
+                                </form>
                             </td>
                             <td><?php $discounted = $r['P_Price'] * $r['P_Discount'] / 100;
                             echo $discounted ?></td>
@@ -338,7 +361,7 @@
     }
     // delete item from cart
     if (isset($_POST['deleteitem'])) {
-        $id = $_POST['cartId'];
+        $id = $_POST['cartIFd'];
 
         $query = "delete from cart_tbl where Ct_Id=$id";
         $data = mysqli_query($con, $query);
