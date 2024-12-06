@@ -15,11 +15,14 @@
         header("Location: Login.php");
         exit();
     }
+    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
+
     ?>
 </head>
 
 
 <!-- <body style="background-image: url(img/bg6.png);background-size: cover;color:white;"> -->
+
 <body class="bg-dark">
     <div class="container-fluid bgcolor mt-5">
         <div class="row" style="text-align: center;">
@@ -28,25 +31,40 @@
     </div>
 
     <div class="container-fluid bgcolor mt-5 mb-5">
-        <div class="row">
-            <!-- Left column : Image -->
-            <div class="col-md-4">
-                <a href="single_product.php">
-                    <div class="product-image-circle">
-                        <img src="img/easeal1.png" alt="User Image" class="img-fluid rounded">
+        <?php
+        // Fetch order data from the order_tbl
+        
+        $query = "SELECT o.*,p.* FROM order_tbl o JOIN product_tbl p ON o.O_P_Id=p.P_Id WHERE O_U_Email = '$Email_Session' ORDER BY O_Date DESC";
+        $result = mysqli_query($con, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($order = mysqli_fetch_assoc($result)) {
+            ?>
+            <div class="row mb-4">
+                <!-- Left column : Image -->
+                <div class="col-md-4">
+                    <a href="single_product.php">
+                        <div class="product-image-circle">
+                            <img src="db_img/product_img/<?php echo $order['P_Img1']?>" alt="product Image" class="img-fluid rounded">
+                        </div>
+                    </a>
+                </div>
+                <!-- Right Column -->
+                <div class="col-md-6">
+                    <div class="product-image-large">
+                        <h4><?php echo $order['P_Name']?></h4></a>
+                        <p class="price" style="font-size: 16px;">Rs. <?php echo $order['O_Total_Amount']?></p>
+                        Quantity:<?php echo $order['O_Quantity'];?><br>
+                        Date & Time:<?php echo $order['O_Date']?>
                     </div>
-                </a>
-            </div>
-            <!-- Right Column -->
-            <div class="col-md-6">
-                <div class="product-image-large">
-                    <h4>BASIC FRAME TRIPOD EASEL PINE WOOD 5 FEET</h4></a>
-                    <p class="price" style="font-size: 16px;">Rs. 1,300</p>
-                    Quantity:5
-                    Date & Time:23-Aug-24 11:35 PM
                 </div>
             </div>
-        </div>
+            <?php
+            }
+        } else {
+            echo "<p>No orders placed yet.</p>";
+        }
+        ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
