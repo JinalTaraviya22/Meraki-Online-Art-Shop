@@ -99,7 +99,7 @@
           <h2>Bestsellers</h2>
           <div class="art-grid">
             <?php
-            $q = "SELECT * FROM product_tbl ORDER BY P_Id DESC LIMIT 3";
+            $q = "SELECT o.O_P_Id,count(o.O_P_Id) as maxCount,p.* FROM order_tbl o JOIN product_tbl p ON o.O_P_Id=p.P_Id GROUP BY o.O_P_Id ORDER BY maxCount DESC LIMIT 3";
             $result = mysqli_query($con, $q);
 
             while ($r = mysqli_fetch_assoc($result)) {
@@ -139,35 +139,6 @@
       </div>
     </div>
   </div>
-
-
-  <!-- offers -->
-  <!-- <div class="container-fluid bgcolor mt-5 mb-5">
-    <h5>Offers</h5>
-    <div class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="img/slide3.png" class="d-block w-100">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>5% dicount on Himalaya products</h5>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="img/slide1.png" class="d-block w-100">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>5% dicount on Himalaya products</h5>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img src="img/slide2.png" class="d-block w-100">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>5% dicount on Himalaya products</h5>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div> -->
 
   <!-- Offers Section -->
   <div class="container-fluid bgcolor mt-5 mb-5">

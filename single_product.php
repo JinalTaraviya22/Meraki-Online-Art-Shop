@@ -147,8 +147,11 @@ $c_id = $r['C_Id'];
                     $q = "Select p.*,s.SC_Id,c.C_Id from product_tbl p JOIN subcategory_tbl s ON p.P_SC_Id=s.SC_Id JOIN category_tbl c ON s.C_Id=c.C_Id where p.P_Id != $id AND (s.C_Id=$c_id OR p.P_SC_Id=$sc_id )";
                     $result = mysqli_query($con, $q);
                     while ($r = mysqli_fetch_assoc($result)) {
+                        $discount = $r['P_Discount'];
+                        $original_price = $r['P_Price'];
+                        $discounted_price = $original_price - ($original_price * $discount / 100);
                         ?>
-                        <div class="card">
+                        <!-- <div class="card">
                             <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>" class="card">
                                 <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
                                     alt="<?php echo $r['P_Name']; ?>" />
@@ -162,6 +165,59 @@ $c_id = $r['C_Id'];
                                     <p class="card__description"><?php echo $r['P_Company_Name'] ?></p>
                                 </div>
                             </a>
+                        </div> -->
+
+                        <div class="card <?php echo ($r['P_Stock'] == 0) ? 'out-of-stock' : ''; ?>">
+                            <?php if ($discount > 0 && $r['P_Stock'] > 0) { ?>
+                                <div class="ribbon"><?php echo $discount; ?>% off</div>
+                            <?php } ?>
+                            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+                                alt="<?php echo $r['P_Name']; ?>" />
+                            <?php if ($r['P_Stock'] == 0) { ?>
+                                <!-- Always visible Out of Stock badge -->
+                                <div class="out-of-stock-badge">Out of Stock</div>
+                            <?php } ?>
+                            <div class="card__overlay">
+                                <div class="card__header">
+                                    <div class="card__header-text">
+                                        <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                                        <?php if ($discount > 0 && $r['P_Stock'] > 0) { ?>
+                                            <span class="card__status">
+                                                <span style="text-decoration: line-through; color: #888;">Rs.
+                                                    <del><?php echo number_format($original_price, 2); ?></del></span>
+                                                <span style="color: #f00;"> Rs.
+                                                    <?php echo number_format($discounted_price, 2); ?></span>
+                                            </span>
+                                        <?php } else { ?>
+                                            <span class="card__status">Rs.
+                                                <?php echo number_format($original_price, 2); ?></span>
+                                        <?php } ?>
+                                        <p><?php echo $r['P_Company_Name'] ?></p>
+                                    </div>
+                                </div>
+                                <?php if ($r['P_Stock'] > 0) { ?>
+                                    <form method="post">
+                                        <p class="card__description">
+                                            <input type="hidden" name="p_id" value="<?php echo $r['P_Id']; ?>">
+                                            <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>">
+                                                <button type="button" class="btn btn-dark">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="cart.php">
+                                                <button type="submit" name="cart" class="btn btn-dark">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </button>
+                                            </a>
+                                            <a href="wishlist.php">
+                                                <button type="submit" name="wish" class="btn btn-dark">
+                                                    <i class="fa fa-heart"></i>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </form>
+                                <?php } ?>
+                            </div>
                         </div>
                         <?php
                     } ?>

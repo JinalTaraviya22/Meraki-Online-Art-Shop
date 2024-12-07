@@ -35,9 +35,9 @@ if (isset($_GET['payment_id']) && isset($_GET['order_id']) && isset($_GET['total
 
             // Prepare the SQL insert statement for the order
             $query = "INSERT INTO order_tbl 
-    (O_U_Email, O_Order_Id, O_Sub_Order_Id, O_P_Id, O_Total_Amount, O_Quantity, O_Add, O_Phn, O_City, O_Zip, O_State, O_Payment_Status, O_Offer_Name, O_Date) 
+    (O_U_Email, O_Order_Id, O_Sub_Order_Id, O_P_Id, O_Total_Amount, O_Quantity, O_Add, O_Phn, O_City, O_Zip, O_State, O_Payment_Status, O_Offer_Name, O_Payment_Mode, O_Date) 
     VALUES 
-    ('$email', '$order_id', '$sub_order_id', '$product_id', '$total', '$quantity', '$address', '$phone', '$city', '$zip', '$state', 'Completed', '$offer', NOW())";
+    ('$email', '$order_id', '$sub_order_id', '$product_id', '$total', '$quantity', '$address', '$phone', '$city', '$zip', '$state', 'Completed', '$offer', 'Online', NOW())";
 
             // Execute the query
             if (!mysqli_query($con, $query)) {

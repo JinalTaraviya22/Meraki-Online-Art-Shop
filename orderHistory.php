@@ -15,7 +15,11 @@
         header("Location: Login.php");
         exit();
     }
-    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
+    $Email_Session = isset( $_GET['Id']) && !empty($_GET['Id'] ) 
+            ? $_GET['Id'] 
+            : (isset($_SESSION['U_User'])
+                ? $_SESSION['U_User'] 
+                : $_SESSION['U_Admin']);
 
     ?>
 </head>
@@ -43,7 +47,7 @@
             <div class="row mb-4">
                 <!-- Left column : Image -->
                 <div class="col-md-4">
-                    <a href="single_product.php">
+                    <a href="single_product.php?Id=<?php echo $order['P_Id'];?>">
                         <div class="product-image-circle">
                             <img src="db_img/product_img/<?php echo $order['P_Img1']?>" alt="product Image" class="img-fluid rounded">
                         </div>
@@ -54,8 +58,10 @@
                     <div class="product-image-large">
                         <h4><?php echo $order['P_Name']?></h4></a>
                         <p class="price" style="font-size: 16px;">Rs. <?php echo $order['O_Total_Amount']?></p>
-                        Quantity:<?php echo $order['O_Quantity'];?><br>
-                        Date & Time:<?php echo $order['O_Date']?>
+                        <b>Quantity:</b><?php echo $order['O_Quantity'];?><br>
+                        <b>Date & Time:</b><?php echo $order['O_Date']?><br>
+                        <b>Status:</b><?php echo $order['O_Delivery_Status'];?>
+
                     </div>
                 </div>
             </div>

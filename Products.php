@@ -13,32 +13,7 @@
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
     }
-    .out-of-stock {
-    opacity: 0.5;
-    pointer-events: none;
-}
 
-.disabled-button {
-    background-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
-}
-
-.out-of-stock-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    background: rgba(211, 211, 211, 0.5);
-    color: red;
-    font-weight: bold;
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-}
     .art-item {
       border: 1px solid #ddd;
       padding: 20px;
@@ -47,6 +22,10 @@
   </style>
   <?php
   include 'Header.php';
+  if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
+    header("Location: Login.php");
+    exit();
+  }
   $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
   //$id = $_GET['Id'];
   ?>
@@ -103,45 +82,56 @@
           $discounted_price = $original_price - ($original_price * $discount / 100);
           ?>
 
-<div class="card <?php echo ($r['P_Stock'] == 0) ? 'out-of-stock' : ''; ?>" style="width: 18rem; position: relative; height: 480px;">
-    <?php if ($r['P_Stock'] == 0): ?>
-        <div class="out-of-stock-text">Out of Stock</div>
-    <?php endif; ?>
-    <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image" alt="<?php echo $r['P_Name']; ?>" />
-    <div class="card__overlay">
-        <div class="card__header">
-            <div class="card__header-text">
-                <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
-                <span class="card__status">
-                    Rs. <?php echo number_format($r['P_Price'], 2); ?>
-                </span>
-                <p><?php echo $r['P_Company_Name'] ?></p>
-            </div>
-        </div>
-        <form method="post">
-            <p class="card__description">
-                <input type="hidden" name="p_id" value="<?php echo $r['P_Id']; ?>">
-
-                <!-- View Details Button -->
-                <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>">
-                    <button type="button" class="btn btn-dark">
+          <div class="card <?php echo ($r['P_Stock'] == 0) ? 'out-of-stock' : ''; ?>">
+            <?php if ($discount > 0 && $r['P_Stock'] > 0) { ?>
+              <div class="ribbon"><?php echo $discount; ?>% off</div>
+            <?php } ?>
+            <img src="db_img/product_img/<?php echo $r['P_Img1'] ?>" class="card__image"
+              alt="<?php echo $r['P_Name']; ?>" />
+            <?php if ($r['P_Stock'] == 0) { ?>
+              <!-- Always visible Out of Stock badge -->
+              <div class="out-of-stock-badge">Out of Stock</div>
+            <?php } ?>
+            <div class="card__overlay">
+              <div class="card__header">
+                <div class="card__header-text">
+                  <h3 class="card__title"><?php echo $r['P_Name'] ?></h3>
+                  <?php if ($discount > 0 && $r['P_Stock'] > 0) { ?>
+                    <span class="card__status">
+                      <span style="text-decoration: line-through; color: #888;">Rs.
+                        <del><?php echo number_format($original_price, 2); ?></del></span>
+                      <span style="color: #f00;"> Rs. <?php echo number_format($discounted_price, 2); ?></span>
+                    </span>
+                  <?php } else { ?>
+                    <span class="card__status">Rs. <?php echo number_format($original_price, 2); ?></span>
+                  <?php } ?>
+                  <p><?php echo $r['P_Company_Name'] ?></p>
+                </div>
+              </div>
+              <?php if ($r['P_Stock'] > 0) { ?>
+                <form method="post">
+                  <p class="card__description">
+                    <input type="hidden" name="p_id" value="<?php echo $r['P_Id']; ?>">
+                    <a href="single_product.php?Id=<?php echo $r['P_Id'] ?>">
+                      <button type="button" class="btn btn-dark">
                         <i class="fa fa-eye"></i>
-                    </button>
-                </a>
-
-                <!-- Add to Cart Button -->
-                <button type="submit" name="cart" class="btn <?php echo ($r['P_Stock'] == 0) ? 'disabled-button' : 'btn-dark'; ?>" <?php echo ($r['P_Stock'] == 0) ? 'disabled' : ''; ?>>
-                    <i class="fa fa-shopping-cart"></i>
-                </button>
-
-                <!-- Wishlist Button -->
-                <button type="submit" name="wish" class="btn <?php echo ($r['P_Stock'] == 0) ? 'disabled-button' : 'btn-dark'; ?>" <?php echo ($r['P_Stock'] == 0) ? 'disabled' : ''; ?>>
-                    <i class="fa fa-heart"></i>
-                </button>
-            </p>
-        </form>
-    </div>
-</div>
+                      </button>
+                    </a>
+                    <a href="cart.php">
+                      <button type="submit" name="cart" class="btn btn-dark">
+                        <i class="fa fa-shopping-cart"></i>
+                      </button>
+                    </a>
+                    <a href="wishlist.php">
+                      <button type="submit" name="wish" class="btn btn-dark">
+                        <i class="fa fa-heart"></i>
+                      </button>
+                    </a>
+                  </p>
+                </form>
+              <?php } ?>
+            </div>
+          </div>
 
           <?php
         }

@@ -82,6 +82,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Image :</label>
                                 <input type="file" class="form-control" name="cimg" id="catImg">
+                                 Upload Images with Dimentions of 1024*1024
                                 <span id="catImg_er"></span>
                             </div>
                         </div>
@@ -215,6 +216,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="anm" class="form-label">Category Image:</label>
                                     <input type="file" class="form-control" name="cimg" id="anm">
+                                    Upload Images with Dimentions of 1024*1024
                                     <span id="unm_er" class="text-danger"></span>
                                 </div>
                             </div>

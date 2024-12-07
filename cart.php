@@ -20,7 +20,11 @@
         header("Location: Login.php");
         exit();
     }
-    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
+    $Email_Session = isset( $_GET['Id']) && !empty($_GET['Id'] ) 
+            ? $_GET['Id'] 
+            : (isset($_SESSION['U_User'])
+                ? $_SESSION['U_User'] 
+                : $_SESSION['U_Admin']);
 
     // echo $_SESSION['total'];
     ?>
@@ -47,10 +51,10 @@
         }
     </style>
     <script>
-    $('#cart').click(function() {
-        location.reload(true); 
-    });
-</script>
+        $('#cart').click(function () {
+            location.reload(true);
+        });
+    </script>
 
 </head>
 
@@ -103,8 +107,8 @@
                         <th>Total</th>
                         <th>Image 1</th>
                         <th>Image 2</th>
-                        <th>Order</th>
-                        <th>Disable</th>
+                        <!-- <th>Order</th> -->
+                        <th>Remove</th>
                     </tr>
                     <?php
                     while ($r = mysqli_fetch_assoc($result)) {
@@ -114,8 +118,22 @@
                             <td><?php echo $r['P_Name']; ?></td>
                             <td><?php echo $r['P_Price']; ?></td>
                             <td>
+                                <form action="cart.php" method="POST">
+                                    <select name="Ct_Quantity" onchange="this.form.submit()" class="form-select">
+                                        <?php
+                                        $stock = (int) $r['P_Stock'];
+                                        $max = min($stock, 5);
+                                        for ($i = 1; $i <= $max; $i++) { ?>
+                                            <option value="<?php echo $i; ?>" <?php echo ($i == $r['Ct_Quantity']) ? 'selected' : ''; ?>>
+                                                <?php echo $i; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                    <input type="hidden" name="Ct_Id" value="<?php echo $r['Ct_Id']; ?>">
+                                    <input type="hidden" name="update_cart" value="1">
+                                </form>
 
-                                <form action="cart.php" id="cart" method="POST">
+                                <!-- <form action="cart.php" id="cart" method="POST">
                                     <?php if ($isOutOfStock) { ?>
                                         <select class="disabled-button" disabled>
                                             <option value="0">0</option>
@@ -125,7 +143,7 @@
                                         $max = min($stock, 5);
                                         $cartId = $r['Ct_Id']; // Assuming the cart ID is available
                                         ?>
-                                        <select name="Ct_Quantity" onchange="this.form.submit()">
+                                        <select name="Ct_Quantity" onchange="this.form.submit()" class="form-select">
                                             <?php for ($i = 1; $i <= $max; $i++) { ?>
                                                 <option value="<?php echo $i; ?>" <?php echo ($i == $r['Ct_Quantity']) ? 'selected' : ''; ?>>
                                                     <?php echo $i; ?>
@@ -133,9 +151,9 @@
                                             <?php } ?>
                                         </select>
                                         <input type="hidden" name="Ct_Id" value="<?php echo $cartId; ?>">
-                                        <input type="hidden" name="update_cart" value="1"> <!-- Hidden flag to detect the update -->
+                                        <input type="hidden" name="update_cart" value="1"> 
                                     <?php } ?>
-                                </form>
+                                </form> -->
                             </td>
                             <td><?php $discounted = $r['P_Price'] * $r['P_Discount'] / 100;
                             echo $discounted ?></td>
@@ -145,8 +163,8 @@
                             <form method="post">
                                 <input type="hidden" name="cartId" value="<?php echo $r['Ct_Id'] ?>">
 
-                                <td><a href="order.php"><button type="button" name="order" id="order" class="btn btn-dark"><i
-                                                class="fa fa-shopping-bag"></i></button></a></td>
+                                <!-- <td><a href="order.php"><button type="button" name="order" id="order" class="btn btn-dark"><i
+                                                class="fa fa-shopping-bag"></i></button></a></td> -->
                                 <td><button type="submit" name="deleteitem" class="btn btn-dark"
                                         style="background-color:#ad3434;"><i class="fa fa-times"></i></button></td>
                             </form>
@@ -157,6 +175,8 @@
                 </table>
             </div>
         </div>
+
+        <!-- checkout form -->
         <div class="container-fluid bgcolor mt-5" id="checkOut_form">
             <div class="row">
                 <!-- Images Column -->
@@ -351,7 +371,7 @@
         $_SESSION['user_city'] = $_POST['city'];
         $_SESSION['user_zip'] = $_POST['zip'];
         $_SESSION['user_state'] = $_POST['state'];
-        $_SESSION['total']=$_POST['oftotal'];
+        $_SESSION['total'] = $_POST['oftotal'];
         ?>
         <script>
             window.location.href = "CheckOut.php";
@@ -359,9 +379,35 @@
         <?php
 
     }
+
+    // update cart quantity
+    if (isset($_POST['update_cart']) && isset($_POST['Ct_Id']) && isset($_POST['Ct_Quantity'])) {
+        $cartId = (int) $_POST['Ct_Id'];
+        $quantity = (int) $_POST['Ct_Quantity'];
+
+        // Validate the quantity
+        if ($quantity > 0) {
+            // Update the cart table
+            $updateQuery = "UPDATE cart_tbl SET Ct_Quantity = $quantity WHERE Ct_Id = $cartId";
+            $updateResult = mysqli_query($con, $updateQuery);
+
+            if ($updateResult) {
+                setcookie('success', "Cart updated successfully", time() + 5, "/");
+            } else {
+                setcookie('error', "Failed to update cart", time() + 5, "/");
+            }
+        } else {
+            setcookie('error', "Invalid quantity", time() + 5, "/");
+        }
+
+        // Redirect to refresh the cart
+        header("Location: cart.php");
+        exit();
+    }
+
     // delete item from cart
     if (isset($_POST['deleteitem'])) {
-        $id = $_POST['cartIFd'];
+        $id = $_POST['cartId'];
 
         $query = "delete from cart_tbl where Ct_Id=$id";
         $data = mysqli_query($con, $query);

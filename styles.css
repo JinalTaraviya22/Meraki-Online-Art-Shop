@@ -558,3 +558,58 @@ table {
 .pagination li a i {
   font-size: 18px;
 }
+
+/* out of stock css */
+/* .out-of-stock-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  background: rgba(211, 211, 211, 0.5);
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+.out-of-stock {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled-button {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+} */
+
+/* Style for the "Out of Stock" badge */
+.out-of-stock-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  z-index: 10;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for out-of-stock products */
+.card.out-of-stock {
+  opacity: 0.5;
+  position: relative;
+}
+
+.card.out-of-stock .card__overlay {
+  pointer-events: none; /* Disable interactions with buttons and links */
+}
+
