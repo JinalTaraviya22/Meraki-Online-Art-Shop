@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2024 at 09:46 AM
+-- Generation Time: Dec 07, 2024 at 07:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -61,9 +61,9 @@ CREATE TABLE `cart_tbl` (
 
 INSERT INTO `cart_tbl` (`Ct_Id`, `Ct_Quantity`, `Ct_P_Id`, `Ct_U_Email`) VALUES
 (1, 1, 3, 'jinal.taraviya997@gmail.com'),
-(2, 3, 3, 'patelbhakti636@gmail.com'),
-(21, 3, 3, 'angelraiyanii@gmail.com'),
-(22, 2, 1, 'angelraiyanii@gmail.com');
+(28, 3, 2, 'angelraiyanii@gmail.com'),
+(32, 1, 2, 'jtaraviya932@rku.ac.in'),
+(33, 1, 1, 'jtaraviya932@rku.ac.in');
 
 -- --------------------------------------------------------
 
@@ -116,29 +116,6 @@ INSERT INTO `contact_tbl` (`Co_Id`, `Co_Name`, `Co_Email`, `Co_Msg`, `Co_Reply`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `demo_orders`
---
-
-CREATE TABLE `demo_orders` (
-  `id` int(11) NOT NULL,
-  `order_id` varchar(255) NOT NULL,
-  `sub_order_id` varchar(255) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `rating` decimal(2,1) DEFAULT NULL,
-  `review` text DEFAULT NULL,
-  `email` varchar(50) NOT NULL,
-  `delivery_address` varchar(255) NOT NULL,
-  `total_amount` decimal(10,2) NOT NULL,
-  `delivery_status` enum('Ordered','Shipped','Delivered','Return','Replaced') NOT NULL DEFAULT 'Ordered',
-  `payment_status` enum('Pending','Completed','Failed') NOT NULL DEFAULT 'Pending',
-  `offer_name` varchar(20) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `offers_tbl`
 --
 
@@ -186,6 +163,7 @@ CREATE TABLE `order_tbl` (
   `O_Delivery_Status` enum('Ordered','Shipped','Delivered','Returned','Replaced') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Ordered',
   `O_Payment_Status` enum('Panding','Completed','Failed','') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Completed',
   `O_Offer_Name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `O_Payment_Mode` varchar(10) NOT NULL,
   `O_Date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -193,11 +171,19 @@ CREATE TABLE `order_tbl` (
 -- Dumping data for table `order_tbl`
 --
 
-INSERT INTO `order_tbl` (`O_Id`, `O_U_Email`, `O_Order_Id`, `O_Sub_Order_Id`, `O_P_Id`, `O_Rating`, `O_Review`, `O_Total_Amount`, `O_Quantity`, `O_Add`, `O_Phn`, `O_City`, `O_Zip`, `O_State`, `O_Delivery_Status`, `O_Payment_Status`, `O_Offer_Name`, `O_Date`) VALUES
-(1, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 3, NULL, NULL, 650000, 3, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', '', '', '2024-12-04 13:39:58'),
-(2, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 1, NULL, NULL, 650000, 2, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', '', '', '2024-12-04 13:39:58'),
-(3, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 1, NULL, NULL, 7000, 1, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', '', '', '2024-12-04 14:03:27'),
-(4, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 2, NULL, NULL, 7000, 2, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', '', '', '2024-12-04 14:03:27');
+INSERT INTO `order_tbl` (`O_Id`, `O_U_Email`, `O_Order_Id`, `O_Sub_Order_Id`, `O_P_Id`, `O_Rating`, `O_Review`, `O_Total_Amount`, `O_Quantity`, `O_Add`, `O_Phn`, `O_City`, `O_Zip`, `O_State`, `O_Delivery_Status`, `O_Payment_Status`, `O_Offer_Name`, `O_Payment_Mode`, `O_Date`) VALUES
+(1, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 3, NULL, NULL, 6500, 3, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-04 13:39:58'),
+(2, 'angelraiyanii@gmail.com', 'order_PT1np926NbPMO6', '67500e56e4c5d', 1, NULL, NULL, 6500, 2, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-04 13:39:58'),
+(3, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 1, NULL, NULL, 7000, 1, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-04 14:03:27'),
+(4, 'jtaraviya932@rku.ac.in', 'order_PT2CYbrooaHIFQ', '675013d7a6fbd', 2, NULL, NULL, 7000, 2, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-04 14:03:27'),
+(5, 'amehta123@gmail.com', 'order_PT5waQ7AVpi3B5', '6750476c10033', 2, NULL, NULL, 4230, 1, 'qwer', '1234567890', 'Kalavad', 360005, 'Gujarat', 'Ordered', 'Completed', 'BigSale24', '', '2024-12-04 17:43:32'),
+(6, 'amehta123@gmail.com', 'order_PT5waQ7AVpi3B5', '6750476c10033', 3, NULL, NULL, 4230, 4, 'qwer', '1234567890', 'Kalavad', 360005, 'Gujarat', 'Ordered', 'Completed', 'BigSale24', '', '2024-12-04 17:43:32'),
+(7, 'patelbhakti636@gmail.com', 'order_PT60wFjGqvRqjR', '6750484707ac9', 3, NULL, NULL, 1500, 3, 'Nanivavdi', '1234567890', 'Dhoraji', 360005, 'Gujarat', 'Ordered', 'Completed', 'BigSale24', '', '2024-12-04 17:47:11'),
+(8, 'jinal.taraviya2205@gmail.com', 'order_PT6LwR5qSZXUFz', '67504cf172929', 3, NULL, NULL, 1500, 3, 'rk university', '2147483647', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', 'BigSale24', '', '2024-12-04 18:07:05'),
+(9, 'akbarinirali27@gmail.com', 'order_PTtE6O6L86qxtM', '6752ed4587194', 3, NULL, NULL, 500, 1, 'rku', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-06 17:55:41'),
+(10, 'angelraiyanii@gmail.com', 'order_PU9Bo18r6LBVL9', '6753c8de23c16', 3, NULL, NULL, 11500, 3, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-07 09:32:38'),
+(11, 'angelraiyanii@gmail.com', 'order_PU9Bo18r6LBVL9', '6753c8de23c16', 1, NULL, NULL, 11500, 4, 'qwerftg', '1234567890', 'Rajkot', 360005, 'Gujarat', 'Ordered', 'Completed', '', '', '2024-12-07 09:32:38'),
+(12, 'jtaraviya932@rku.ac.in', 'order_PUB6TdzHw5ud4L', '6753e337651d2', 1, NULL, NULL, 7480, 3, 'Ranchhod Nagar-7', '1234567890', 'Rajkot', 789998, 'Gujarat', 'Ordered', 'Completed', 'BigSale24', 'Online', '2024-12-07 11:25:03');
 
 -- --------------------------------------------------------
 
@@ -245,9 +231,9 @@ CREATE TABLE `product_tbl` (
 --
 
 INSERT INTO `product_tbl` (`P_Id`, `P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`, `P_Status`, `P_Discount`) VALUES
-(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2500, 1000, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active', 0),
+(1, 'Nitram Powdered Charcoal 175gms SKU: AZ1635', 2500, 993, 'Nitram', 1, 'Nitram Powdered Charcoal gives artists a versatile way to apply charcoal and produce varied and textured sketch effects\r\nMilled to an extra fine, uniform 100µ particle size\r\nSmooth, velvety consistency\r\nCan be applied with a brush or a paper stump\r\nHelps to produce varied and textured sketch effects\r\nExcellent lightfastness\r\nNitram Extra Fine Powdered Charcoal comes in this sturdy, reusable aluminium tin, with a lid that can be sealed tightly to avoid messy leaks.\r\nThe functional recessed reservoir insert allows you to control the amount of Nitram Charcoal Powder available. It can be easily removed to access and refill the tin.\r\nNitram Powdered Charcoal is milled to an extra-fine, uniform 100µ particle size. It is smooth, velvety and consistent. It has no coarse or grainy lumps that can mar the surface of your paper.\r\nYou can use a brush or a paper stump to create shapes and tones quickly and easily.\r\nThe uses are limited only by your imagination!', '670a79c48ee98charcoalpow.png', '670a8d75a1142powder.png', 'Active', 0),
 (2, 'BRUSTRO Watercolor Paint Set of 24 Colors X 12ML Tubes', 2500, 400, 'BRUSTRO ', 3, 'Set of 24 premium watercolor 12 ml tubes\r\nCan be used to paint on all conventional watercolor surfaces\r\nCompatible with Brustro watercolor papers .\r\nBright transparent colors.\r\nColors are intermixable, giving endless color possibilities.', '6713badea01f2wc1.png', '6713badea01f5wc2.png', 'Active', 10),
-(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5000, 1000, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active', 90);
+(3, 'Ohuhu 160 Colors Alcohol Double Tipped Art Marker Set', 5000, 996, 'Ohuhu', 2, 'DUAL TIPS FINE AND CHISEL ENDS: Broad and fine twin tips for precise highlighting and underlining, for drawing with both thin and thick lines. Allows you to create various styles, sketches and patterns with ease\r\n160 UNIQUE VIBRANT COLORS + 1 COLORLESS BLENDER, SUPERIOR BLENDABILITY: The highly pigmented and vibrant markers are built to last against fading, and blend beautifully for added dimension to your artwork\r\nALCOHOL-BASED INK, FAST DRYING: Easily layer and mix different colors without worrying about smudges and blotches\r\nHIGH QUALITY: Marker pens are highly pigmented, allowing you to color in at least 984ft. worth of drawings\r\nCOLOR-CODED CAPS & BONUS CASE, GREAT GIFT IDEA: The color-coded caps allow for ease in organization and use in identifying colors; And also, these marker pen set is quipped with a beautiful black carrying case for ease in travelling and storing', '6714a7283d7a8markers.png', '6714a7283d7b0markers2.png', 'Active', 90);
 
 -- --------------------------------------------------------
 
@@ -288,7 +274,7 @@ CREATE TABLE `subcategory_tbl` (
 --
 
 INSERT INTO `subcategory_tbl` (`SC_Id`, `SC_Name`, `C_Id`, `SC_Img`, `SC_Status`) VALUES
-(1, 'Charcoal', 1, '6714b8fee66fdcharcoal sketch.png', 'Active'),
+(1, 'Charcoal', 1, '6753ec4a3f904Charcoal.png', 'Active'),
 (2, 'Markers', 1, '6713ae1e1d37bmarkers.png', 'Active'),
 (3, 'Watercolors', 3, '6713af6b9a4e9watercolor.png', 'Active');
 
@@ -325,7 +311,7 @@ INSERT INTO `user_tbl` (`U_Id`, `U_Fnm`, `U_Lnm`, `U_Email`, `U_Phn`, `U_Add`, `
 (59, 'Kalindi', 'Fichadiya', 'jinal.taraviya997@gmail.com', 2147483647, 'rku', 'Rajkot', 'Gujarat', 360005, 'kallu', '670606a6a6640Untitled design.png', 'Normal', 'Active'),
 (63, 'Bhakti', 'Bhut', 'patelbhakti636@gmail.com', 1234567890, 'Nanivavdi', 'Dhoraji', 'Gujarat', 360005, 'bhut', '671875ea5252cghost-face.png', 'Normal', 'Active'),
 (65, 'kishn', 'vekariya', 'jinal.taraviya2205@gmail.com', 2147483647, 'rk university', 'Rajkot', 'Gujarat', 360005, 'kallu', '67188ec68a363ghost-face.png', 'Normal', 'Active'),
-(66, 'Nirali', 'Akbari', 'akbarinirali27@gmail.com', 1234567890, 'rku', 'Rajkot', 'Gujarat', 360005, 'Nirali27@27', '6718a4dbd28c3Screenshot (76).png', 'Normal', 'Active');
+(66, 'Nirali', 'Akbari', 'akbarinirali27@gmail.com', 1234567890, 'rku', 'Rajkot', 'Gujarat', 360005, 'nirali', '6718a4dbd28c3Screenshot (76).png', 'Normal', 'Active');
 
 -- --------------------------------------------------------
 
@@ -345,11 +331,10 @@ CREATE TABLE `wishlist_tbl` (
 --
 
 INSERT INTO `wishlist_tbl` (`W_Id`, `W_U_Email`, `W_P_Id`, `W_quantity`) VALUES
-(2, 'jtaraviya932@rku.ac.in', 3, 4),
 (4, 'patelbhakti636@gmail.com', 2, 1),
-(5, 'jtaraviya932@rku.ac.in', 2, 3),
 (6, 'jtaraviya932@rku.ac.in', 0, 1),
-(8, 'angelraiyanii@gmail.com', 1, 1);
+(8, 'angelraiyanii@gmail.com', 1, 1),
+(12, 'jtaraviya932@rku.ac.in', 2, 1);
 
 --
 -- Indexes for dumped tables
@@ -378,12 +363,6 @@ ALTER TABLE `category_tbl`
 --
 ALTER TABLE `contact_tbl`
   ADD PRIMARY KEY (`Co_Id`);
-
---
--- Indexes for table `demo_orders`
---
-ALTER TABLE `demo_orders`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `offers_tbl`
@@ -448,7 +427,7 @@ ALTER TABLE `aboutus_tbl`
 -- AUTO_INCREMENT for table `cart_tbl`
 --
 ALTER TABLE `cart_tbl`
-  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Ct_Id` int(33) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `category_tbl`
@@ -463,12 +442,6 @@ ALTER TABLE `contact_tbl`
   MODIFY `Co_Id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `demo_orders`
---
-ALTER TABLE `demo_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `offers_tbl`
 --
 ALTER TABLE `offers_tbl`
@@ -478,7 +451,7 @@ ALTER TABLE `offers_tbl`
 -- AUTO_INCREMENT for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
-  MODIFY `O_Id` int(56) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `O_Id` int(56) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `password_token_tbl`
@@ -514,7 +487,7 @@ ALTER TABLE `user_tbl`
 -- AUTO_INCREMENT for table `wishlist_tbl`
 --
 ALTER TABLE `wishlist_tbl`
-  MODIFY `W_Id` int(65) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `W_Id` int(65) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
