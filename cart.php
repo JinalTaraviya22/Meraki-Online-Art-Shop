@@ -290,7 +290,7 @@
                         $result = mysqli_query($con, $fetchUsr);
                         $r = mysqli_fetch_assoc($result);
                         ?>
-                        <form method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data" onsubmit="return chek()">
                             <div class="row">
                                 <input type="hidden" name="oftotal" value="<?php echo $_SESSION['total'] ?>">
                                 <!-- <input type="hidden" name="oldimg" value="<?php echo $r['Of_Img'] ?>"> -->
@@ -304,7 +304,7 @@
                                     <label for="name" class="form-label">Phone Number :</label>
                                     <input type="text" class="form-control" name="uphn" id="uphn"
                                         value="<?php echo $r['U_Phn'] ?>">
-                                    <span id="padd_er"></span>
+                                    <span id="uphn_er"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -320,13 +320,13 @@
                                     <label for="name" class="form-label">State :</label>
                                     <input type="text" class="form-control" name="state" id="state"
                                         value="<?php echo $r['U_State'] ?>">
-                                    <span id="sadd_er"></span>
+                                    <span id="state_er"></span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="name" class="form-label">City :</label>
                                     <input type="text" class="form-control" name="city" id="city"
                                         value="<?php echo $r['U_City'] ?>">
-                                    <span id="padd_er"></span>
+                                    <span id="city_er"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -334,7 +334,7 @@
                                     <label for="name" class="form-label">Zip :</label>
                                     <input type="text" class="form-control" name="zip" id="zip"
                                         value="<?php echo $r['U_Zip'] ?>">
-                                    <span id="padd_er"></span>
+                                    <span id="zip_er"></span>
                                 </div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3" style="align-content: end;">
@@ -358,11 +358,24 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script>
+        function chek() {
+            validate = true;
+            PhnValidate(document.getElementById('uphn'), document.getElementById('uphn_er'));
+            BigTextValidate(document.getElementById('sadd'), document.getElementById('sadd_er'));
+            NameValidate(document.getElementById('state'), document.getElementById('state_er'));
+            NameValidate(document.getElementById('city'), document.getElementById('city_er'));
+            ZipValidate(document.getElementById('zip'), document.getElementById('zip_er'));
+
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+
     <?php
-    include 'Footer.php';
-    // $new_cart_total=0;
-    // offer code
-    
+    include 'Footer.php'; 
 
     // After applying the offer code and calculating the new total
     if (isset($_POST['checkOut'])) {

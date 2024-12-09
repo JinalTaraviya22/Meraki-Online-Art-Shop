@@ -98,19 +98,19 @@
                         </div>
                     </div>
                     <!-- update information -->
-                    <form id="update" method="post" enctype="multipart/form-data" style="display:none !important;">
+                    <form id="update" method="post" onsubmit="return upd()" enctype="multipart/form-data" style="display:none !important;">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">First Name :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Fnm'] ?>" id="fnm"
                                     name="fnm" placeholder="Enter First Name">
-                                <span id="FnmError"></span>
+                                <span id="fnm_er"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Last Name :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Lnm'] ?>" id="lnm"
                                     name="lnm" placeholder="Enter Last Name">
-                                <span id="LnmError"></span>
+                                <span id="lnm_er"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -118,13 +118,13 @@
                                 <label for="name" class="form-label">Email :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Email'] ?>" id="email"
                                     name="email" placeholder="Enter Email" readonly>
-                                <span id="EmailError"></span>
+                                <span id="email_er"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Phone No. :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Phn'] ?>" id="phn"
                                     name="phn" placeholder="Enter Mobile No.">
-                                <span id="PhnError"></span>
+                                <span id="phn_er"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -132,13 +132,13 @@
                                 <label for="name" class="form-label">Address :</label>
                                 <textarea class="form-control" id="add" name="add"
                                     placeholder="Enter your full address"><?php echo $r['U_Add'] ?></textarea>
-                                <span id="AddError"></span>
+                                <span id="add_er"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">City :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_City'] ?>" id="city"
                                     name="city" placeholder="Enter City">
-                                <span id="CityError"></span>
+                                <span id="city_er"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -146,20 +146,20 @@
                                 <label for="name" class="form-label">State :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_State'] ?>" id="state"
                                     name="state" placeholder="Enter State">
-                                <span id="StateError"></span>
+                                <span id="state_er"></span>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Zip Code :</label>
                                 <input type="text" class="form-control" value="<?php echo $r['U_Zip'] ?>" id="zip"
                                     name="zip" placeholder="Enter Zip code">
-                                <span id="ZipError"></span>
+                                <span id="zip_er"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Profile Image :</label>
                                 <input type="file" class="form-control" id="img" name="img">
-                                <span id="ImgError"></span>
+                                <span id="img_er"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -203,9 +203,9 @@
                                     class="btn btn-dark" onclick="asd(3)">Change</button>
 
                             </div>
-                            <div class="col-md-12">
+                            <!-- <div class="col-md-12">
                                 <br><a href="Forgot_password.php">Forgot Password..?</a>
-                            </div>
+                            </div> -->
                     </form>
                 </div>
             </div>
@@ -237,39 +237,22 @@
         }
     </script>
     <script>
-        function updateForm() {
-            event.preventDefault();
-            let validate = true;
-            var fn = document.getElementById('fnm');
-            var fn_er = document.getElementById('FnmError');
-            var ln = document.getElementById('lnm');
-            var ln_er = document.getElementById('LnmError');
-            var email = document.getElementById('email');
-            var em_er = document.getElementById('EmailError');
-            var phn = document.getElementById('phn');
-            var phn_er = document.getElementById('PhnError');
-            var add = document.getElementById('add');
-            var add_er = document.getElementById('AddError');
-            var city = document.getElementById('city');
-            var city_er = document.getElementById('CityError');
-            var state = document.getElementById('state');
-            var state_er = document.getElementById('StateError');
-            var zip = document.getElementById('zip');
-            var zip_er = document.getElementById('ZipError');
-            var img = document.getElementById('img');
-            var img_er = document.getElementById('ImgError');
+        function upd() {
+            validate = true;
+            NameValidate(document.getElementById('fnm'), document.getElementById('fnm_er'));
+            NameValidate(document.getElementById('lnm'), document.getElementById('lnm_er'));
+            EmailValidate(document.getElementById('email'), document.getElementById('email_er'));
+            PhnValidate(document.getElementById('phn'), document.getElementById('phn_er'));
+            BigTextValidate(document.getElementById('add'), document.getElementById('add_er'));
+            NameValidate(document.getElementById('city'), document.getElementById('city_er'));
+            NameValidate(document.getElementById('state'), document.getElementById('state_er'));
+            ZipValidate(document.getElementById('zip'), document.getElementById('zip_er'));
+            // ImgValidate(document.getElementById('img'), document.getElementById('img_er'));
 
-            NameValidate(fn, fn_er);
-            NameValidate(ln, ln_er);
-            EmailValidate(email, em_er);
-            PhnValidate(phn, phn_er);
-            BigTextValidate(add, add_er);
-            NameValidate(city, city_er);
-            NameValidate(state, state_er);
-            ZipValidate(zip, zip_er);
-            ImgValidate(img, img_er);
-
-            return validate;
+            if (validate) {
+                return true;
+            }
+            return false;
         }
 
         function Pwdch() {
