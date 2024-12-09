@@ -22,11 +22,11 @@
   </style>
   <?php
   include 'Header.php';
-  if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
-    header("Location: Login.php");
-    exit();
+  if (isset($_SESSION['U_Admin']) || isset($_SESSION['U_User'])) {
+    // header("Location: Login.php");
+    // exit();
+    $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
   }
-  $Email_Session = isset($_SESSION['U_User']) ? $_SESSION['U_User'] : $_SESSION['U_Admin'];
   //$id = $_GET['Id'];
   ?>
 </head>

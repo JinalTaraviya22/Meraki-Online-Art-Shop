@@ -613,3 +613,45 @@ table {
   pointer-events: none; /* Disable interactions with buttons and links */
 }
 
+/* rating stars css */
+.star-rating {
+  direction: rtl; /* This makes the stars fill from right to left */
+  display: inline-block;
+}
+
+.star-input {
+  display: none; /* Hide the radio buttons */
+}
+
+.star-label {
+  font-size: 30px; /* Adjust size as needed */
+  color: #ddd; /* Default color for unselected stars */
+  cursor: pointer;
+}
+
+.star-input:checked ~ .star-label {
+  color: #f39c12; /* Color for selected stars */
+}
+
+/* Style for the stars when hovered */
+.star-label:hover,
+.star-label:hover ~ .star-label {
+  color: #f39c12; /* Color for hovered stars */
+}
+
+/* usr image for reviews */
+/* User image styling */
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image fits properly */
+  /* border: 2px solid #ddd; Optional: border for better visibility */
+}
+
+/* Stars styling */
+.stars-review .fa {
+  color: gold; /* Yellow color for stars */
+  font-size: 25px; /* Adjust the size of the stars */
+  margin-right: 2px; /* Space between stars */
+}

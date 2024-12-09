@@ -181,7 +181,7 @@ include 'conn.php';
                                     <li><a class="dropdown-item" href="Account.php">My Profile</a></li>
                                     <li><a class="dropdown-item" href="cart.php">Cart</a></li>
                                     <li><a class="dropdown-item" href="wishlist.php">Wish List</a></li>
-                                    <li><a class="dropdown-item" href="order.php">Order Now</a></li>
+                                    <li><a class="dropdown-item" href="orderHistory.php">Order History</a></li>
                                     <li><a class="dropdown-item" href="logout.php">Log out</a></li>
                                 </ul>
                             </li>
