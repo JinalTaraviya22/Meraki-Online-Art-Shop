@@ -17,7 +17,7 @@
     use PHPMailer\PHPMailer\Exception;
     
     if (!isset($_SESSION['U_Admin'])) {
-        header("Location: Index.php");
+        header("Location: index.php");
         exit();
     }
     ?>

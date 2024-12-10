@@ -133,7 +133,7 @@
               $_SESSION['U_User'] = $email;
               ?>
               <script>
-                window.location.href = "Index.php";
+                window.location.href = "index.php";
               </script>
               <?php
             }

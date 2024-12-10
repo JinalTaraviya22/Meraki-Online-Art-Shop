@@ -12,7 +12,7 @@
     <?php
     include 'Header.php';
     if (!isset($_SESSION['U_Admin']) && !isset($_SESSION['U_User'])) {
-        header("Location: Index.php");
+        header("Location: index.php");
         exit();
     }
     $email=isset($_SESSION['U_User'])?$_SESSION['U_User']:$_SESSION['U_Admin'];    

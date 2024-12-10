@@ -148,8 +148,8 @@ include 'conn.php';
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">User Side</a>
                                 <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="Index.php">Home</a></li>
-                                    <li><a class="dropdown-item" href="Index.php#latest">Latest</a></li>
+                                <li><a class="dropdown-item" href="index.php">Home</a></li>
+                                    <li><a class="dropdown-item" href="index.php#latest">Latest</a></li>
                                     <li><a class="dropdown-item" href="Categories.php">Categories</a></li>
                                     <li><a class="dropdown-item" href="About.php">About Us</a></li>
                                 </ul>
@@ -157,15 +157,15 @@ include 'conn.php';
 
                         <?php } elseif (isset($_SESSION['U_User'])) { ?>
                             <!-- User Menu -->
-                            <li class="nav-item"><a class="nav-link" href="Index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="Index.php#latest">Latest</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php#latest">Latest</a></li>
                             <li class="nav-item"><a class="nav-link" href="categories.php">Categories</a></li>
                             <li class="nav-item"><a class="nav-link" href="About.php">About Us</a></li>
 
                         <?php } else { ?>
                             <!-- Guest Menu -->
-                            <li class="nav-item"><a class="nav-link" href="Index.php">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="Index.php#latest">Latest</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php#latest">Latest</a></li>
                             <li class="nav-item"><a class="nav-link" href="categories.php">Categories</a></li>
                             <li class="nav-item"><a class="nav-link" href="About.php">About Us</a></li>
                         <?php } ?>
