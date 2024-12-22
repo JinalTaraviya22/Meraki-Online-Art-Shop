@@ -44,7 +44,7 @@
 <body class="bg-dark">
     <div class="container-fluid mt-5 bgcolor">
         <div class="row mb-5" style="text-align: center;">
-            <h2>Payment for blah😒!</h2>
+            <h2>Payment for <?php echo $Email_Session?></h2>
         </div>
         <div class="row">
             <div class="col-3"></div>

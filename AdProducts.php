@@ -120,11 +120,13 @@
                                 <label for="aimg1" class="form-label">Image 1:</label>
                                 <input type="file" class="form-control" name="img1" id="aimg1">
                                 <span id="aimg1_er" class="text-danger"></span>
+                                <small>1024*1024 Dimen</small>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="aimg2" class="form-label">Image 2:</label>
                                 <input type="file" class="form-control" name="img2" id="aimg2">
                                 <span id="aimg2_er" class="text-danger"></span>
+                                <small>1024*1024 Dimen</small>
                             </div>
                         </div>
                         <div class="row">
@@ -270,7 +272,7 @@
                 <div class="col-md-8">
                     <div class="product-image-large">
                         <!-- update information -->
-                        <form method="post" onsubmit="return addproductInfo()" id="upProduct" enctype="multipart/form-data">
+                        <form method="post" id="upProduct" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <input type="hidden" name="uid" value="<?php echo $r['P_Id'] ?>" />
@@ -395,8 +397,23 @@
     <script>
         function addproductInfo() {
             validate = true;
+            NameValidate(document.getElementById('anm'), document.getElementById('anm_er'));
+            NameValidate(document.getElementById('acname'), document.getElementById('acname_er'));
+            PriceValidate(document.getElementById('aprice'), document.getElementById('aprice_er'));
+            BigTextValidate(document.getElementById('adesc'), document.getElementById('adesc_er'));
+            PriceValidate(document.getElementById('astock'), document.getElementById('astock_er'));
+            CommanValidate(document.getElementById('aimg1'), document.getElementById('aimg1_er'));
+            CommanValidate(document.getElementById('aimg2'), document.getElementById('aimg2_er'));
+
+            if (validate) {
+                return true;
+            }
+            return false;
+        }
+        function updateProductInfo(){
+            validate = true;
             CommanValidate(document.getElementById('upnm'), document.getElementById('upnm_er'));
-            NameValidate(document.getElementById('ucnm'), document.getElementById('ucnm_er'));
+            CommanValidate(document.getElementById('ucnm'), document.getElementById('ucnm_er'));
             PriceValidate(document.getElementById('uprice'), document.getElementById('uprice_er'));
             BigTextValidate(document.getElementById('udesc'), document.getElementById('udesc_er'));
             PriceValidate(document.getElementById('ustock'), document.getElementById('ustock_er'));
@@ -411,7 +428,9 @@
     <?php
     include 'Footer.php';
 
-    // add product
+    
+    //update product
+    if (isset($_POST['updateProduct'])) {// add product
     if (isset($_POST['addProduct'])) {
         $pnm = $_POST['pnm'];
         $cnm = $_POST['cnm'];
@@ -424,7 +443,7 @@
 
         $query = "INSERT INTO `product_tbl`(`P_Name`, `P_Price`, `P_Stock`, `P_Company_Name`, `P_SC_Id`, `P_Desc`, `P_Img1`, `P_Img2`,`P_Status`) VALUES 
         ('$pnm','$price','$stock','$cnm','$cat','$desc','$img1','$img2','Active')";
-
+        // echo $query;
 
         if (mysqli_query($con, $query)) {
             if (!is_dir("db_img/product_img")) {
@@ -447,8 +466,6 @@
             <?php
         }
     }
-    //update product
-    if (isset($_POST['updateProduct'])) {
         $id = $_POST['uid'];
         $pnm = $_POST['upnm'];
         $cnm = $_POST['ucnm'];

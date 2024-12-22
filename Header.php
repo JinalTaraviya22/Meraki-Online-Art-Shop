@@ -140,6 +140,7 @@ include 'conn.php';
                                     <li><a class="dropdown-item" href="AdCategory.php">Category</a></li>
                                     <li><a class="dropdown-item" href="AdSubcategory.php">Sub Category</a></li>
                                     <li><a class="dropdown-item" href="AdOffers.php">Offers</a></li>
+                                    <li><a class="dropdown-item" href="AdReview.php">Reviews</a></li>
                                     <li><a class="dropdown-item" href="AdContactUs.php">Contact</a></li>
                                     <li><a class="dropdown-item" href="AdAboutUs.php">About Us</a></li>
                                 </ul>

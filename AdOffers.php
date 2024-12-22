@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-md-4"><img src="img/slide1.png" height="100px" /></div>
                     </div></br>
-                    <form id="offer" method="post" onsubmit="return discount()">
+                    <form id="offer" method="post" enctype="multipart/form-data" onsubmit="return discount()" >
                         <div class="row">
                             <div class="col-md-4">Name:<input type="text" name="onm" id="onm" class="form-control"
                                     placeholder="Enter Offer Title"><span id="onm_er"></span></div></br>
@@ -112,7 +112,8 @@
                                     class="form-control"><span id="edt_er"></span></div></br>
                             <div class="col-md-4">Banner:<input type="file" id="bnr" name="bnr"
                                     class="form-control">Upload files with dimentions of 1600*500
-                                    <span id="bnr_er"></span></div>
+                                <span id="bnr_er"></span>
+                            </div>
                             <div class="col-md-4"><button type="submit" name="offer_add" class="button-28">Add</button>
                             </div>
                         </div></br>
@@ -229,6 +230,7 @@
                         <img src="db_img/offer_img/<?php echo $r['Of_Banner']; ?>" height="50px" width="160px"
                             alt="Offer Image" class="img-fluid rounded">
                         <br><br>
+                        <form method="post" enctype="multipart/form-data">
                         <label for="uimg" class="form-label">Change Offer Image:</label>
                         <input type="file" class="form-control" name="ubnr" id="ubnr">
                         Upload files with dimentions of 1600*500
@@ -239,7 +241,6 @@
                 <div class="col-md-8">
                     <div class="product-image-large">
                         <!-- update information -->
-                        <form method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <input type="hidden" name="ofid" value="<?php echo $r['Of_Id'] ?>">
                                 <!-- <input type="hidden" name="oldimg" value="<?php echo $r['Of_Img'] ?>"> -->
@@ -341,7 +342,7 @@
         function discount() {
             validate = true;
 
-            NameValidate(document.getElementById('onm'), document.getElementById('onm_er'));
+            CommanValidate(document.getElementById('onm'), document.getElementById('onm_er'));
             BigTextValidate(document.getElementById('odes'), document.getElementById('odes_er'));
             RateValidate(document.getElementById('rate'), document.getElementById('rate_er'));
             RateValidate(document.getElementById('mda'), document.getElementById('mda_er'));
@@ -360,6 +361,7 @@
     include 'Footer.php';
 
     // Add offers
+    // Add offers
     if (isset($_POST['offer_add'])) {
         $offer_title = $_POST['onm'];
         $offer_description = $_POST['odes'];
@@ -368,21 +370,62 @@
         $start_date = $_POST['sdt'];
         $end_date = $_POST['edt'];
         $order_total = $_POST['odt'];
-        $banner = $_POST['bnr'];
 
-        $query = "INSERT INTO `offers_tbl`(`Of_Name`,`Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) 
-        VALUES ('$offer_title','$offer_description','$discount_percentage','$order_total','$max_discount_amount','$start_date','$end_date','Active')";
-        echo $query;
+        // Generate unique name for the image
+        $banner = $_FILES['bnr']['name'];
+
+        $query = "INSERT INTO `offers_tbl`(`Of_Name`, `Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Banner`, `Of_Status`) 
+    VALUES ('$offer_title','$offer_description','$discount_percentage','$order_total','$max_discount_amount','$start_date','$end_date','$banner','Active')";
+        // echo $query;
 
         if (mysqli_query($con, $query)) {
-            setcookie('success', "Offer added successfully", time() + 5, "/");
-            echo "<script>window.location.href = 'AdOffers.php';</script>";
+            // Create directory if it doesn't exist
+            if (!is_dir("db_img/offer_img")) {
+                mkdir("db_img/offer_img");
+            }
+
+            // Move uploaded file to the directory
+            move_uploaded_file($_FILES['bnr']['tmp_name'], "db_img/offer_img/" . $banner);
+
+            setcookie('success', 'Offer added successfully', time() + 2, "/");
+            ?>
+            <script>
+                window.location.href = 'AdOffers.php';
+            </script>
+            <?php
         } else {
-            setcookie('error', 'Error in adding offer', time() + 5, "/");
-            echo "<script>window.location.href = 'AdOffers.php';</script>";
+            setcookie('error', 'Error in adding offer', time() + 2, "/");
+            ?>
+            <script>
+                window.location.href = 'AdOffers.php';
+            </script>
+            <?php
         }
     }
 
+    // if (isset($_POST['offer_add'])) {
+    //     $offer_title = $_POST['onm'];
+    //     $offer_description = $_POST['odes'];
+    //     $discount_percentage = $_POST['rate'];
+    //     $max_discount_amount = $_POST['mda'];
+    //     $start_date = $_POST['sdt'];
+    //     $end_date = $_POST['edt'];
+    //     $order_total = $_POST['odt'];
+    //     $banner = $_POST['bnr'];
+    
+    //     $query = "INSERT INTO `offers_tbl`(`Of_Name`,`Of_Description`, `Of_Discount_Percentage`, `Of_Cart_Total`, `Of_Max_Discount`, `Of_Start_Date`, `Of_End_Date`, `Of_Status`) 
+    //     VALUES ('$offer_title','$offer_description','$discount_percentage','$order_total','$max_discount_amount','$start_date','$end_date','Active')";
+    //     echo $query;
+    
+    //     if (mysqli_query($con, $query)) {
+    //         setcookie('success', "Offer added successfully", time() + 5, "/");
+    //         echo "<script>window.location.href = 'AdOffers.php';</script>";
+    //     } else {
+    //         setcookie('error', 'Error in adding offer', time() + 5, "/");
+    //         echo "<script>window.location.href = 'AdOffers.php';</script>";
+    //     }
+    // }
+    
     // Update offers
     if (isset($_POST['updateOffer'])) {
         $id = $_POST['ofid'];
